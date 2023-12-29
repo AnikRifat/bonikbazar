@@ -1,0 +1,2 @@
+[29-Apr-2022 12:11:43 America/New_York] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.0.2". You are running 7.2.34. in /home/obonhwhv/public_html/vendor/composer/platform_check.php on line 24
+[29-Apr-2022 12:24:32 America/New_York] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.0.2". You are running 7.2.34. in /home/obonhwhv/public_html/vendor/composer/platform_check.php on line 24
