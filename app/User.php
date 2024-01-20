@@ -18,8 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes;
 
@@ -48,38 +49,60 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isOnline(){
-        return Cache::has('UserOnline-'.$this->id);
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
     }
 
-    public function get_country(){
-        return $this->hasOne(Country::class, 'id','country');
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 
-    public function get_state(){
+
+
+
+
+    public function isOnline()
+    {
+        return Cache::has('UserOnline-' . $this->id);
+    }
+
+    public function get_country()
+    {
+        return $this->hasOne(Country::class, 'id', 'country');
+    }
+
+    public function get_state()
+    {
         return $this->hasOne(State::class, 'id', 'region');
     }
-    public function get_city(){
+    public function get_city()
+    {
         return $this->hasOne(City::class, 'id', 'city');
     }
-    public function get_area(){
-        return $this->hasOne(Area::class, 'id','area');
+    public function get_area()
+    {
+        return $this->hasOne(Area::class, 'id', 'area');
     }
-    public function sellerVerify(){
+    public function sellerVerify()
+    {
         return $this->hasOne(SellerVerification::class, 'seller_id');
     }
 
-    public function sellerMembership(){
+    public function sellerMembership()
+    {
         return $this->hasOne(SellerMembership::class, 'seller_id')->orderBy("id", "desc");
     }
 
-    public function getMembership(){
+    public function getMembership()
+    {
         return $this->hasOne(Membership::class, 'slug', 'membership');
     }
 
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany(Product::class);
     }
-
-
 }

@@ -7,21 +7,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Str;
 
 class AdminLoginController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('guest:admin', ['except' => ['logout']]);
+        $this->middleware('guest:admin', ['except' => ['logout']]);
     }
 
- 	public function LoginForm()
+    public function LoginForm()
     {
-      return view('admin.login');
+        return view('admin.login');
     }
 
     public function login(Request $request)
     {
+
+        // return $request;
         // Validate the form data
         $this->validate($request,[
         'usernameOrEmail' => 'required',
@@ -46,14 +49,15 @@ class AdminLoginController extends Controller
         }
     }
 
+
     public function logout()
     {
-      Auth::guard('admin')->logout();
-      Toastr::success('Just Logged Out!');
-      return redirect()->route('adminLoginForm');
+        Auth::guard('admin')->logout();
+        Toastr::success('Just Logged Out!');
+        return redirect()->route('adminLoginForm');
     }
 
-        function get_client_ip()
+    function get_client_ip()
     {
         $ipaddress = '';
         if (isset($_SERVER['HTTP_CLIENT_IP']))

@@ -99,6 +99,8 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/adminRoutes.php'));
+
+        
     }
 
     // for vendor route

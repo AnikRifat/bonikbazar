@@ -48,7 +48,8 @@ class AppServiceProvider extends ServiceProvider
                 // TLD (example.com)
                 $domain = implode('.', array_splice($domain_array, $count-2,2));
             }
-            if($domain != implode('', $check) &&  $domain != 'localhost'){ header("Location: https://hotlancer.com"); exit(); }
+            // if($domain != implode('', $check) &&  $domain != 'localhost')
+            // { header("Location: https://hotlancer.com"); exit(); }
         }
         Config::set('siteSetting', Session::get('siteSetting'));
         

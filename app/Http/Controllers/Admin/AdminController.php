@@ -87,6 +87,7 @@ class AdminController extends Controller
             $image_resize->save($image_path);
             $profile->photo = $new_image_name;
         }
+        
         $profile->save();
 	    Toastr::success('Profile update success');
 	    return back();
