@@ -42,7 +42,7 @@ Route::get('addto/compare/{product_id}', 'User\CompareController@addToCompare')-
 Route::get('compare/product', 'User\CompareController@compare')->name('productCompare');
 Route::get('compare/product/remove/{product_id}', 'User\CompareController@remove')->name('productCompareRemove');
 
-route::group(['middleware' => ['auth']], function(){
+route::group(['middleware' => ['api', 'auth:api']], function(){
 
 	Route::post('/sslcommerz/success', 'SslCommerzPaymentController@success');
 	Route::post('/sslcommerz/fail', 'SslCommerzPaymentController@fail');

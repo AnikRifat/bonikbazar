@@ -69,10 +69,7 @@ class UserController extends Controller
         }
         else{
             return view('users.profile')->with($data);
-        }
-       
-       
-       
+        } 
     }
 
     //my account form
@@ -181,11 +178,15 @@ class UserController extends Controller
     {
         $user = $request->is('api/*') ? Auth::guard('api')->user() : Auth::user();
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'region' => 'required',
             'city' => ['required'],
             'address' => ['required'],
         ]);
+
+        if ($validator->fails()) {
+            return handleValidationResponse($request, $validator);
+        }
 
         $user->region = $request->region;
         $user->city = $request->city;
