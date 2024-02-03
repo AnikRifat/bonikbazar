@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PackageValue extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function get_category(){
         return $this->belongsTo(Category::class, 'category_id');

@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\CategoryCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Package;
+use App\Models\PackageValue;
 use App\Traits\CreateSlug;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
+use App\Models\ProductAttribute;
+use App\Models\ProductAttributeValue;
 
 class CategoryController extends Controller
 {
@@ -28,27 +33,47 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('main-category');
-        if(!$permission || !$permission['is_view']){ return back(); }
+        if (!$permission || !$permission['is_view']) {
+            return back();
+        }
 
         $get_data = new Category();
-        $get_data = $get_data->where('parent_id', '=' , null);
+        $get_data = $get_data->where('parent_id', '=', null);
         $get_data = $get_data->orderBy('position', 'asc')->get();
+        $package = Package::orderBy('position', 'asc')->get();
 
-        return view('admin.category.category')->with(compact('get_data', 'permission'));
+        return view('admin.category.edit.test')->with(compact('get_data', 'package', 'permission'));
+        // return view('admin.category.category')->with(compact('get_data','package', 'permission'));
     }
 
     public function getcategory()
     {
-        return new CategoryCollection(Category::where('parent_id', '=' , null)->orderBy('position', 'desc')->paginate(2));
+        return new CategoryCollection(Category::where('parent_id', '=', null)->orderBy('position', 'desc')->paginate(2));
     }
 
     /** Store a new category.*/
     public function category_store(Request $request)
     {
+        //  return $request;
+
+
+        // $main = $request->attribute_value;
+
+        //  $attributeValues = $main[0];
+        // return $attributeValueArray = explode(',', $attributeValues);
+
+        
+
+        //   $packageIds =  $request->attribute_name;;
+
+        //   return count($packageIds);
 
         //check role permission
         $permission = $this->checkPermission('main-category', 'is_add');
-        if(!$permission){ Toastr::error(env('PERMISSION_MSG')); return back(); }
+        if (!$permission) {
+            Toastr::error(env('PERMISSION_MSG'));
+            return back();
+        }
 
         $request->validate([
             'name' => 'required',
@@ -75,10 +100,13 @@ class CategoryController extends Controller
             $data->image = $new_image_name;
         }
 
+
         $store = $data->save();
-        if($store){
+        if ($store) {
             Toastr::success('Category Create Successfully.');
-        }else{
+
+            event(new CategoryCreated($data->id, $request));
+        } else {
             Toastr::error('Category Cannot Create.!');
         }
 
@@ -90,7 +118,9 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('main-category', 'is_edit');
-        if(!$permission){ return env('PERMISSION_MSG'); }
+        if (!$permission) {
+            return env('PERMISSION_MSG');
+        }
 
         $data = Category::find($id);
         echo view('admin.category.edit.category')->with(compact('data'));
@@ -102,7 +132,10 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('main-category', 'is_edit');
-        if(!$permission){ Toastr::error(env("PERMISSION_MSG")); return back(); }
+        if (!$permission) {
+            Toastr::error(env("PERMISSION_MSG"));
+            return back();
+        }
 
         $request->validate([
             'name' => 'required',
@@ -112,15 +145,15 @@ class CategoryController extends Controller
         $data->notes = $request->notes;
         $data->status = ($request->status ? 1 : 0);
         $data->updated_by = Auth::id();
- 
+
 
         if ($request->hasFile('phato')) {
 
             //delete image from folder
-            $image_path = public_path('upload/images/category/'. $data->phato);
-            if(file_exists($image_path) && $data->phato){
+            $image_path = public_path('upload/images/category/' . $data->phato);
+            if (file_exists($image_path) && $data->phato) {
                 unlink($image_path);
-                unlink(public_path('upload/images/category/thumb/'. $data->phato));
+                unlink(public_path('upload/images/category/thumb/' . $data->phato));
             }
             $image = $request->file('phato');
             $new_image_name = rand() . '.' . $image->getClientOriginalExtension();
@@ -136,9 +169,9 @@ class CategoryController extends Controller
         }
 
         $update = $data->save();
-        if($update){
+        if ($update) {
             Toastr::success('Category update successfully.');
-        }else{
+        } else {
             Toastr::error('Category cannot update.!');
         }
         return redirect()->back();
@@ -148,20 +181,20 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('main-category', 'is_delete');
-        if(!$permission){  
+        if (!$permission) {
             return response()->json([
                 'status' => false,
                 'msg' => env("PERMISSION_MSG")
-            ]); 
+            ]);
         }
 
         $category = Category::find($id);
 
-        if($category){
-            $image_path = public_path('upload/images/category/'. $category->phato);
-            if(file_exists($image_path) && $category->phato){
+        if ($category) {
+            $image_path = public_path('upload/images/category/' . $category->phato);
+            if (file_exists($image_path) && $category->phato) {
                 unlink($image_path);
-                unlink(public_path('upload/images/category/thumb/'. $category->phato));
+                unlink(public_path('upload/images/category/thumb/' . $category->phato));
             }
             $category->delete();
 
@@ -169,7 +202,7 @@ class CategoryController extends Controller
                 'status' => true,
                 'msg' => 'Item deleted successfully.'
             ];
-        }else{
+        } else {
             $output = [
                 'status' => false,
                 'msg' => 'Item cannot deleted.'
@@ -183,22 +216,24 @@ class CategoryController extends Controller
     {
         //check role permission
         $data['permission'] = $this->checkPermission('sub-category');
-        if(!$data['permission'] || !$data['permission']['is_view']){ return back(); }
+        if (!$data['permission'] || !$data['permission']['is_view']) {
+            return back();
+        }
 
         $data['get_category'] = Category::where('parent_id', null)->orderBy('position', 'asc')->get();
         $get_data = Category::with('get_category:id,name')
-            ->where('parent_id', '!=' , null)
-            ->where('subcategory_id', '=' , null);
-            if($request->title){
-                $get_data->where('name', 'LIKE', '%'. $request->title .'%');
-            }
-            if($request->category && $request->category != 'all'){
-                $get_data->where('parent_id', $request->category);
-            }
-            $perPage = 15;
-            if($request->show){
-                $perPage = $request->show;
-            }
+            ->where('parent_id', '!=', null)
+            ->where('subcategory_id', '=', null);
+        if ($request->title) {
+            $get_data->where('name', 'LIKE', '%' . $request->title . '%');
+        }
+        if ($request->category && $request->category != 'all') {
+            $get_data->where('parent_id', $request->category);
+        }
+        $perPage = 15;
+        if ($request->show) {
+            $perPage = $request->show;
+        }
         $data['get_data'] = $get_data->orderBy('position', 'asc')->paginate($perPage);
 
         return view('admin.category.subcategory')->with($data);
@@ -209,7 +244,10 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('sub-category', 'is_add');
-        if(!$permission){ Toastr::error(env('PERMISSION_MSG')); return back(); }
+        if (!$permission) {
+            Toastr::error(env('PERMISSION_MSG'));
+            return back();
+        }
 
         $request->validate([
             'parent_id' => 'required',
@@ -218,8 +256,8 @@ class CategoryController extends Controller
 
         $name = explode('*', trim($request->name));
 
-        for ($i=0; $i <count($name) ; $i++) {
-            if($name[$i]){
+        for ($i = 0; $i < count($name); $i++) {
+            if ($name[$i]) {
                 $data = new Category();
                 $data->parent_id = $request->parent_id;
                 $data->name = preg_replace('/\s+/', ' ', trim($name[$i]));
@@ -246,9 +284,9 @@ class CategoryController extends Controller
             }
         }
 
-        if($store){
+        if ($store) {
             Toastr::success('Sub Category Create Successfully.');
-        }else{
+        } else {
             Toastr::error('Sub Category Cannot Create.!');
         }
         Session::put('autoSelectId', $request->parent_id);
@@ -259,9 +297,11 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('sub-category', 'is_edit');
-        if(!$permission){ return env('PERMISSION_MSG'); }
+        if (!$permission) {
+            return env('PERMISSION_MSG');
+        }
 
-        $data['get_category'] = Category::where('parent_id', '=' , null)->orderBy('position', 'asc')->get();
+        $data['get_category'] = Category::where('parent_id', '=', null)->orderBy('position', 'asc')->get();
         $data['data'] = Category::find($id);
         echo view('admin.category.edit.subcategory')->with($data);
     }
@@ -272,7 +312,10 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('sub-category', 'is_edit');
-        if(!$permission){ Toastr::error(env('PERMISSION_MSG')); return back(); }
+        if (!$permission) {
+            Toastr::error(env('PERMISSION_MSG'));
+            return back();
+        }
 
         $request->validate([
             'name' => 'required',
@@ -288,10 +331,10 @@ class CategoryController extends Controller
         if ($request->hasFile('phato')) {
 
             //delete image from folder
-            $image_path = public_path('upload/images/category/'. $data->phato);
-            if(file_exists($image_path) && $data->phato){
+            $image_path = public_path('upload/images/category/' . $data->phato);
+            if (file_exists($image_path) && $data->phato) {
                 unlink($image_path);
-                unlink(public_path('upload/images/category/thumb/'. $data->phato));
+                unlink(public_path('upload/images/category/thumb/' . $data->phato));
             }
 
             $image = $request->file('phato');
@@ -308,9 +351,9 @@ class CategoryController extends Controller
         }
 
         $update = $data->save();
-        if($update){
+        if ($update) {
             Toastr::success('Category update successfully.');
-        }else{
+        } else {
             Toastr::error('Category cannot update.!');
         }
 
@@ -321,26 +364,26 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('sub-category', 'is_delete');
-        if(!$permission){  
+        if (!$permission) {
             return response()->json([
                 'status' => false,
                 'msg' => env("PERMISSION_MSG")
-            ]); 
+            ]);
         }
         $category = Category::find($id);
 
-        if($category){
-            $image_path = public_path('upload/images/category/'. $category->phato);
-            if(file_exists($image_path) && $category->phato){
+        if ($category) {
+            $image_path = public_path('upload/images/category/' . $category->phato);
+            if (file_exists($image_path) && $category->phato) {
                 unlink($image_path);
-                unlink(public_path('upload/images/category/thumb/'. $category->phato));
+                unlink(public_path('upload/images/category/thumb/' . $category->phato));
             }
             $category->delete();
             $output = [
                 'status' => true,
                 'msg' => 'Item deleted successfully.'
             ];
-        }else{
+        } else {
             $output = [
                 'status' => false,
                 'msg' => 'Item cannot deleted.'
@@ -356,21 +399,23 @@ class CategoryController extends Controller
     {
         //check role permission
         $data['permission'] = $this->checkPermission('child-category');
-        if(!$data['permission'] || !$data['permission']['is_view']){ return back(); }
+        if (!$data['permission'] || !$data['permission']['is_view']) {
+            return back();
+        }
 
-        $data['get_category'] = Category::where('parent_id', '!=' , null)
-            ->where('subcategory_id', '=' , null)->where('status', 1)->get();
+        $data['get_category'] = Category::where('parent_id', '!=', null)
+            ->where('subcategory_id', '=', null)->where('status', 1)->get();
 
         $get_data = Category::with('get_category:id,name')
-            ->where('subcategory_id', '!=' , null);
-        if($request->title){
-            $get_data->where('name', 'LIKE', '%'. $request->title .'%');
+            ->where('subcategory_id', '!=', null);
+        if ($request->title) {
+            $get_data->where('name', 'LIKE', '%' . $request->title . '%');
         }
-        if($request->category && $request->category != 'all'){
+        if ($request->category && $request->category != 'all') {
             $get_data->where('parent_id', $request->category);
         }
         $perPage = 15;
-        if($request->show){
+        if ($request->show) {
             $perPage = $request->show;
         }
         $data['get_data'] = $get_data->orderBy('position', 'asc')->paginate($perPage);
@@ -384,7 +429,10 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('child-category', 'is_add');
-        if(!$permission){ Toastr::error(env('PERMISSION_MSG')); return back(); }
+        if (!$permission) {
+            Toastr::error(env('PERMISSION_MSG'));
+            return back();
+        }
 
         $request->validate([
             'parent_id' => 'required',
@@ -393,8 +441,8 @@ class CategoryController extends Controller
 
         $name = explode('*', trim($request->name));
 
-        for ($i=0; $i <count($name) ; $i++) {
-            if($name[$i]){
+        for ($i = 0; $i < count($name); $i++) {
+            if ($name[$i]) {
                 $data = new Category();
                 $data->parent_id = $request->parent_id;
                 $data->subcategory_id = $request->parent_id;
@@ -422,9 +470,9 @@ class CategoryController extends Controller
             }
         }
 
-        if($store){
+        if ($store) {
             Toastr::success('Sub Category Create Successfully.');
-        }else{
+        } else {
             Toastr::error('Sub Category Cannot Create.!');
         }
         Session::put('autoSelectId', $request->parent_id);
@@ -435,9 +483,11 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('child-category', 'is_edit');
-        if(!$permission){ return env('PERMISSION_MSG'); }
+        if (!$permission) {
+            return env('PERMISSION_MSG');
+        }
 
-        $data['get_category'] = Category::where('parent_id', '!=' , null)->where('subcategory_id', '=' , null)->orderBy('position', 'asc')->get();
+        $data['get_category'] = Category::where('parent_id', '!=', null)->where('subcategory_id', '=', null)->orderBy('position', 'asc')->get();
 
         $data['data'] = Category::find($id);
         echo view('admin.category.edit.subchildcategory')->with($data);
@@ -450,7 +500,10 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('child-category', 'is_edit');
-        if(!$permission){ Toastr::error(env('PERMISSION_MSG')); return back(); }
+        if (!$permission) {
+            Toastr::error(env('PERMISSION_MSG'));
+            return back();
+        }
 
         $request->validate([
             'name' => 'required',
@@ -466,10 +519,10 @@ class CategoryController extends Controller
 
         if ($request->hasFile('phato')) {
             //delete image from folder
-            $image_path = public_path('upload/images/category/'. $data->phato);
-            if(file_exists($image_path) && $data->phato){
+            $image_path = public_path('upload/images/category/' . $data->phato);
+            if (file_exists($image_path) && $data->phato) {
                 unlink($image_path);
-                unlink(public_path('upload/images/category/thumb/'. $data->phato));
+                unlink(public_path('upload/images/category/thumb/' . $data->phato));
             }
             $image = $request->file('phato');
             $new_image_name = rand() . '.' . $image->getClientOriginalExtension();
@@ -485,9 +538,9 @@ class CategoryController extends Controller
         }
 
         $update = $data->save();
-        if($update){
+        if ($update) {
             Toastr::success('Category update successfully.');
-        }else{
+        } else {
             Toastr::error('Category cannot update.!');
         }
         return redirect()->back();
@@ -497,26 +550,26 @@ class CategoryController extends Controller
     {
         //check role permission
         $permission = $this->checkPermission('child-category', 'is_delete');
-        if(!$permission){  
+        if (!$permission) {
             return response()->json([
                 'status' => false,
                 'msg' => env("PERMISSION_MSG")
-            ]); 
+            ]);
         }
         $category = Category::find($id);
 
-        if($category){
-            $image_path = public_path('upload/images/category/'. $category->phato);
-            if(file_exists($image_path) && $category->phato){
+        if ($category) {
+            $image_path = public_path('upload/images/category/' . $category->phato);
+            if (file_exists($image_path) && $category->phato) {
                 unlink($image_path);
-                unlink(public_path('upload/images/category/thumb/'. $category->phato));
+                unlink(public_path('upload/images/category/thumb/' . $category->phato));
             }
             $category->delete();
             $output = [
                 'status' => true,
                 'msg' => 'Item deleted successfully.'
             ];
-        }else{
+        } else {
             $output = [
                 'status' => false,
                 'msg' => 'Item cannot deleted.'
@@ -525,23 +578,24 @@ class CategoryController extends Controller
         return response()->json($output);
     }
 
-    public function categorySorting (Request $request){
+    public function categorySorting(Request $request)
+    {
         $operator = $request->operator;
         $operator2 = $request->operator2;
 
-        for($i=0; $i<count($request->ids); $i++)
-        {
+        for ($i = 0; $i < count($request->ids); $i++) {
             Category::where('id', str_replace('item', '', $request->ids[$i]))->where('parent_id', $operator, null)->where('subcategory_id', $operator2, null)->update(['position' => $i]);
         }
         echo 'Section Order has been updated';
     }
 
-    public function getCategoryBanner($slug){
+    public function getCategoryBanner($slug)
+    {
         $banners = Banner::where('page_name', $slug)->get();
         $title = str_replace('-', ' ', $slug);
-        $output = '<input type="hidden" name="title" value="'.$title.'"><input type="hidden" name="btn_link1" value="'.route('home.category', $slug).'"><input type="hidden" name="banner_type" value="1"><input type="hidden" name="status" value="1"><input type="hidden" name="page_name" value="'.$slug.'">';
-        if(count($banners)>0){
-        $output .= view('admin.category.category-banner')->with(compact('banners','title'));
+        $output = '<input type="hidden" name="title" value="' . $title . '"><input type="hidden" name="btn_link1" value="' . route('home.category', $slug) . '"><input type="hidden" name="banner_type" value="1"><input type="hidden" name="status" value="1"><input type="hidden" name="page_name" value="' . $slug . '">';
+        if (count($banners) > 0) {
+            $output .= view('admin.category.category-banner')->with(compact('banners', 'title'));
         }
         return $output;
     }
@@ -551,8 +605,8 @@ class CategoryController extends Controller
     {
 
         $safety_tip = Category::find($request->id);
-        if(request()->isMethod('get')) {
-            return '<textarea required name="safety_tip" class="summernote">'.$safety_tip->safety_tip.'</textarea><input type="hidden" name="id" value='.$safety_tip->id.'>';
+        if (request()->isMethod('get')) {
+            return '<textarea required name="safety_tip" class="summernote">' . $safety_tip->safety_tip . '</textarea><input type="hidden" name="id" value=' . $safety_tip->id . '>';
         }
 
         $safety_tip->safety_tip = $request->safety_tip;
@@ -560,5 +614,4 @@ class CategoryController extends Controller
 
         return back();
     }
-
 }

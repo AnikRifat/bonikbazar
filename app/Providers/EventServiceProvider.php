@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\BrandCreated;
+use App\Events\CategoryCreated;
 use App\Events\PostCreated;
 use App\Listeners\Brands;
+use App\Listeners\CreatePackageForCategory;
 use App\Listeners\PostListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -25,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
 
         BrandCreated::class => [
             Brands::class
+        ],
+        CategoryCreated::class => [
+            CreatePackageForCategory::class,
         ],
     ];
 
