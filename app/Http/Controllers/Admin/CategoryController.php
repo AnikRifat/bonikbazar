@@ -235,13 +235,15 @@ class CategoryController extends Controller
             $perPage = $request->show;
         }
         $data['get_data'] = $get_data->orderBy('position', 'asc')->paginate($perPage);
-
+        $data['package'] = Package::orderBy('position', 'asc')->get();
         return view('admin.category.subcategory')->with($data);
     }
 
     /** Store a new category. */
     public function subcategory_store(Request $request)
     {
+
+        // return $request;
         //check role permission
         $permission = $this->checkPermission('sub-category', 'is_add');
         if (!$permission) {
@@ -286,6 +288,7 @@ class CategoryController extends Controller
 
         if ($store) {
             Toastr::success('Sub Category Create Successfully.');
+            event(new CategoryCreated($data->id, $request));
         } else {
             Toastr::error('Sub Category Cannot Create.!');
         }
@@ -419,7 +422,7 @@ class CategoryController extends Controller
             $perPage = $request->show;
         }
         $data['get_data'] = $get_data->orderBy('position', 'asc')->paginate($perPage);
-
+        $data['package'] = Package::orderBy('position', 'asc')->get();
         return view('admin.category.sub-childcategory')->with($data);
     }
 
@@ -427,6 +430,8 @@ class CategoryController extends Controller
 
     public function subchildcategory_store(Request $request)
     {
+
+        // return $request;
         //check role permission
         $permission = $this->checkPermission('child-category', 'is_add');
         if (!$permission) {
@@ -472,6 +477,7 @@ class CategoryController extends Controller
 
         if ($store) {
             Toastr::success('Sub Category Create Successfully.');
+            event(new CategoryCreated($data->id, $request));
         } else {
             Toastr::error('Sub Category Cannot Create.!');
         }

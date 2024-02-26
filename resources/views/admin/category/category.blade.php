@@ -1,14 +1,76 @@
 @extends('layouts.admin-master')
 @section('title', 'Category list')
+
 @section('css-top')
     <link href="{{ asset('assets') }}/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 @endsection
 @section('css')
 
+    <style type="text/css">
+        svg {
+            width: 20px
+        }
+
+        .module_section {
+            padding: 1px 15px;
+            border-radius: 5px;
+            /* background: #fff; */
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .panel-title {
+            padding-left: 20px;
+            background: #c7ecee;
+        }
+
+        .action_btn {
+            margin-top: 5px;
+        }
+
+        .deactive_module {
+            /* background-color: #e8dada9c; */
+        }
+
+        .panel-title>a,
+        .panel-title>a:active {
+            display: block;
+            padding: 12px 0;
+            color: #555;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .panel-heading a:after {
+            padding-right: 7px !important;
+            font-family: 'Font Awesome 5 Free';
+            content: "\f107";
+            float: left;
+        }
+
+        .panel-heading.active a:after {
+            padding-left: 7px !important;
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            transform: rotate(180deg);
+            padding-right: 0px !important;
+        }
+
+        .floating-labels label {
+            position: relative;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+
+
+
     <link href="{{ asset('assets') }}/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets') }}/node_modules/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
     <link href="{{ asset('css') }}/pages/bootstrap-switch.css" rel="stylesheet">
     <link href="{{ asset('assets') }}/node_modules/summernote/dist/summernote-bs4.css" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('assets/custom/tagify.css') }}" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
         .dropify_image {
@@ -148,8 +210,9 @@
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
     <!-- add Modal -->
-    <div class="modal fade" id="add" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
+    <div class="modal fade" id="add" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-xl">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -159,11 +222,12 @@
                 </div>
                 <div class="modal-body form-row">
                     <div class="card-body">
-                        <form action="{{ route('category.store') }}" enctype="multipart/form-data" method="POST"
-                            class="floating-labels">
+                        <form id="categoryForm" action="{{ route('category.store') }}" enctype="multipart/form-data"
+                            method="POST" class="floating-labels">
                             {{ csrf_field() }}
                             <div class="form-body">
                                 <!--/row-->
+
                                 <div class="row justify-content-md-center">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -173,8 +237,6 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="row justify-content-md-center">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="dropify_image">Feature Image</label>
@@ -188,10 +250,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                </div>
 
-
-                                <div class="row justify-content-md-center">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label style="background: #fff;top:-10px;z-index: 1"
@@ -200,38 +259,262 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 mt-3">
-                                        <div class="form-group">
-                                            <label for="name" class="required" style="background: #fff;top:-25px;z-index: 1">Select Package</label>
-                                            <select required name="package_id" class="select2 form-control custom-select"
-                                                style="width: 100%; height:36px;">
-                                                @foreach ($package as $data)
-                                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="col-12">
+                                        <div class="card ">
+                                            <div class="card-body">
+
+                                                <div class="panel-group" id="accordion2" role="tablist"
+                                                    aria-multiselectable="true">
+                                                    <ul id="sectionSositionSorting" data-table="modules"
+                                                        style="padding: 0">
+                                                        <li id="packageItem" class="module_section  deactive_module"
+                                                            title="Deactive this section">
+                                                            <div class="panel panel-default">
+                                                                <div class="row panel-heading" role="tab">
+                                                                    <div class="col-12">
+                                                                        <h4 class="panel-title">
+                                                                            <a role="button" data-toggle="collapse"
+                                                                                data-parent="#accordion2"
+                                                                                href="#packageSection"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="packageSection"> Package
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div id="packageSection"
+                                                                    class="panel-collapse collapse collapse show"
+                                                                    role="tabpanel">
+                                                                    <div class="panel-body">
+                                                                        <div class="table-responsive"
+                                                                            style="min-height:110px">
+                                                                            <table id="tblPackage"
+                                                                                class="table table-bordered table-striped">
+                                                                                <thead style="text-wrap:nowrap;">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Package</th>
+                                                                                        <th>Ads Duration</th>
+                                                                                        <th>Price</th>
+                                                                                        <th>status</th>
+                                                                                        <th class="text-center">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td>
+                                                                                            <select required
+                                                                                                name="package_id[]"
+                                                                                                class="form-control custom-select select2"
+                                                                                                style="width: 100%; height:36px;">
+                                                                                                @foreach ($package as $data)
+                                                                                                    <option
+                                                                                                        value="{{ $data->id }}">
+                                                                                                        {{ $data->name }}
+                                                                                                    </option>
+                                                                                                @endforeach
+                                                                                            </select>
+                                                                                        </td>
+                                                                                        <td>
+
+                                                                                            <input name="duration[]"
+                                                                                                required
+                                                                                                placeholder="Example: 7 Days"
+                                                                                                value="{{ old('ads') }}"
+                                                                                                class="form-control"
+                                                                                                type="number">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input name="price[]" required
+                                                                                                placeholder="Example: {{ config('siteSetting.currency_symble') }}50 "
+                                                                                                value="{{ old('price') }}"
+                                                                                                class="form-control"
+                                                                                                type="number">
+
+                                                                                        </td>
+
+
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="custom-control custom-switch">
+                                                                                                <input
+                                                                                                    name="package_status[]"
+                                                                                                    type="checkbox"
+                                                                                                    type="checkbox"
+                                                                                                    class="custom-control-input"
+                                                                                                    id="packageStatus">
+                                                                                                <label
+                                                                                                    style="padding: 5px 12px"
+                                                                                                    class="custom-control-label"
+                                                                                                    for="packageStatus"></label>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td
+                                                                                            class="text-nowrap text-center">
+                                                                                            <a title="add"
+                                                                                                class="btn btn-success btn-sm btnAdd"><i
+                                                                                                    class="ti-plus"
+                                                                                                    aria-hidden="true"></i></a>
+
+                                                                                            <a title="delete"
+                                                                                                class="btn btn-danger btn-sm text-white btnRemove"><i
+                                                                                                    class="ti-trash"
+                                                                                                    aria-hidden="true"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="panel-group" id="accordion" role="tablist"
+                                                    aria-multiselectable="true">
+                                                    <ul id="sectionSositionSorting" data-table="modules"
+                                                        style="padding: 0">
+                                                        <li id="attributeItem" class="module_section  deactive_module"
+                                                            title="Deactive this section">
+                                                            <div class="panel panel-default">
+                                                                <div class="row panel-heading" role="tab">
+                                                                    <div class="col-12">
+                                                                        <h4 class="panel-title">
+                                                                            <a role="button" data-toggle="collapse"
+                                                                                data-parent="#accordion"
+                                                                                href="#attributeSection"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="attributeSection"> Product
+                                                                                Attribute
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div id="attributeSection"
+                                                                    class="panel-collapse collapse collapse show"
+                                                                    role="tabpanel">
+                                                                    <div class="panel-body">
+                                                                        <div class="table-responsive"
+                                                                            style="min-height:110px">
+                                                                            <table id="tblAttribute"
+                                                                                class="table table-bordered table-striped">
+                                                                                <thead style="text-wrap:nowrap;">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Attribute Name</th>
+                                                                                        <th style="width: 130px">Display
+                                                                                            Type</th>
+                                                                                        <th>Field is requird</th>
+                                                                                        <th>Show in filter</th>
+                                                                                        <th>Attribute Value</th>
+                                                                                        <th>status</th>
+                                                                                        <th class="text-center">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td> <input name="attribute_name[]"
+                                                                                                required=""
+                                                                                                type="text"
+                                                                                                class="form-control"></td>
+                                                                                        <td>
+
+                                                                                            <select required
+                                                                                                name="display_type[]"
+                                                                                                class="form-control form-control-sm custom-select"
+                                                                                                style="width: 100%; height:36px;">
+                                                                                                <option value="1">
+                                                                                                    Checkbox</option>
+                                                                                                <option value="2">
+                                                                                                    Select</option>
+                                                                                                <option value="3">
+                                                                                                    Radio</option>
+                                                                                                <option value="4">
+                                                                                                    Dropdown</option>
+                                                                                            </select>
+                                                                                        </td>
+                                                                                        <td><input name="is_required[]"
+                                                                                                id="eeditis_required"
+                                                                                                type="checkbox"> <label
+                                                                                                for="eeditis_required">
+                                                                                                Yes/No </label></td>
+                                                                                        <td><input name="is_filter[]"
+                                                                                                id="editfilter"
+                                                                                                type="checkbox"> <label
+                                                                                                for="editfilter">
+                                                                                                Yes/No </label></td>
+                                                                                        <td>
+
+                                                                                            <input name="attribute_value[]"
+                                                                                                type="text"
+                                                                                                value=""
+                                                                                                data-role="tagsinput"
+                                                                                                placeholder="Add value" />
+
+
+
+                                                                                        </td>
+
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="custom-control custom-switch">
+                                                                                                <input
+                                                                                                    name="attribute_status[]"
+                                                                                                    type="checkbox"
+                                                                                                    type="checkbox"
+                                                                                                    class="custom-control-input"
+                                                                                                    id="attributeStatus">
+                                                                                                <label
+                                                                                                    style="padding: 5px 12px"
+                                                                                                    class="custom-control-label"
+                                                                                                    for="attributeStatus"></label>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td class="text-nowrap">
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="add"
+                                                                                                class="btn btn-success btn-sm btnAdd"><i
+                                                                                                    class="ti-plus"
+                                                                                                    aria-hidden="true"></i></a>
+
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="delete"
+                                                                                                class="btn btn-danger btn-sm text-white btnRemove"><i
+                                                                                                    class="ti-trash"
+                                                                                                    aria-hidden="true"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
                                         </div>
+
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name" class="required">Ads duration</label>
-                                            <input name="duration" required placeholder="Example: 7 Days"
-                                                value="{{ old('ads') }}" class="form-control" type="number">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name" class="required">Price</label>
-                                            <input name="price" required
-                                                placeholder="Example: {{ config('siteSetting.currency_symble') }}50 "
-                                                value="{{ old('price') }}" class="form-control" type="number">
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="row justify-content-md-center">
                                     <div class="col-md-12">
                                         <div class="head-label">
                                             <label class="switch-box">Status</label>
@@ -252,7 +535,10 @@
                                                 class="btn btn-inverse">Cancel</button>
                                         </div>
                                     </div>
+
+
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -324,7 +610,7 @@
     <script src="{{ asset('assets') }}/node_modules/jqueryui/jquery-ui.min.js"></script>
     <script src="{{ asset('assets') }}/node_modules/dropify/dist/js/dropify.min.js"></script>
     <script>
-           $(".select2").select2();
+        $(".select2").select2();
         $(document).ready(function() {
             // Basic
             $('.dropify').dropify();
@@ -334,6 +620,9 @@
     <!-- This is data table -->
     <script src="{{ asset('assets') }}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('assets') }}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
+
+
+    <script src="{{ asset('assets/custom/tagify.js') }}"></script>
 
     <!-- bt-switch -->
     <script src="{{ asset('assets') }}/node_modules/bootstrap-switch/bootstrap-switch.min.js"></script>
@@ -434,6 +723,131 @@
                 }
             });
 
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#categoryForm').on('keypress', function(e) {
+                if (e.which === 13) { // Check if Enter key is pressed
+                    e.preventDefault(); // Prevent the default form submission
+                    // Add your custom logic here if needed
+                }
+            });
+        });
+
+
+
+
+
+        $('#tblPackage').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblPackage tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td>' +
+                '<select required name="package_id[]" class="form-control custom-select select2" style="width: 100%; height:36px;">' +
+                '@foreach ($package as $data)' +
+                '<option value="{{ $data->id }}">{{ $data->name }}</option>' +
+                '@endforeach' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input name="duration[]" required placeholder="Example: 7 Days" value="{{ old('ads') }}" class="form-control" type="number">' +
+                '</td>' +
+                '<td>' +
+                '<input name="price[]" required placeholder="Example: {{ config('siteSetting.currency_symble') }}50 " value="{{ old('price') }}" class="form-control" type="number">' +
+                '</td>' +
+                '<td>' +
+                '<div class="custom-control custom-switch">' +
+                '<input name="package_status[]" type="checkbox" class="custom-control-input" id="packageStatus' + (
+                    lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="packageStatus' + (lastRowIndex +
+                    1) + '"></label>' +
+                '</div>' +
+                '</td>' +
+                '<td class="text-nowrap text-center">' +
+                '<a title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblPackage table
+            $('#tblPackage tbody').append(newRowHtml);
+
+            $('.select2').select2();
+        });
+
+
+
+
+        $('#tblAttribute').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblAttribute tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td><input name="attribute_name[]" required type="text" class="form-control"></td>' +
+                '<td>' +
+                '<select required name="display_type[]" class="form-control form-control-sm custom-select" style="width: 100%; height:36px;">' +
+                '<option value="1">Checkbox</option>' +
+                '<option value="2">Select</option>' +
+                '<option value="3">Radio</option>' +
+                '<option value="4">Dropdown</option>' +
+                '</select>' +
+                '</td>' +
+                '<td><input name="is_required[]" id="eeditis_required' + (lastRowIndex + 1) +
+                '" type="checkbox"> <label for="eeditis_required' + (lastRowIndex + 1) + '">Yes/No</label></td>' +
+                '<td><input name="is_filter[]" id="editfilter' + (lastRowIndex + 1) +
+                '" type="checkbox"> <label for="editfilter' + (lastRowIndex + 1) + '">Yes/No</label></td>' +
+                '<td>' +
+                '<input name="attribute_value[]" type="text" value="" data-role="tagsinput" placeholder="Add value" />' +
+                '</td>' +
+                '<td>' +
+                '<div class="custom-control custom-switch">' +
+                '<input name="attribute_status[]" type="checkbox" class="custom-control-input" id="attributeStatus' +
+                (lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="attributeStatus' + (
+                    lastRowIndex + 1) + '"></label>' +
+                '</div>' +
+                '</td>' +
+                '<td class="text-nowrap">' +
+                '<a href="javascript:void(0)" title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblAttribute table
+            $('#tblAttribute tbody').append(newRowHtml);
+
+            // Initialize Tags Input on the new row
+            $('#tblAttribute tbody tr:last-child input[data-role=tagsinput]').tagsinput();
+        });
+
+
+
+
+
+        // Remove newly added row on button click
+        $('#tblPackage').on('click', '.btnRemove', function() {
+            if ($('#tblPackage tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
+        });
+
+
+        $('#tblAttribute').on('click', '.btnRemove', function() {
+            if ($('#tblAttribute tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
         });
     </script>
 
