@@ -279,7 +279,7 @@
     <script type="text/javascript">
 
         function edit(id){
-          
+
             var  url = '<?php echo e(route("brand.edit", ":id")); ?>';
             url = url.replace(':id',id);
             $.ajax({

@@ -1,290 +1,321 @@
 @extends('layouts.admin-master')
 @section('title', 'Sub childcategory list')
 @section('css-top')
-    <link href="{{asset('assets')}}/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets') }}/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 
 @endsection
 @section('css')
 
-<style type="text/css">
-    svg {
-        width: 20px
-    }
-
-    .module_section {
-        padding: 1px 15px;
-        border-radius: 5px;
-        /* background: #fff; */
-        margin-bottom: 10px;
-        list-style: none;
-    }
-
-    .panel-title {
-        padding-left: 20px;
-        background: #c7ecee;
-    }
-
-    .action_btn {
-        margin-top: 5px;
-    }
-
-    .deactive_module {
-        /* background-color: #e8dada9c; */
-    }
-
-    .panel-title>a,
-    .panel-title>a:active {
-        display: block;
-        padding: 12px 0;
-        color: #555;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .panel-heading a:after {
-        padding-right: 7px !important;
-        font-family: 'Font Awesome 5 Free';
-        content: "\f107";
-        float: left;
-    }
-
-    .panel-heading.active a:after {
-        padding-left: 7px !important;
-        -webkit-transform: rotate(180deg);
-        -moz-transform: rotate(180deg);
-        transform: rotate(180deg);
-        padding-right: 0px !important;
-    }
-
-    .floating-labels label {
-        position: relative;
-        top: 0px;
-        left: 0px;
-    }
-</style>
-
-    <link href="{{asset('assets')}}/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/custom/tagify.css') }}" rel="stylesheet" type="text/css" />
-    
-   <style type="text/css">
-        .dropify_image{
-            position: absolute;top: -12px!important;left: 12px !important; z-index: 9; background:#fff!important;padding: 3px;
+    <style type="text/css">
+        svg {
+            width: 20px
         }
-        .dropify-wrapper{
+
+        .module_section {
+            padding: 1px 15px;
+            border-radius: 5px;
+            /* background: #fff; */
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .panel-title {
+            padding-left: 20px;
+            background: #c7ecee;
+        }
+
+        .action_btn {
+            margin-top: 5px;
+        }
+
+        .deactive_module {
+            /* background-color: #e8dada9c; */
+        }
+
+        .panel-title>a,
+        .panel-title>a:active {
+            display: block;
+            padding: 12px 0;
+            color: #555;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .panel-heading a:after {
+            padding-right: 7px !important;
+            font-family: 'Font Awesome 5 Free';
+            content: "\f107";
+            float: left;
+        }
+
+        .panel-heading.active a:after {
+            padding-left: 7px !important;
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            transform: rotate(180deg);
+            padding-right: 0px !important;
+        }
+
+        .floating-labels label {
+            position: relative;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+
+    <link href="{{ asset('assets') }}/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/custom/tagify.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .dropify_image {
+            position: absolute;
+            top: -12px !important;
+            left: 12px !important;
+            z-index: 9;
+            background: #fff !important;
+            padding: 3px;
+        }
+
+        .dropify-wrapper {
             height: 150px !important;
         }
 
-        .select2-container--default .select2-selection--multiple .select2-selection__rendered{height: 100px!important}
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+            height: 100px !important
+        }
     </style>
 @endsection
 @section('content')
 
-        <div class="page-wrapper">
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
             <!-- ============================================================== -->
-            <!-- Container fluid  -->
+            <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">Childcategory List</h4>
-                    </div>
-                    <div class="col-md-7 align-self-center text-right">
-                        <div class="d-flex justify-content-end align-items-center">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:void(0)">Childcategory</a></li>
-                                <li class="breadcrumb-item active">list</li>
-                            </ol>
-                             @if($permission['is_add'])
-                            <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Create New</button>@endif
-                        </div>
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h4 class="text-themecolor">Childcategory List</h4>
+                </div>
+                <div class="col-md-7 align-self-center text-right">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Childcategory</a></li>
+                            <li class="breadcrumb-item active">list</li>
+                        </ol>
+                        @if ($permission['is_add'])
+                            <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
+                                    class="fa fa-plus-circle"></i> Create New</button>
+                        @endif
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
 
-                            <form action="" method="get">
+                        <form action="" method="get">
 
-                                <div class="form-body">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <input name="title" placeholder="Title" value="{{ Request::get('title')}}" type="text" class="form-control">
-                                                </div>
+                            <div class="form-body">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input name="title" placeholder="Title"
+                                                    value="{{ Request::get('title') }}" type="text" class="form-control">
                                             </div>
-                                            
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <select name="category"  id="category" style="width:100%" id="seller" class="select2 form-control custom-select">
-                                                       <option value="all">All Category</option>
-                                                       @foreach($get_category as $category)
-                                                       <option @if(Request::get('category') == $category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
-                                                       @endforeach
-                                                   </select>
-                                               </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <select name="category" id="category" style="width:100%" id="seller"
+                                                    class="select2 form-control custom-select">
+                                                    <option value="all">All Category</option>
+                                                    @foreach ($get_category as $category)
+                                                        <option @if (Request::get('category') == $category->id) selected @endif
+                                                            value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <select class="form-control" name="show">
-                                                        <option @if(Request::get('show') == 15) selected @endif value="15">15</option>
-                                                        <option @if(Request::get('show') == 25) selected @endif value="25">25</option>
-                                                        <option @if(Request::get('show') == 50) selected @endif value="50">50</option>
-                                                        <option @if(Request::get('show') == 100) selected @endif value="100">100</option>
-                                                        <option @if(Request::get('show') == 255) selected @endif value="250">250</option>
-                                                        <option @if(Request::get('show') == 500) selected @endif value="500">500</option>
-                                                        <option @if(Request::get('show') == 750) selected @endif value="750">750</option>
-                                                        <option @if(Request::get('show') == 1000) selected @endif value="1000">1000</option>
-                                                    </select>
-                                                </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <select class="form-control" name="show">
+                                                    <option @if (Request::get('show') == 15) selected @endif
+                                                        value="15">15</option>
+                                                    <option @if (Request::get('show') == 25) selected @endif
+                                                        value="25">25</option>
+                                                    <option @if (Request::get('show') == 50) selected @endif
+                                                        value="50">50</option>
+                                                    <option @if (Request::get('show') == 100) selected @endif
+                                                        value="100">100</option>
+                                                    <option @if (Request::get('show') == 255) selected @endif
+                                                        value="250">250</option>
+                                                    <option @if (Request::get('show') == 500) selected @endif
+                                                        value="500">500</option>
+                                                    <option @if (Request::get('show') == 750) selected @endif
+                                                        value="750">750</option>
+                                                    <option @if (Request::get('show') == 1000) selected @endif
+                                                        value="1000">1000</option>
+                                                </select>
                                             </div>
-                                            
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                   
-                                                   <button type="submit" class="form-control btn btn-success"><i style="color:#fff; font-size: 20px;" class="ti-search"></i> </button>
-                                                </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+
+                                                <button type="submit" class="form-control btn btn-success"><i
+                                                        style="color:#fff; font-size: 20px;" class="ti-search"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                 <i class="drag-drop-info">Drag & drop sorting position</i>
-                                <div class="table-responsive">
-                                    <table id="myTable" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Sub Childcategory</th>
-                                                <th>Feature Image</th>
-                                                <th>Category</th>
-                                                <th>Notes</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="categoryPositionSorting">
-                                            @foreach($get_data as $index => $data)
-                                            <tr id="item{{$data->id}}">
-                                                <td>{{(($get_data->perPage() * $get_data->currentPage() - $get_data->perPage()) + ($index+1) )}}</td>
-                                                <td>{{$data->name}}</td>
-                                                <td><img src="{{asset('upload/images/category/thumb/'. $data->image)}}" alt="" width="50"></td>
-                                                 <td>{{($data->get_category->name ) ?? 'Not found'}}</td>
-                                                <td>{{$data->notes}}</td>
-                                                <td> 
-                                                    @if($permission['is_edit'])
-                                                    <div class="custom-control custom-switch">
-                                                      <input  name="status" onclick="satusActiveDeactive('categories', {{$data->id}})"  type="checkbox" {{($data->status == 1) ? 'checked' : ''}}  type="checkbox" class="custom-control-input" id="status{{$data->id}}">
-                                                      <label style="padding: 5px 12px" class="custom-control-label" for="status{{$data->id}}"></label>
-                                                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="drag-drop-info">Drag & drop sorting position</i>
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Sub Childcategory</th>
+                                            <th>Feature Image</th>
+                                            <th>Category</th>
+                                            <th>Notes</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categoryPositionSorting">
+                                        @foreach ($get_data as $index => $data)
+                                            <tr id="item{{ $data->id }}">
+                                                <td>{{ $get_data->perPage() * $get_data->currentPage() - $get_data->perPage() + ($index + 1) }}
+                                                </td>
+                                                <td>{{ $data->name }}</td>
+                                                <td><img src="{{ asset('upload/images/category/thumb/' . $data->image) }}"
+                                                        alt="" width="50"></td>
+                                                <td>{{ $data->get_category->name ?? 'Not found' }}</td>
+                                                <td>{{ $data->notes }}</td>
+                                                <td>
+                                                    @if ($permission['is_edit'])
+                                                        <div class="custom-control custom-switch">
+                                                            <input name="status"
+                                                                onclick="satusActiveDeactive('categories', {{ $data->id }})"
+                                                                type="checkbox" {{ $data->status == 1 ? 'checked' : '' }}
+                                                                type="checkbox" class="custom-control-input"
+                                                                id="status{{ $data->id }}">
+                                                            <label style="padding: 5px 12px" class="custom-control-label"
+                                                                for="status{{ $data->id }}"></label>
+                                                        </div>
                                                     @else
-                                                    <label>{{($data->status == 1) ? 'Active' : 'Deactive'}}</label>
+                                                        <label>{{ $data->status == 1 ? 'Active' : 'Deactive' }}</label>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                     @if($permission['is_edit'])
-                                                    <button type="button" onclick="getCategoryBanner('{{$data->slug}}')"  data-toggle="modal" data-target="#setBanner" class="btn btn-success btn-sm"><i class="ti-plus" aria-hidden="true"></i> Banner</button>
-                                                    <button type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button>
+                                                    @if ($permission['is_edit'])
+                                                        <button type="button"
+                                                            onclick="getCategoryBanner('{{ $data->slug }}')"
+                                                            data-toggle="modal" data-target="#setBanner"
+                                                            class="btn btn-success btn-sm"><i class="ti-plus"
+                                                                aria-hidden="true"></i> Banner</button>
+                                                        <button type="button" onclick="edit('{{ $data->id }}')"
+                                                            data-toggle="modal" data-target="#edit"
+                                                            class="btn btn-info btn-sm"><i class="ti-pencil"
+                                                                aria-hidden="true"></i> Edit</button>
                                                     @endif
-                                                    @if($permission['is_delete'])
-                                                    <button data-target="#delete" onclick="deleteConfirmPopup('{{route("subchildcategory.delete", $data->id)}}')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button>@endif
+                                                    @if ($permission['is_delete'])
+                                                        <button data-target="#delete"
+                                                            onclick="deleteConfirmPopup('{{ route('subchildcategory.delete', $data->id) }}')"
+                                                            class="btn btn-danger btn-sm" data-toggle="modal"><i
+                                                                class="ti-trash" aria-hidden="true"></i> Delete</button>
+                                                    @endif
                                                 </td>
                                             </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 text-center">
+                                    {{ $get_data->appends(request()->query())->links() }}
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6 col-md-6 col-lg-6 text-center">
-                                       {{$get_data->appends(request()->query())->links()}}
-                                    </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6 text-right">Showing {{ $get_data->firstItem() }} to {{ $get_data->lastItem() }} of total {{$get_data->total()}} entries ({{$get_data->lastPage()}} Pages)</div>
-                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-6 text-right">Showing {{ $get_data->firstItem() }} to
+                                    {{ $get_data->lastItem() }} of total {{ $get_data->total() }} entries
+                                    ({{ $get_data->lastPage() }} Pages)</div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
-               
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
 
             </div>
+
             <!-- ============================================================== -->
-            <!-- End Container fluid  -->
+            <!-- End PAge Content -->
             <!-- ============================================================== -->
+
         </div>
         <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- update Modal -->
-        <div class="modal fade" id="add" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;"
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- update Modal -->
+    <div class="modal fade" id="add" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-xl">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Create Sub childcategory</h4>
+                    <h4 class="modal-title">Create category</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body form-row">
                     <div class="card-body">
-                        <form id="categoryForm" action="{{route('subchildcategory.store')}}" enctype="multipart/form-data"
+                        <form id="categoryForm" action="{{ route('category.store') }}" enctype="multipart/form-data"
                             method="POST" class="floating-labels">
                             {{ csrf_field() }}
                             <div class="form-body">
                                 <!--/row-->
 
                                 <div class="row justify-content-md-center">
-
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="name">Child category Name</label>
-                                            <textarea style="resize: vertical;padding-top: 15px;" rows="1" name="name" id="name" value="{{old('name')}}" required="" type="text" placeholder="Electronics * Fashion" class="form-control"></textarea>
-                                            <i style="color:red">At once upload multiple category separated by Star[*]</i> 
+                                            <label for="name">Category Name</label>
+                                            <input name="name" id="name" value="{{ old('name') }}"
+                                                required="" type="text" class="form-control">
                                         </div>
                                     </div>
 
-
                                     <div class="col-md-12">
-                                            <div class="form-group">
-                                                <span for="name">Categroy</span>
-                                                <select required name="parent_id" class="select2 form-control custom-select">
-                                                    <option value="">Select Category</option>
-                                                    @foreach($get_category as $category)
-                                                        <option @if(Session::get('autoSelectId') == $category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label class="dropify_image">Feature Image</label>
+                                            <input type="file" class="dropify" accept="image/*" data-type='image'
+                                                data-allowed-file-extensions="jpg jpeg png gif" data-max-file-size="2M"
+                                                name="phato" id="input-file-events">
                                         </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="dropify_image">Feature Image</label>
-                                                <input  type="file" class="dropify" accept="image/*" data-type='image' data-allowed-file-extensions="jpg png gif"  data-max-file-size="2M"  name="phato" id="input-file-events">
-                                            </div>
-                                            @if ($errors->has('phato'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    {{ $errors->first('phato') }}
-                                                </span>
-                                            @endif
-                                        </div>
+                                        @if ($errors->has('phato'))
+                                            <span class="invalid-feedback" role="alert">
+                                                {{ $errors->first('phato') }}
+                                            </span>
+                                        @endif
+                                    </div>
 
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -298,7 +329,7 @@
                                         <div class="card ">
                                             <div class="card-body">
 
-                                                <div class="panel-group" id="accordion2" role="tablist"
+                                                <div class="panel-group" id="accordion1" role="tablist"
                                                     aria-multiselectable="true">
                                                     <ul id="sectionSositionSorting" data-table="modules"
                                                         style="padding: 0">
@@ -414,21 +445,21 @@
                                                     </ul>
                                                 </div>
 
-                                                <div class="panel-group" id="accordion" role="tablist"
+                                                <div class="panel-group" id="accordion2" role="tablist"
                                                     aria-multiselectable="true">
-                                                    <ul id="sectionSositionSorting" data-table="modules"
+                                                    <ul id="sectionSositionSorting2" data-table="modules"
                                                         style="padding: 0">
-                                                        <li id="attributeItem" class="module_section  deactive_module"
+                                                        <li id="attributeItem2" class="module_section  deactive_module"
                                                             title="Deactive this section">
                                                             <div class="panel panel-default">
                                                                 <div class="row panel-heading" role="tab">
                                                                     <div class="col-12">
                                                                         <h4 class="panel-title">
                                                                             <a role="button" data-toggle="collapse"
-                                                                                data-parent="#accordion"
-                                                                                href="#attributeSection"
+                                                                                data-parent="#accordion2"
+                                                                                href="#attributeSection2"
                                                                                 aria-expanded="true"
-                                                                                aria-controls="attributeSection"> Product
+                                                                                aria-controls="attributeSection2"> Product
                                                                                 Attribute
                                                                             </a>
                                                                         </h4>
@@ -436,7 +467,7 @@
 
                                                                 </div>
 
-                                                                <div id="attributeSection"
+                                                                <div id="attributeSection2"
                                                                     class="panel-collapse collapse collapse show"
                                                                     role="tabpanel">
                                                                     <div class="panel-body">
@@ -545,6 +576,216 @@
                                                     </ul>
                                                 </div>
 
+                                                <div class="panel-group" id="accordion3" role="tablist"
+                                                    aria-multiselectable="true">
+                                                    <ul id="sectionSositionSorting3" data-table="modules"
+                                                        style="padding: 0">
+                                                        <li id="attributeItem3" class="module_section  deactive_module"
+                                                            title="Deactive this section">
+                                                            <div class="panel panel-default">
+                                                                <div class="row panel-heading" role="tab">
+                                                                    <div class="col-12">
+                                                                        <h4 class="panel-title">
+                                                                            <a role="button" data-toggle="collapse"
+                                                                                data-parent="#accordion3"
+                                                                                href="#attributeSection3"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="attributeSection3"> Product
+                                                                                Feature
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div id="attributeSection3"
+                                                                    class="panel-collapse collapse collapse show"
+                                                                    role="tabpanel">
+                                                                    <div class="panel-body">
+                                                                        <div class="table-responsive"
+                                                                            style="min-height:110px">
+                                                                            <table id="tblFeature"
+                                                                                class="table table-bordered table-striped">
+                                                                                <thead style="text-wrap:nowrap;">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Product Feature Name</th>
+                                                                                        <th>Is Required</th>
+                                                                                        <th>Status</th>
+                                                                                        <th class="text-center">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td> <input name="feature_name[]"
+                                                                                                required=""
+                                                                                                type="text"
+                                                                                                class="form-control"></td>
+
+                                                                                        <td><input
+                                                                                                name="required_feature[]"
+                                                                                                id="featureis_required"
+                                                                                                type="checkbox"> <label
+                                                                                                for="featureis_required">
+                                                                                                Yes/No </label></td>
+
+
+
+
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="custom-control custom-switch">
+                                                                                                <input
+                                                                                                    name="feature_status[]"
+                                                                                                    type="checkbox"
+                                                                                                    type="checkbox"
+                                                                                                    class="custom-control-input"
+                                                                                                    id="featureStatus">
+                                                                                                <label
+                                                                                                    style="padding: 5px 12px"
+                                                                                                    class="custom-control-label"
+                                                                                                    for="featureStatus"></label>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td class="text-nowrap">
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="add"
+                                                                                                class="btn btn-success btn-sm btnAdd"><i
+                                                                                                    class="ti-plus"
+                                                                                                    aria-hidden="true"></i></a>
+
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="delete"
+                                                                                                class="btn btn-danger btn-sm text-white btnRemove"><i
+                                                                                                    class="ti-trash"
+                                                                                                    aria-hidden="true"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="panel-group" id="accordion4" role="tablist"
+                                                    aria-multiselectable="true">
+                                                    <ul id="sectionSositionSorting4" data-table="modules"
+                                                        style="padding: 0">
+                                                        <li id="attributeItem4" class="module_section  deactive_module"
+                                                            title="Deactive this section">
+                                                            <div class="panel panel-default">
+                                                                <div class="row panel-heading" role="tab">
+                                                                    <div class="col-12">
+                                                                        <h4 class="panel-title">
+                                                                            <a role="button" data-toggle="collapse"
+                                                                                data-parent="#accordion4"
+                                                                                href="#attributeSection4"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="attributeSection4"> Product
+                                                                                Brand
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div id="attributeSection4"
+                                                                    class="panel-collapse collapse collapse show"
+                                                                    role="tabpanel">
+                                                                    <div class="panel-body">
+                                                                        <div class="table-responsive"
+                                                                            style="min-height:110px">
+                                                                            <table id="tblBrand"
+                                                                                class="table table-bordered table-striped">
+                                                                                <thead style="text-wrap:nowrap;">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Brand Name</th>
+                                                                                        <th>Brand Logo</th>
+                                                                                        <th>Status</th>
+                                                                                        <th class="text-center">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td> <input name="brand_name[]"
+                                                                                                required=""
+                                                                                                type="text"
+                                                                                                class="form-control"></td>
+
+                                                                                        <td>
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="dropify_image">Feature
+                                                                                                    Image</label>
+                                                                                                <input type="file"
+                                                                                                    class="dropify"
+                                                                                                    accept="image/*"
+                                                                                                    data-type='image'
+                                                                                                    data-allowed-file-extensions="jpg jpeg png gif"
+                                                                                                    data-max-file-size="2M"
+                                                                                                    name="brand_photo[]"
+                                                                                                    id="input-file-events">
+                                                                                            </div>
+                                                                                        </td>
+
+
+
+
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="custom-control custom-switch">
+                                                                                                <input
+                                                                                                    name="brand_status[]"
+                                                                                                    type="checkbox"
+                                                                                                    type="checkbox"
+                                                                                                    class="custom-control-input"
+                                                                                                    id="brandStatus">
+                                                                                                <label
+                                                                                                    style="padding: 5px 12px"
+                                                                                                    class="custom-control-label"
+                                                                                                    for="brandStatus"></label>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td class="text-nowrap">
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="add"
+                                                                                                class="btn btn-success btn-sm btnAdd"><i
+                                                                                                    class="ti-plus"
+                                                                                                    aria-hidden="true"></i></a>
+
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="delete"
+                                                                                                class="btn btn-danger btn-sm text-white btnRemove"><i
+                                                                                                    class="ti-trash"
+                                                                                                    aria-hidden="true"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+
                                             </div>
                                         </div>
 
@@ -581,13 +822,13 @@
             </div>
         </div>
     </div>
-        <!-- update Modal -->
-        <div class="modal fade" id="edit" role="dialog"  style="display: none;">
-            <div class="modal-dialog">
-                <form action="{{route('subchildcategory.update')}}"  enctype="multipart/form-data" method="post">
-                      {{ csrf_field() }}
-                  <!-- Modal content-->
-                  <div class="modal-content">
+    <!-- update Modal -->
+    <div class="modal fade" id="edit" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <form action="{{ route('subchildcategory.update') }}" enctype="multipart/form-data" method="post">
+                {{ csrf_field() }}
+                <!-- Modal content-->
+                <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Update sub childcategory</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -597,24 +838,24 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-sm btn-success">Update</button>
                     </div>
-                  </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <!-- delete Modal -->
-         @include('admin.modal.delete-modal')
+    <!-- delete Modal -->
+    @include('admin.modal.delete-modal')
 
-         <!-- banner modal -->
-        @include('admin.category.category-banner-modal');
+    <!-- banner modal -->
+    @include('admin.category.category-banner-modal');
 
 @endsection
 @section('js')
-<script src="{{asset('assets')}}/node_modules/jqueryui/jquery-ui.min.js"></script>
-    <script src="{{asset('assets')}}/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="{{ asset('assets') }}/node_modules/jqueryui/jquery-ui.min.js"></script>
+    <script src="{{ asset('assets') }}/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <script src="{{ asset('assets/custom/tagify.js') }}"></script>
 
-    <script src="{{asset('assets')}}/node_modules/dropify/dist/js/dropify.min.js"></script>
+    <script src="{{ asset('assets') }}/node_modules/dropify/dist/js/dropify.min.js"></script>
     <script>
         $(".select2").select2();
 
@@ -623,194 +864,261 @@
             $('.dropify').dropify();
 
         });
-
-
     </script>
 
 
 
     <script>
-        $(document).ready(function(){
-         $( "#categoryPositionSorting" ).sortable({
-          placeholder : "ui-state-highlight",
-          update  : function(event, ui)
-          {
+        $(document).ready(function() {
+            $("#categoryPositionSorting").sortable({
+                placeholder: "ui-state-highlight",
+                update: function(event, ui) {
 
-           var ids = new Array();
-           $('#categoryPositionSorting tr').each(function(){
-            ids.push($(this).attr("id"));
-           });
+                    var ids = new Array();
+                    $('#categoryPositionSorting tr').each(function() {
+                        ids.push($(this).attr("id"));
+                    });
 
-           $.ajax({
-            url:"{{route('categorySorting')}}",
-            method:"get",
-            data:{ids:ids,operator:'!=',operator2:'!='},
-            success:function(data)
-            {
-             toastr.success(data)
-            }
-           });
-          }
-         });
+                    $.ajax({
+                        url: "{{ route('categorySorting') }}",
+                        method: "get",
+                        data: {
+                            ids: ids,
+                            operator: '!=',
+                            operator2: '!='
+                        },
+                        success: function(data) {
+                            toastr.success(data)
+                        }
+                    });
+                }
+            });
 
         });
     </script>
 
     <script type="text/javascript">
-
-      function edit(id){
+        function edit(id) {
             $('#edit_form').html('<div class="loadingData"></div>');
-            var  url = '{{route("subchildcategory.edit", ":id")}}';
-            url = url.replace(':id',id);
+            var url = '{{ route('subchildcategory.edit', ':id') }}';
+            url = url.replace(':id', id);
             $.ajax({
-            url:url,
-            method:"get",
-            success:function(data){
-                if(data){
-                    $("#edit_form").html(data);
-                    $('.dropify').dropify();
-                    $(".select2").select2();
+                url: url,
+                method: "get",
+                success: function(data) {
+                    if (data) {
+                        $("#edit_form").html(data);
+                        $('.dropify').dropify();
+                        $(".select2").select2();
+                    }
+                },
+                // $ID Error display id name
+                @include('common.ajaxError', ['ID' => 'edit_form'])
+
+
+            });
+
+        }
+
+        // if occur error open model
+        @if ($errors->any())
+            $("#{{ Session::get('submitType') }}").modal('show');
+        @endif
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#categoryForm').on('keypress', function(e) {
+                if (e.which === 13) { // Check if Enter key is pressed
+                    e.preventDefault(); // Prevent the default form submission
+                    // Add your custom logic here if needed
                 }
-            },
-            // $ID Error display id name
-            @include('common.ajaxError', ['ID' => 'edit_form'])
-
-
+            });
         });
 
-    }
-
-// if occur error open model
-    @if($errors->any())
-        $("#{{Session::get('submitType')}}").modal('show');
-    @endif
-</script>
 
 
-<script>
-    $(document).ready(function() {
-        $('#categoryForm').on('keypress', function(e) {
-            if (e.which === 13) { // Check if Enter key is pressed
-                e.preventDefault(); // Prevent the default form submission
-                // Add your custom logic here if needed
+
+
+        $('#tblPackage').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblPackage tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td>' +
+                '<select required name="package_id[]" class="form-control custom-select select2" style="width: 100%; height:36px;">' +
+                '@foreach ($package as $data)' +
+                '<option value="{{ $data->id }}">{{ $data->name }}</option>' +
+                '@endforeach' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input name="duration[]" required placeholder="Example: 7 Days" value="{{ old('ads') }}" class="form-control" type="number">' +
+                '</td>' +
+                '<td>' +
+                '<input name="price[]" required placeholder="Example: {{ config('siteSetting.currency_symble') }}50 " value="{{ old('price') }}" class="form-control" type="number">' +
+                '</td>' +
+                '<td>' +
+                '<div class="custom-control custom-switch">' +
+                '<input name="package_status[]" type="checkbox" class="custom-control-input" id="packageStatus' + (
+                    lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="packageStatus' + (lastRowIndex +
+                    1) + '"></label>' +
+                '</div>' +
+                '</td>' +
+                '<td class="text-nowrap text-center">' +
+                '<a title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblPackage table
+            $('#tblPackage tbody').append(newRowHtml);
+
+            $('.select2').select2();
+        });
+
+        $('#tblAttribute').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblAttribute tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td><input name="attribute_name[]" required type="text" class="form-control"></td>' +
+                '<td>' +
+                '<select required name="display_type[]" class="form-control form-control-sm custom-select" style="width: 100%; height:36px;">' +
+                '<option value="1">Checkbox</option>' +
+                '<option value="2">Select</option>' +
+                '<option value="3">Radio</option>' +
+                '<option value="4">Dropdown</option>' +
+                '</select>' +
+                '</td>' +
+                '<td><input name="is_required[]" id="eeditis_required' + (lastRowIndex + 1) +
+                '" type="checkbox"> <label for="eeditis_required' + (lastRowIndex + 1) + '">Yes/No</label></td>' +
+                '<td><input name="is_filter[]" id="editfilter' + (lastRowIndex + 1) +
+                '" type="checkbox"> <label for="editfilter' + (lastRowIndex + 1) + '">Yes/No</label></td>' +
+                '<td>' +
+                '<input name="attribute_value[]" type="text" value="" data-role="tagsinput" placeholder="Add value" />' +
+                '</td>' +
+                '<td>' +
+                '<div class="custom-control custom-switch">' +
+                '<input name="attribute_status[]" type="checkbox" class="custom-control-input" id="attributeStatus' +
+                (lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="attributeStatus' + (
+                    lastRowIndex + 1) + '"></label>' +
+                '</div>' +
+                '</td>' +
+                '<td class="text-nowrap">' +
+                '<a href="javascript:void(0)" title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblAttribute table
+            $('#tblAttribute tbody').append(newRowHtml);
+
+            // Initialize Tags Input on the new row
+            $('#tblAttribute tbody tr:last-child input[data-role=tagsinput]').tagsinput();
+        });
+
+
+        $('#tblFeature').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblFeature tbody tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td><input name="feature_name[]" required type="text" class="form-control"></td>' +
+                '<td><input name="required_feature[]" type="checkbox"> <label for="featureis_required"> Yes/No </label></td>' +
+                '<td><div class="custom-control custom-switch">' +
+                '<input name="feature_status[]" type="checkbox" class="custom-control-input" id="featureStatus' + (
+                    lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="featureStatus' + (lastRowIndex +
+                    1) + '"></label>' +
+                '</div></td>' +
+                '<td class="text-nowrap">' +
+                '<a href="javascript:void(0)" title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblFeature table
+            $('#tblFeature tbody').append(newRowHtml);
+        });
+
+        $('#tblBrand').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblBrand tbody tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td><input name="brand_name[]" required type="text" class="form-control"></td>' +
+                '<td><div class="form-group">' +
+                '<label class="dropify_image">Feature Image</label>' +
+                '<input type="file" class="dropify" accept="image/*" data-type="image" data-allowed-file-extensions="jpg jpeg png gif" data-max-file-size="2M" name="brand_photo[]" id="input-file-events"></div></td>' +
+                '<td><div class="custom-control custom-switch">' +
+                '<input name="brand_status[]" type="checkbox" class="custom-control-input" id="brandStatus' + (
+                    lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="brandStatus' + (lastRowIndex +
+                    1) + '"></label>' +
+                '</div></td>' +
+                '<td class="text-nowrap">' +
+                '<a href="javascript:void(0)" title="add" class="btn btn-success mr-1 btn-sm btnAdd"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblBrand table
+
+            $('#tblBrand tbody').append(newRowHtml);
+            $('.dropify').dropify();
+        });
+
+
+        // Remove newly added row on button click
+        $('#tblPackage').on('click', '.btnRemove', function() {
+            if ($('#tblPackage tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
             }
         });
-    });
 
 
 
 
 
-    $('#tblPackage').on('click', '.btnAdd', function() {
-        // Get the last row index
-        var lastRowIndex = $('#tblPackage tr').length;
+        $('#tblAttribute').on('click', '.btnRemove', function() {
+            if ($('#tblAttribute tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
+        });
 
-        // Create a new row with the desired HTML structure
-        var newRowHtml = '<tr>' +
-            '<td>' + (lastRowIndex + 1) + '</td>' +
-            '<td>' +
-            '<select required name="package_id[]" class="form-control custom-select select2" style="width: 100%; height:36px;">' +
-            '@foreach ($package as $data)' +
-            '<option value="{{ $data->id }}">{{ $data->name }}</option>' +
-            '@endforeach' +
-            '</select>' +
-            '</td>' +
-            '<td>' +
-            '<input name="duration[]" required placeholder="Example: 7 Days" value="{{ old('ads') }}" class="form-control" type="number">' +
-            '</td>' +
-            '<td>' +
-            '<input name="price[]" required placeholder="Example: {{ config('siteSetting.currency_symble') }}50 " value="{{ old('price') }}" class="form-control" type="number">' +
-            '</td>' +
-            '<td>' +
-            '<div class="custom-control custom-switch">' +
-            '<input name="package_status[]" type="checkbox" class="custom-control-input" id="packageStatus' + (
-                lastRowIndex + 1) + '">' +
-            '<label style="padding: 5px 12px" class="custom-control-label" for="packageStatus' + (lastRowIndex +
-                1) + '"></label>' +
-            '</div>' +
-            '</td>' +
-            '<td class="text-nowrap text-center">' +
-            '<a title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
-            '<a title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
-            '</td>' +
-            '</tr>';
+        $('#tblFeature').on('click', '.btnRemove', function() {
+            if ($('#tblFeature tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
+        });
 
-        // Append the new row to the tblPackage table
-        $('#tblPackage tbody').append(newRowHtml);
+        $('#tblBrand').on('click', '.btnRemove', function() {
+            if ($('#tblBrand tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
+        });
+    </script>
 
-        $('.select2').select2();
-    });
-
-
-
-
-    $('#tblAttribute').on('click', '.btnAdd', function() {
-        // Get the last row index
-        var lastRowIndex = $('#tblAttribute tr').length;
-
-        // Create a new row with the desired HTML structure
-        var newRowHtml = '<tr>' +
-            '<td>' + (lastRowIndex + 1) + '</td>' +
-            '<td><input name="attribute_name[]" required type="text" class="form-control"></td>' +
-            '<td>' +
-            '<select required name="display_type[]" class="form-control form-control-sm custom-select" style="width: 100%; height:36px;">' +
-            '<option value="1">Checkbox</option>' +
-            '<option value="2">Select</option>' +
-            '<option value="3">Radio</option>' +
-            '<option value="4">Dropdown</option>' +
-            '</select>' +
-            '</td>' +
-            '<td><input name="is_required[]" id="eeditis_required' + (lastRowIndex + 1) +
-            '" type="checkbox"> <label for="eeditis_required' + (lastRowIndex + 1) + '">Yes/No</label></td>' +
-            '<td><input name="is_filter[]" id="editfilter' + (lastRowIndex + 1) +
-            '" type="checkbox"> <label for="editfilter' + (lastRowIndex + 1) + '">Yes/No</label></td>' +
-            '<td>' +
-            '<input name="attribute_value[]" type="text" value="" data-role="tagsinput" placeholder="Add value" />' +
-            '</td>' +
-            '<td>' +
-            '<div class="custom-control custom-switch">' +
-            '<input name="attribute_status[]" type="checkbox" class="custom-control-input" id="attributeStatus' +
-            (lastRowIndex + 1) + '">' +
-            '<label style="padding: 5px 12px" class="custom-control-label" for="attributeStatus' + (
-                lastRowIndex + 1) + '"></label>' +
-            '</div>' +
-            '</td>' +
-            '<td class="text-nowrap">' +
-            '<a href="javascript:void(0)" title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
-            '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
-            '</td>' +
-            '</tr>';
-
-        // Append the new row to the tblAttribute table
-        $('#tblAttribute tbody').append(newRowHtml);
-
-        // Initialize Tags Input on the new row
-        $('#tblAttribute tbody tr:last-child input[data-role=tagsinput]').tagsinput();
-    });
-
-
-
-
-
-    // Remove newly added row on button click
-    $('#tblPackage').on('click', '.btnRemove', function() {
-        if ($('#tblPackage tbody tr').length > 1) {
-            $(this).closest('tr').remove();
-        } else {
-            alert('At least one row should be present.');
-        }
-    });
-
-
-    $('#tblAttribute').on('click', '.btnRemove', function() {
-        if ($('#tblAttribute tbody tr').length > 1) {
-            $(this).closest('tr').remove();
-        } else {
-            alert('At least one row should be present.');
-        }
-    });
-</script>
-  
 
 
 @endsection

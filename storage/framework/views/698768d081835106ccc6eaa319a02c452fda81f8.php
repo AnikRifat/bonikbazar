@@ -266,7 +266,7 @@
                                         <div class="card ">
                                             <div class="card-body">
 
-                                                <div class="panel-group" id="accordion2" role="tablist"
+                                                <div class="panel-group" id="accordion1" role="tablist"
                                                     aria-multiselectable="true">
                                                     <ul id="sectionSositionSorting" data-table="modules"
                                                         style="padding: 0">
@@ -383,21 +383,21 @@
                                                     </ul>
                                                 </div>
 
-                                                <div class="panel-group" id="accordion" role="tablist"
+                                                <div class="panel-group" id="accordion2" role="tablist"
                                                     aria-multiselectable="true">
-                                                    <ul id="sectionSositionSorting" data-table="modules"
+                                                    <ul id="sectionSositionSorting2" data-table="modules"
                                                         style="padding: 0">
-                                                        <li id="attributeItem" class="module_section  deactive_module"
+                                                        <li id="attributeItem2" class="module_section  deactive_module"
                                                             title="Deactive this section">
                                                             <div class="panel panel-default">
                                                                 <div class="row panel-heading" role="tab">
                                                                     <div class="col-12">
                                                                         <h4 class="panel-title">
                                                                             <a role="button" data-toggle="collapse"
-                                                                                data-parent="#accordion"
-                                                                                href="#attributeSection"
+                                                                                data-parent="#accordion2"
+                                                                                href="#attributeSection2"
                                                                                 aria-expanded="true"
-                                                                                aria-controls="attributeSection"> Product
+                                                                                aria-controls="attributeSection2"> Product
                                                                                 Attribute
                                                                             </a>
                                                                         </h4>
@@ -405,7 +405,7 @@
 
                                                                 </div>
 
-                                                                <div id="attributeSection"
+                                                                <div id="attributeSection2"
                                                                     class="panel-collapse collapse collapse show"
                                                                     role="tabpanel">
                                                                     <div class="panel-body">
@@ -513,6 +513,216 @@
                                                         </li>
                                                     </ul>
                                                 </div>
+
+                                                <div class="panel-group" id="accordion3" role="tablist"
+                                                    aria-multiselectable="true">
+                                                    <ul id="sectionSositionSorting3" data-table="modules"
+                                                        style="padding: 0">
+                                                        <li id="attributeItem3" class="module_section  deactive_module"
+                                                            title="Deactive this section">
+                                                            <div class="panel panel-default">
+                                                                <div class="row panel-heading" role="tab">
+                                                                    <div class="col-12">
+                                                                        <h4 class="panel-title">
+                                                                            <a role="button" data-toggle="collapse"
+                                                                                data-parent="#accordion3"
+                                                                                href="#attributeSection3"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="attributeSection3"> Product
+                                                                                Feature
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div id="attributeSection3"
+                                                                    class="panel-collapse collapse collapse show"
+                                                                    role="tabpanel">
+                                                                    <div class="panel-body">
+                                                                        <div class="table-responsive"
+                                                                            style="min-height:110px">
+                                                                            <table id="tblFeature"
+                                                                                class="table table-bordered table-striped">
+                                                                                <thead style="text-wrap:nowrap;">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Product Feature Name</th>
+                                                                                        <th>Is Required</th>
+                                                                                        <th>Status</th>
+                                                                                        <th class="text-center">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td> <input name="feature_name[]"
+                                                                                                required=""
+                                                                                                type="text"
+                                                                                                class="form-control"></td>
+
+                                                                                        <td><input
+                                                                                                name="required_feature[]"
+                                                                                                id="featureis_required"
+                                                                                                type="checkbox"> <label
+                                                                                                for="featureis_required">
+                                                                                                Yes/No </label></td>
+
+
+
+
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="custom-control custom-switch">
+                                                                                                <input
+                                                                                                    name="feature_status[]"
+                                                                                                    type="checkbox"
+                                                                                                    type="checkbox"
+                                                                                                    class="custom-control-input"
+                                                                                                    id="featureStatus">
+                                                                                                <label
+                                                                                                    style="padding: 5px 12px"
+                                                                                                    class="custom-control-label"
+                                                                                                    for="featureStatus"></label>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td class="text-nowrap">
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="add"
+                                                                                                class="btn btn-success btn-sm btnAdd"><i
+                                                                                                    class="ti-plus"
+                                                                                                    aria-hidden="true"></i></a>
+
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="delete"
+                                                                                                class="btn btn-danger btn-sm text-white btnRemove"><i
+                                                                                                    class="ti-trash"
+                                                                                                    aria-hidden="true"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="panel-group" id="accordion4" role="tablist"
+                                                    aria-multiselectable="true">
+                                                    <ul id="sectionSositionSorting4" data-table="modules"
+                                                        style="padding: 0">
+                                                        <li id="attributeItem4" class="module_section  deactive_module"
+                                                            title="Deactive this section">
+                                                            <div class="panel panel-default">
+                                                                <div class="row panel-heading" role="tab">
+                                                                    <div class="col-12">
+                                                                        <h4 class="panel-title">
+                                                                            <a role="button" data-toggle="collapse"
+                                                                                data-parent="#accordion4"
+                                                                                href="#attributeSection4"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="attributeSection4"> Product
+                                                                                Brand
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div id="attributeSection4"
+                                                                    class="panel-collapse collapse collapse show"
+                                                                    role="tabpanel">
+                                                                    <div class="panel-body">
+                                                                        <div class="table-responsive"
+                                                                            style="min-height:110px">
+                                                                            <table id="tblBrand"
+                                                                                class="table table-bordered table-striped">
+                                                                                <thead style="text-wrap:nowrap;">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Brand Name</th>
+                                                                                        <th>Brand Logo</th>
+                                                                                        <th>Status</th>
+                                                                                        <th class="text-center">Action</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td> <input name="brand_name[]"
+                                                                                                required=""
+                                                                                                type="text"
+                                                                                                class="form-control"></td>
+
+                                                                                        <td>
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="dropify_image">Feature
+                                                                                                    Image</label>
+                                                                                                <input type="file"
+                                                                                                    class="dropify"
+                                                                                                    accept="image/*"
+                                                                                                    data-type='image'
+                                                                                                    data-allowed-file-extensions="jpg jpeg png gif"
+                                                                                                    data-max-file-size="2M"
+                                                                                                    name="brand_photo[]"
+                                                                                                    id="input-file-events">
+                                                                                            </div>
+                                                                                        </td>
+
+
+
+
+                                                                                        <td>
+                                                                                            <div
+                                                                                                class="custom-control custom-switch">
+                                                                                                <input
+                                                                                                    name="brand_status[]"
+                                                                                                    type="checkbox"
+                                                                                                    type="checkbox"
+                                                                                                    class="custom-control-input"
+                                                                                                    id="brandStatus">
+                                                                                                <label
+                                                                                                    style="padding: 5px 12px"
+                                                                                                    class="custom-control-label"
+                                                                                                    for="brandStatus"></label>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td class="text-nowrap">
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="add"
+                                                                                                class="btn btn-success btn-sm btnAdd"><i
+                                                                                                    class="ti-plus"
+                                                                                                    aria-hidden="true"></i></a>
+
+                                                                                            <a href="javascript:void(0)"
+                                                                                                title="delete"
+                                                                                                class="btn btn-danger btn-sm text-white btnRemove"><i
+                                                                                                    class="ti-trash"
+                                                                                                    aria-hidden="true"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
 
                                             </div>
                                         </div>
@@ -787,9 +997,6 @@
             $('.select2').select2();
         });
 
-
-
-
         $('#tblAttribute').on('click', '.btnAdd', function() {
             // Get the last row index
             var lastRowIndex = $('#tblAttribute tr').length;
@@ -835,7 +1042,59 @@
         });
 
 
+        $('#tblFeature').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblFeature tbody tr').length;
 
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td><input name="feature_name[]" required type="text" class="form-control"></td>' +
+                '<td><input name="required_feature[]" type="checkbox"> <label for="featureis_required"> Yes/No </label></td>' +
+                '<td><div class="custom-control custom-switch">' +
+                '<input name="feature_status[]" type="checkbox" class="custom-control-input" id="featureStatus' + (
+                    lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="featureStatus' + (lastRowIndex +
+                    1) + '"></label>' +
+                '</div></td>' +
+                '<td class="text-nowrap">' +
+                '<a href="javascript:void(0)" title="add" class="btn btn-success btn-sm btnAdd mr-1"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblFeature table
+            $('#tblFeature tbody').append(newRowHtml);
+        });
+
+        $('#tblBrand').on('click', '.btnAdd', function() {
+            // Get the last row index
+            var lastRowIndex = $('#tblBrand tbody tr').length;
+
+            // Create a new row with the desired HTML structure
+            var newRowHtml = '<tr>' +
+                '<td>' + (lastRowIndex + 1) + '</td>' +
+                '<td><input name="brand_name[]" required type="text" class="form-control"></td>' +
+                '<td><div class="form-group">' +
+                '<label class="dropify_image">Feature Image</label>' +
+                '<input type="file" class="dropify" accept="image/*" data-type="image" data-allowed-file-extensions="jpg jpeg png gif" data-max-file-size="2M" name="brand_photo[]" id="input-file-events"></div></td>' +
+                '<td><div class="custom-control custom-switch">' +
+                '<input name="brand_status[]" type="checkbox" class="custom-control-input" id="brandStatus' + (
+                    lastRowIndex + 1) + '">' +
+                '<label style="padding: 5px 12px" class="custom-control-label" for="brandStatus' + (lastRowIndex +
+                    1) + '"></label>' +
+                '</div></td>' +
+                '<td class="text-nowrap">' +
+                '<a href="javascript:void(0)" title="add" class="btn btn-success mr-1 btn-sm btnAdd"><i class="ti-plus" aria-hidden="true"></i></a>' +
+                '<a href="javascript:void(0)" title="delete" class="btn btn-danger btn-sm text-white btnRemove"><i class="ti-trash" aria-hidden="true"></i></a>' +
+                '</td>' +
+                '</tr>';
+
+            // Append the new row to the tblBrand table
+
+            $('#tblBrand tbody').append(newRowHtml);
+            $('.dropify').dropify();
+        });
 
 
         // Remove newly added row on button click
@@ -848,8 +1107,27 @@
         });
 
 
+
+
+
         $('#tblAttribute').on('click', '.btnRemove', function() {
             if ($('#tblAttribute tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
+        });
+
+        $('#tblFeature').on('click', '.btnRemove', function() {
+            if ($('#tblFeature tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            } else {
+                alert('At least one row should be present.');
+            }
+        });
+
+        $('#tblBrand').on('click', '.btnRemove', function() {
+            if ($('#tblBrand tbody tr').length > 1) {
                 $(this).closest('tr').remove();
             } else {
                 alert('At least one row should be present.');

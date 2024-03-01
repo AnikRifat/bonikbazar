@@ -31,6 +31,7 @@ class CategoryController extends Controller
     /**  Category list Display.*/
     public function category()
     {
+
         //check role permission
         $permission = $this->checkPermission('main-category');
         if (!$permission || !$permission['is_view']) {
@@ -42,8 +43,8 @@ class CategoryController extends Controller
         $get_data = $get_data->orderBy('position', 'asc')->get();
         $package = Package::orderBy('position', 'asc')->get();
 
-        return view('admin.category.edit.test')->with(compact('get_data', 'package', 'permission'));
-        // return view('admin.category.category')->with(compact('get_data','package', 'permission'));
+        // return view('admin.category.edit.test')->with(compact('get_data', 'package', 'permission'));
+        return view('admin.category.category')->with(compact('get_data','package', 'permission'));
     }
 
     public function getcategory()
@@ -54,7 +55,7 @@ class CategoryController extends Controller
     /** Store a new category.*/
     public function category_store(Request $request)
     {
-        //  return $request;
+        // return $request;
 
 
         // $main = $request->attribute_value;

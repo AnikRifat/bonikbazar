@@ -277,7 +277,7 @@
     <script type="text/javascript">
 
         function edit(id){
-          
+
             var  url = '{{route("brand.edit", ":id")}}';
             url = url.replace(':id',id);
             $.ajax({

@@ -66,11 +66,10 @@ class BrandController extends Controller
     //edit brand
     public function edit($id)
     {
+       
         $data['permission'] = $this->checkPermission('product-brand', 'is_edit');
-        if(!$permission){ return env('PERMISSION_MSG'); }
-
+        if(!$data['permission']){ return env('PERMISSION_MSG'); }
         $data['get_category'] = Category::where('parent_id', '=' , null)->orderBy('name', 'asc')->get();
-
         $data['data'] = Brand::find($id);
         echo view('admin.edit.brand')->with($data);
     }
