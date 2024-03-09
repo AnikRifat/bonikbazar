@@ -7,6 +7,19 @@
         .h-300 .dropify-wrapper {height: 300px !important;}.dropify-wrapper {height: 140px !important;}
 .h-500 .dropify-wrapper {height: 600px !important; width: 240px;}
 
+
+   /* CSS for zoom effect */
+    /* .zoomable-image {
+        transition: transform 0.2s ease;
+    }
+
+    .zoomable-image:hover {
+        transform: scale(1.2); 
+    } */
+
+    
+
+   
     </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -335,7 +348,10 @@
                         <h4 class="modal-title">Update Advertisement</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body form-row" id="edit_form"></div>
+                    <div class="modal-body form-row" id="edit_form">
+
+                    
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-sm btn-success">Update</button>
@@ -367,6 +383,10 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+
+   
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
     <!-- This is data table -->
@@ -433,6 +453,8 @@
             });
         }
     </script>
+
+  
 
 <?php $__env->stopSection(); ?>
 

@@ -28,6 +28,7 @@ use App\Models\PaymentGateway;
 use App\Models\SiteSetting;
 use App\Traits\CreateSlug;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -423,7 +424,7 @@ class PostController extends Controller
 
         if ($store) {
             $message = "Post create successfully. Your post under review";
-            return  handleResponse('success', $request, $message, ['case' => 3, 'url' => 'post.list', 'message' => $$message]);
+            return  handleResponse('success', $request, $message, ['case' => 3, 'url' => 'post.list', 'message' => $message]);
         } else {
             return handleResponse('error',$request,'Post Cannot Create.!');
         }
