@@ -15,7 +15,12 @@ class LinkAdController extends Controller
 
     public function index(Request $request){
         $advertisements = Addvertisement::where("user_id", Auth::id())->orderBy('id', 'DESC')->paginate(15);
-        return view('users.linkAds.index')->with(compact('advertisements'));
+
+        if($request->is('api/*')){
+            return response()->json($advertisements);
+        } else {
+            return view('users.linkAds.index')->with(compact('advertisements'));
+        }
     }
  
 

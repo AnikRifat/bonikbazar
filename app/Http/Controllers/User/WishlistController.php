@@ -12,11 +12,15 @@ use Illuminate\Support\Facades\DB;
 class WishlistController extends Controller
 {
     //display wishlist
-    public function index()
+    public function index(Request $request)
     {
         $wishlists = Wishlist::with('get_product:id,title,slug,price,feature_image')->where('user_id', Auth::id())->paginate(15);
 
-        return view('users.wishlist', compact('wishlists'));
+        if($request->is('api/*')){
+            return response()->json($wishlists);
+        } else {
+            return view('users.wishlist', compact('wishlists'));
+        }
     }
 
     //insert wishlist

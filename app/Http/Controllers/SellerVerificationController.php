@@ -27,7 +27,7 @@ class SellerVerificationController extends Controller
 {
 
     use CreateSlug;
-    public function verifyAccount()
+    public function verifyAccount(Request $request)
     {
         $data['user'] = User::with("sellerVerify")->find(Auth::id());
 
@@ -37,7 +37,12 @@ class SellerVerificationController extends Controller
         $data['states'] = State::orderBy('position', 'desc')->where('status', 1)->get();
         $data['cities'] = City::where('state_id', $region )->where('status', 1)->get();
         $data['paymentgateways'] = PaymentGateway::orderBy('position', 'asc')->where('method_for', '!=', 'payment')->where('status', 1)->get();
-        return view('users.seller-verify')->with($data);
+        
+        if($request->is('api/*')){
+            return response()->json($data);
+        } else {
+            return view('users.seller-verify')->with($data);
+        }
     } 
 
     public function verifyAccountRequest(Request $request){

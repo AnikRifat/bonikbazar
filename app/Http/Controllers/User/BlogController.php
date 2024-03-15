@@ -12,16 +12,24 @@ use Brian2694\Toastr\Facades\Toastr;
 class BlogController extends Controller
 {
     use CreateSlug;
-    public function index()
+    public function index(Request $request)
     {
         $user_id = Auth::id();
         $blogs = Blog::withCount('comments')->where('user_id', $user_id)->orderBy('id', 'desc')->paginate(15);
-        return view('users.blog.index')->with(compact('blogs'));
+        
+        if($request->is('api/*'))
+            return response()->json($blogs);
+        else
+            return view('users.blog.index')->with(compact('blogs'));
     } 
 
-    public function create(){
+    public function create(Request $request){
         $data['categories'] = Category::where('parent_id', '=', null)->orderBy('name', 'asc')->where('status', 1)->get();
-        return view('users.blog.blog')->with($data);
+        
+        if($request->is('api/*'))
+            return response()->json($data);
+        else
+            return view('users.blog.blog')->with($data);
     }
 
        //store new post
@@ -58,21 +66,32 @@ class BlogController extends Controller
 
         $store = $data->save();
 
-        if($store) {
-            
-            Toastr::success('Blog Create Successfully.');
-        }else{
-            Toastr::error('Blog Cannot Create.!');
+        if($request->is('api/*')){
+            if($store) {
+                return response()->json(["message" => "Blog Create Successfully."]);
+            }else{
+                return response()->json(["message" => "Blog Cannot Create.!"]);
+            }
+        } else {
+            if($store) {
+                Toastr::success('Blog Create Successfully.');
+            }else{
+                Toastr::error('Blog Cannot Create.!');
+            }
+            return back();
         }
-        return back();
     }
 
          //edit post
-    public function edit($slug)
+    public function edit($slug, Request $request)
     {
         $data['blog'] = Blog::where('slug', $slug)->where('user_id', Auth::id())->first();
         $data['categories'] = Category::where('parent_id', '=', null)->orderBy('name', 'asc')->where('status', 1)->get();
-        return view('users.blog.blog-edit')->with($data);
+        
+        if($request->is('api/*'))
+            return response()->json($data);
+        else
+            return view('users.blog.blog-edit')->with($data);
     }
 
     //update new post
@@ -88,39 +107,55 @@ class BlogController extends Controller
         
         if($data){
        
-        $data->title = $request->title;
-        $data->description = $request->description;
-        $data->category_id = $request->category_id;
-        $data->keywords = ($request->meta_keywords) ? implode(',', $request->meta_keywords) : null;
-       //if feature image set
-        if ($request->hasFile('feature_image')) {
-            $getimage_path = public_path('upload/images/blog/'.$data->image);
-            if(file_exists($getimage_path) && $data->image){
-                unlink($getimage_path);
-                unlink(public_path('upload/images/blog/thumb/'.$data->image));
+            $data->title = $request->title;
+            $data->description = $request->description;
+            $data->category_id = $request->category_id;
+            $data->keywords = ($request->meta_keywords) ? implode(',', $request->meta_keywords) : null;
+            //if feature image set
+            if ($request->hasFile('feature_image')) {
+                $getimage_path = public_path('upload/images/blog/'.$data->image);
+                if(file_exists($getimage_path) && $data->image){
+                    unlink($getimage_path);
+                    unlink(public_path('upload/images/blog/thumb/'.$data->image));
+                }
+                $image = $request->file('feature_image');
+                $new_image_name = $this->uniqueImagePath('blogs', 'image', $request->title.'.'.$image->getClientOriginalExtension());
+                $image_path = public_path('upload/images/blog/thumb/'.$new_image_name);
+                $image_resize = Image::make($image);
+                $image_resize->resize(200, 150);
+                $image_resize->save($image_path);
+                $image->move(public_path('upload/images/blog'), $new_image_name);
+                $data->image = $new_image_name;
             }
-            $image = $request->file('feature_image');
-            $new_image_name = $this->uniqueImagePath('blogs', 'image', $request->title.'.'.$image->getClientOriginalExtension());
-            $image_path = public_path('upload/images/blog/thumb/'.$new_image_name);
-            $image_resize = Image::make($image);
-            $image_resize->resize(200, 150);
-            $image_resize->save($image_path);
-            $image->move(public_path('upload/images/blog'), $new_image_name);
-            $data->image = $new_image_name;
-        }
 
-        $update = $data->save();
+            $update = $data->save();
 
-            if($update) {
-             
-                Toastr::success('Blog update success.');
-            }else{
-                Toastr::error('Blog update failed.!');
+            if($request->is('api/*')){
+                if($update) {
+                    return response()->json(["message" => "Blog update success."]);
+                }else{
+                    return response()->json(["message" => "Blog update failed.!"]);
+                }
+            } else {
+                if($update) {
+                    Toastr::success('Blog update success.');
+                }else{
+                    Toastr::error('Blog update failed.!');
+                }
             }
         }else{
-            Toastr::error('Blog update failed.!');
+            if($request->is('api/*')){
+                return response()->json(["message" => "Blog update failed.!"]);
+            } else {
+                Toastr::error('Blog update failed.!');
+            }
         }
-        return back();
+
+        if($request->is('api/*')){
+            return response()->json(["message" => "Blog update failed.!"]);
+        } else {
+            return back();
+        }
     }
 
     // delete blog

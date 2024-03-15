@@ -68,12 +68,13 @@ route::group(['middleware' => ['api', 'auth:api']], function(){
 	Route::get('realtime/message', 'MessageController@realTimeMessage')->name('realTimeMessage');
 	Route::get('block/user/{id}', 'MessageController@blockUser')->name('blockUser');
 
-
+	//Notification //D
 	Route::get('count/notification', 'NotificationController@countMessageNotification')->name('countMessageNotification');
-	Route::get('get/notifications', 'NotificationController@getNotifications')->name('getNotifications');
+	Route::get('get/notifications', 'NotificationController@getNotifications')->name('getNotifications'); //ND
 	Route::get('notifications', 'NotificationController@allNotifications')->name('allNotifications');
 	Route::get('read/notifications/{id?}', 'NotificationController@readNotify')->name('readNotify');
 
+	//Follower //D
 	Route::get('user/follower', 'ShopController@follower')->name('follower');
 
 	Route::get('seller/report', 'ReportController@reportForm')->name('reportForm');
@@ -120,7 +121,7 @@ route::group(['middleware' => ['api', 'auth:api']], function(){
  		Route::post('post/update/{id}', 'PostController@update')->name('post.update');
  		Route::post('post/delete', 'PostController@delete')->name('post.delete');
 
-
+		//Link Ads
  		Route::get('link/ad/list', 'LinkAdController@index')->name('linkAds');
  		Route::post('link/ad', 'LinkAdController@store')->name('storeLinkAd');
  		Route::get('link/ad/edit/{id}', 'LinkAdController@edit')->name('linkAd.edit');
@@ -130,16 +131,18 @@ route::group(['middleware' => ['api', 'auth:api']], function(){
  		Route::get('add/number', 'UserController@addNumber')->name('addNumber');
  		Route::get('verify/number', 'UserController@verifyNumber')->name('verifyNumber');
 
+		//Add Email
  		Route::get('add/email', 'UserController@addEmail')->name('addEmail');
  		Route::get('verify/email', 'UserController@verifyEmail')->name('verifyEmail');
-
+		
+		//Wishlist //D
 		Route::get('addto/wishlist', 'WishlistController@store')->name('wishlist.add');
 		Route::get('wishlist', 'WishlistController@index')->name('wishlists');
 		Route::get('wishlist/remove/{id}', 'WishlistController@remove')->name('wishlist.remove');
 		
 		
 
-		//blog routes
+		//blog routes //D
 		Route::get('blog/list', 'BlogController@index');
  		Route::get('blog/create', 'BlogController@create');
  		Route::post('blog/store', 'BlogController@store');
