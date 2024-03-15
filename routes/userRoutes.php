@@ -104,8 +104,7 @@ route::group(['middleware' => ['auth']], function(){
  		Route::get('post/edit/{slug}', 'PostController@edit')->name('post.edit');
  		Route::post('post/update/{id}', 'PostController@update')->name('post.update');
  		Route::post('post/delete', 'PostController@delete')->name('post.delete');
-
-
+		
  		Route::get('link/ad/list', 'LinkAdController@index')->name('linkAds');
  		Route::post('link/ad', 'LinkAdController@store')->name('storeLinkAd');
  		Route::get('link/ad/edit/{id}', 'LinkAdController@edit')->name('linkAd.edit');

@@ -23,6 +23,11 @@ Route::group(['middleware' => ['auth:admin', 'admin']], function(){
 	Route::get('general/setting', 'GeneralSettingController@generalSetting')->name('generalSetting');
 	Route::post('general/setting/update/{id}', 'GeneralSettingController@generalSettingUpdate')->name('generalSettingUpdate');
 
+
+	Route::get('add/setting', 'AddSettingController@create')->name('addSetting');
+	Route::post('add/setting/update/{id}', 'AddSettingController@update')->name('addSettingUpdate');
+
+
 	Route::get('logo/setting', 'GeneralSettingController@logoSetting')->name('logoSetting');
 	Route::post('logo/setting/update/{id}', 'GeneralSettingController@logoSettingUpdate')->name('logoSettingUpdate');
 

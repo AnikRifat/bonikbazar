@@ -84,7 +84,7 @@ class CategoryController extends Controller
         $data->name = $request->name;
         $data->slug = $this->createSlug('categories', $request->name);
         $data->notes = $request->notes;
-        $data->status = ($request->status ? 1 : 0);
+        $data->status = ($request->status ?? null) == 'on' ? 1 : null;
         $data->created_by = Auth::id();
 
 

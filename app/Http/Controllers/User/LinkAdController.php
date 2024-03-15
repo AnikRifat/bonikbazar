@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PaypalController;
+use App\Models\AddSetting;
 use App\Models\Addvertisement;
 use App\Models\Page;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Session;
+use Illuminate\Support\Facades\Session;
+
 class LinkAdController extends Controller
 {
 
@@ -33,13 +36,15 @@ class LinkAdController extends Controller
             'redirect_url' => 'required',
         ]);
 
+        $setting =  AddSetting::where('type',2)->first();
+        
         $start_date = Carbon::parse($request->start_date);
         $days = $start_date->diffInDays($request->end_date);
-        $amount = (100 * $days);
+        $amount=0;
 
         $data = new Addvertisement();
         $data->user_id = Auth::id();
-        $data->amount = $amount;
+        
         $data->ads_name = "link ad";
         $data->adsType = "linkAd";
         $data->page = "all";
@@ -54,6 +59,7 @@ class LinkAdController extends Controller
 
         $data->position = $request->desktopAd_position;
         if($request->hasFile('desktop_image')) {
+            $amount += ($setting->price!=null? ($setting->price*$days):  0);
             $image = $request->file('desktop_image');
             $image_name = time().$image->getClientOriginalName();
             $image->move(public_path('upload/marketing'), $image_name);
@@ -62,6 +68,7 @@ class LinkAdController extends Controller
 
         $data->sideAd_position = $request->sideAd_position;
         if($request->hasFile('sideAd_image')) {
+            $amount += ($setting->side_bn_price!=null? ($setting->side_bn_price*$days):  0);
             $image = $request->file('sideAd_image');
             $image_name = time().$image->getClientOriginalName();
             $image->move(public_path('upload/marketing'), $image_name);
@@ -70,13 +77,14 @@ class LinkAdController extends Controller
 
         $data->mobile_position = $request->mobile_position;
         if($request->hasFile('mobile_image')) {
+            $amount += ($setting->mob_bn_price!=null? ($setting->mob_bn_price*$days):  0);
             $image = $request->file('mobile_image');
             $image_name = time().$image->getClientOriginalName();
             $image->move(public_path('upload/marketing'), $image_name);
 
             $data->mobile_image = $image_name;
         }
-
+        $data->amount = $amount;
         $store = $data->save();
        
         if($store){
