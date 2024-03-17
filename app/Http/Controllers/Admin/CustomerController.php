@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Transaction;
 use App\Models\Notification;
 use App\Models\Product;
+use App\Models\SellerMembership;
 use App\Models\SellerVerification;
 use App\Traits\Sms;
 use App\User;
@@ -20,29 +21,37 @@ class CustomerController extends Controller
 {
     use Sms;
     public function customerList(Request $request, $status= ''){
+
+        //return $request;
+
         //check role permission
         $permission = $this->checkPermission('manage-users');
         if(!$permission || !$permission['is_view']){ return back(); }
 
-        $customers  = User::withCount('posts')->leftjoin("seller_verifications", "users.id", "seller_verifications.seller_id");
+        // return $request;
+
+        $customers  = User::withCount('posts')->with("sellerVerify","sellerMembership");
+
+        // $customers  = User::withCount('posts')->leftjoin("seller_verifications", "users.id", "seller_verifications.seller_id")->leftjoin("seller_memberships", "users.id", "seller_memberships.seller_id");
         if($status){
-            if($request->status == 'verified'){
-                $customers->where('seller_verifications.status', 'active');
-            }elseif($request->status == 'unverified'){
-                $customers->whereNull('verify');
-            }else{
-                $customers->where('users.status', $status);
-            }
+            $customers->where('users.membership', $status);
+            // if($request->status == 'verified'){
+            //     $customers->where('seller_verifications.status', 'active');
+            // }elseif($request->status == 'unverified'){
+            //     $customers->whereNull('verify');
+            // }else{
+            //     $customers->where('users.membership', $status);
+            // }
         }
         
         if(!$status && $request->status && $request->status != 'all'){
-            if($request->status == 'verified'){
-                $customers->where('seller_verifications.status', 'active');
-            }elseif($request->status == 'unverified'){
-                $customers->whereNull('verify');
-            }else{
+            // if($request->status == 'verified'){
+            //     $customers->where('seller_verifications.status', 'active');
+            // }elseif($request->status == 'unverified'){
+            //     $customers->whereNull('verify');
+            // }else{
                 $customers->where('status', $request->status);
-            }
+            // }
             
         }if($request->name && $request->name != 'all'){
             $keyword = $request->name;
@@ -56,6 +65,8 @@ class CustomerController extends Controller
         }
         $customers  = $customers->orderBy('users.id', 'desc')->selectRaw("users.*")->paginate(15);
         $locations = City::orderBy('name', 'asc')->get();
+
+        //  return $customers;
         return view('admin.customer.customer')->with(compact('customers', 'locations', 'permission'));
     }
 
@@ -150,8 +161,11 @@ class CustomerController extends Controller
 
     //user verify request list
     public function verifyRequest(){
-        $customers  = SellerVerification::with("user")->where('status', "pending")->withCount('posts')->paginate(25);
-        return view('admin.customer.verifyRequest')->with(compact('customers'));
+        $sellerMemberships = SellerMembership::with(["user", "sellerVerify"])->where('payment_method', '!=', 'pending')->where("status", "pending")->orderBy("id", "desc")->paginate(25);
+        // return $sellerMemberships;
+        return view("admin.membership.membershipRequest")->with(compact("sellerMemberships"));
+        // $customers  = SellerVerification::with("user")->where('status', "pending")->withCount('posts')->paginate(25);
+        // return view('admin.customer.verifyRequest')->with(compact('customers'));
     }
 
 

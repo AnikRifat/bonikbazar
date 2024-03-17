@@ -147,16 +147,18 @@
                     </ul>
                 </li>
            <?php elseif($module['slug'] == 'manage-users'): ?>
-                <?php $verifyRequest = App\Models\SellerVerification::where('status', 'pending')->count(); ?>
+                
+                 <?php $verifyRequest = App\Models\SellerMembership::with(["user", "sellerVerify"])->where('payment_method', '!=', 'pending')->where("status", "pending")->orderBy("id", "desc")->count();?>
+
                 <?php if($role_id == SUPER_ADMIN || ($modulePermission && $modulePermission['is_view'] == 1) ): ?>
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Manage Users <span class="badge badge-pill badge-primary text-white ml-auto"><?php echo e($verifyRequest); ?></span></span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="<?php echo e(route('customer.list')); ?>">All Users</a></li>
-                        <li><a href="<?php echo e(route('customer.list', 'active')); ?>">Active Users</a></li>
-                        <li><a href="<?php echo e(route('customer.list', 'band')); ?>">Banded Users</a></li>
-                        <li><a href="<?php echo e(route('customer.list', 'verified')); ?>">Verified Users</a></li>
-                        <li><a href="<?php echo e(route('customer.list', 'unverified')); ?>">Unverified Users</a></li>
-                        <li><a href="<?php echo e(route('userVerifyRequest')); ?>">Verified Request <span class="badge badge-pill badge-primary text-white ml-auto"><?php echo e($verifyRequest); ?></span></a></li>
+                        <li><a href="<?php echo e(route('customer.list', 'agent')); ?>">Agent Bonik</a></li>
+                        <li><a href="<?php echo e(route('customer.list', 'verified')); ?>">Verified Bonik</a></li>
+                        <li><a href="<?php echo e(route('customer.list', 'authentic')); ?>">Authentic Bonik</a></li>
+                        <li><a href="<?php echo e(route('customer.list', 'wholesale')); ?>">Wholesale Bonik</a></li>
+                        <li><a href="<?php echo e(route('userVerifyRequest')); ?>">Membership Request <span class="badge badge-pill badge-primary text-white ml-auto"><?php echo e($verifyRequest); ?></span></a></li>
                     </ul>
                 </li>
                 <?php endif; ?>

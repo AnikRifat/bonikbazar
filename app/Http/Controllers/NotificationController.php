@@ -22,8 +22,11 @@ class NotificationController extends Controller
         }
         $notifications = $notifications->orderBy('created_at', 'desc')->paginate(20);
 
-       
-        return view('users.notifications.notifications')->with(compact('notifications'));
+        if($request->is('api/*')){
+            return response()->json($notifications);
+        } else {
+            return view('users.notifications.notifications')->with(compact('notifications'));
+        }
     }
     
     public function countMessageNotification()
@@ -51,7 +54,7 @@ class NotificationController extends Controller
         return response()->json(["notifications" => $notifications]); 
     }
 
-    public function readNotify(int $id=null)
+    public function readNotify(int $id=null, Request $request)
     {
         $user_id = Auth::user()->id;
         $notify = Notification::where('toUser', $user_id);
@@ -60,7 +63,12 @@ class NotificationController extends Controller
         }
         
         $notify->update(['read' => 1]);
-        return back();
+
+        if($request->is('api/*')){
+            return response()->json(["message" => "Success"]);
+        } else {
+            return back();
+        }
     }
 
     public function markAllread()
