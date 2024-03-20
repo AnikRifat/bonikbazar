@@ -497,7 +497,11 @@ class HomeController extends Controller
 
         
         if($request->filter){
-            return view('frontend.post-filter')->with($data);
+            if($request->is('api/*')){
+                return response()->json($data);
+            }else{
+                return view('frontend.post-filter')->with($data);
+            }
         }else{
 
             $data['get_category'] = Category::with(['get_subcategory' => function($query) use ($product_id){ $query->withCount(['productsBySubcategory' => function($query) use ($product_id){ $query->whereIn('id', $product_id); } ]);} ])->withCount(['productsByCategory' => function($query) use ($product_id){ $query->whereIn('id', $product_id);}])->whereNull('parent_id')->orderBy('products_by_category_count', 'desc')->where('status', 1)->get();
@@ -511,8 +515,12 @@ class HomeController extends Controller
             }])->orderBy('products_by_state_count', 'desc')->get();
 
             $data['brands'] =  Brand::join('products', 'brands.id', 'products.brand_id')->groupBy('brand_id')->where('brands.status', 1)->where('products.category_id', $category_id)->orderBy('brands.position', 'asc')->selectRaw('brands.*')->get();
-
-            return view('frontend.category-details')->with($data);
+            
+            if($request->is('api/*')){
+                return response()->json($data);
+            }else{
+                return view('frontend.category-details')->with($data);
+            }
         }
     }
 
@@ -766,7 +774,8 @@ class HomeController extends Controller
         if($data['post_detail']) {
             //recent views set category id
             $recent_catId = ($data['post_detail']->childcategory_id) ? $data['post_detail']->childcategory_id : $data['post_detail']->subcategory_id;
-            $recentViews = (Cookie::has('recentViews') ? json_decode(Cookie::get('recentViews')) :  []);
+            // $recentViews = (Cookie::has('recentViews') ? json_decode(Cookie::get('recentViews')) :  []);
+            $recentViews = (Cookie::has('recentViews') ? json_decode(Cookie::get('recentViews')) :  []) ?? [];
             $recentViews = array_merge([$recent_catId], $recentViews);
             $recentViews = array_values(array_unique($recentViews)); //reindex & remove duplicate value
             Cookie::queue('recentViews', json_encode($recentViews), time() + (86400));
@@ -800,10 +809,17 @@ class HomeController extends Controller
 
             $data['related_products'] = $related_products->where('id', '!=', $data['post_detail']->id)->selectRaw('id,title,slug,feature_image,price,sale_type,brand_id,category_id,subcategory_id,state_id,created_at')->inRandomOrder()->take(6)->get();
 
-         
-            return view('frontend.ads-details')->with($data);
+            if($request->is('api/*')){
+                return response()->json($data);
+            } else {
+                return view('frontend.ads-details')->with($data);
+            }
         }else{
-            return view('404');
+            if($request->is('api/*')){
+                return response()->json(["message" => 404]);
+            } else {
+                return view('404');
+            }
         }
     }
 
