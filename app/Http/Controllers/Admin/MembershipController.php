@@ -7,6 +7,7 @@ use App\Models\Membership;
 use App\Models\MembershipDuration;
 use App\Models\SellerMembership;
 use App\Models\Notification;
+use App\Models\SellerVerification;
 use App\User;
 use App\Traits\CreateSlug;
 use Brian2694\Toastr\Facades\Toastr;
@@ -210,6 +211,7 @@ class MembershipController extends Controller
     public function membershipRequests(){
         $sellerMemberships = SellerMembership::with(["user", "sellerVerify"])->where('payment_method', '!=', 'pending')->where("status", "pending")->orderBy("id", "desc")->paginate(25);
 
+        //  return $sellerMemberships;
         return view("admin.membership.membershipRequest")->with(compact("sellerMemberships"));
     }    
 
@@ -231,11 +233,14 @@ class MembershipController extends Controller
 
     //membership request accept/reject 
     public function membershipRequestUpdate(Request $request){
+
+        // return $request;
   
         $sellerMembership = SellerMembership::where('id', $request->id)->first();
 
         if($sellerMembership){
             $customer = User::find($sellerMembership->seller_id);
+         $sellerVerification = SellerVerification::where("seller_id", $sellerMembership->seller_id)->first();
 
             if($customer){
                 if($request->status == 'active'){
@@ -243,6 +248,11 @@ class MembershipController extends Controller
                     $sellerMembership->payment_status = "paid";
                     $sellerMembership->reject_reason = null;
                     $sellerMembership->save(); 
+
+
+                   
+                    $sellerVerification->status = "active";
+                    $sellerVerification->save();
 
                     $customer->verify = now();
                     $customer->membership_date = Carbon::parse($sellerMembership->end_date)->format("Y-m-d");
