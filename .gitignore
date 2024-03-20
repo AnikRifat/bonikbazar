@@ -1,7 +1,7 @@
 /node_modules
 /resources/scripts
-/public/assets
-/public/upload
+# /public/assets
+# /public/upload
 /public/frontend/image
 /public/hot
 /public/storage
