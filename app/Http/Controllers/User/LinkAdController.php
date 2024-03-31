@@ -29,7 +29,7 @@ class LinkAdController extends Controller
 
     public function store(Request $request)
     {
-
+// return $request;
         $request->validate([
             'start_date' => 'required',
             'end_date' => 'required',
@@ -95,12 +95,21 @@ class LinkAdController extends Controller
                 'currency' => config('siteSetting.currency'),
                 'payment_method' => $request->payment_method
             ];
-            Session::put('payment_data', $data);
-        }else{
-            Toastr::error('Payment failed.');
-            return redirect()->back();
-        }
 
+            // if ($request->is('api/*')) {
+            //     return response()->json(["payment_data" => $data]);
+            // } else {
+                Session::put('payment_data', $data);
+            // }
+        }else{
+            if ($request->is('api/*')) {
+                return response()->json(["message" => "Payment failed."]);
+            } else {
+                Toastr::error('Payment failed.');
+                return redirect()->back();
+            }
+        }
+        
         if($request->payment_method == 'paypal'){
             //redirect PaypalController for payment process
             $paypal = new PaypalController;
@@ -113,8 +122,9 @@ class LinkAdController extends Controller
             Session::put('payment_data.trnx_id', $request->trnx_id);
             Session::put('payment_data.payment_info', $request->payment_info);
             //redirect payment success method
-            return $this->paymentSuccess();
+            return $this->paymentSuccess($request);
         }
+        
         return back();
     }
 
@@ -219,7 +229,7 @@ class LinkAdController extends Controller
 
 
     //payment status success then update payment status
-    public function paymentSuccess(){
+    public function paymentSuccess(Request $request){
 
         $payment_data = Session::get('payment_data');
 
@@ -236,11 +246,20 @@ class LinkAdController extends Controller
                 $addvertisement->payment_info = (isset($payment_data['payment_info'])) ? $payment_data['payment_info'] : null;
                 $addvertisement->save();
 
-                Toastr::success('Your link ad has been successfully completed.');
-                return redirect()->route('linkAds');
+                if ($request->is('api/*')) {
+                    return response()->json(["message" => "Your link ad has been successfully completed."]);
+                } else {
+                    Toastr::success('Your link ad has been successfully completed.');
+                    return redirect()->route('linkAds');
+                }
             }
         }
-        Toastr::error('Sorry payment failed.');
-        return redirect()->route('post.create')->with('error', 'Sorry payment failed.');
+
+        if ($request->is('api/*')) {
+            return response()->json(["message" => "Sorry payment failed."]);
+        } else {
+            Toastr::error('Sorry payment failed.');
+            return redirect()->route('post.create')->with('error', 'Sorry payment failed.');
+        }
     }
 }

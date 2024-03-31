@@ -74,7 +74,6 @@ class PostController extends Controller
 
         //insert first step category & image
         if ($request->isMethod('post') && !$category) {
-
             $category = Category::where('id', $request->category)->where('parent_id', '!=', null)->where('status', 1)->first();
             $category_id = ($category) ? $category->parent_id : $request->category;
             $subcategory_id = ($category) ? $request->category : null;
@@ -221,8 +220,12 @@ class PostController extends Controller
 
             $data['get_category'] = Category::with('get_subcategory')->whereNull('parent_id')->where('status', 1)->get();
             $data['states'] =  State::with('get_city')->orderBy('position', 'desc')->get();
-
-            return view('users.post.ad-post')->with($data);
+            
+            if($request->is('api/*')){
+                return response()->json(['data' => $data]);
+            }else{
+                return view('users.post.ad-post')->with($data);
+            }
         }
 
         $data['regions'] = State::with("get_city")->orderBy('position', 'desc')->where('status', 1)->get();
@@ -242,6 +245,7 @@ class PostController extends Controller
     //store new post
     public function store(Request $request)
     {
+        // return $request;
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'post_id' => 'required',
@@ -341,6 +345,7 @@ class PostController extends Controller
     //store wanted ad post
     public function storeWantedPost(Request $request)
     {
+        // return $request;
         $validator = Validator::make($request->all(), [
             'title' => 'required',
         ]);
