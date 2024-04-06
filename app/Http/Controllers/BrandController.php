@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\BrandModel;
 use App\Models\Category;
 use App\Traits\CreateSlug;
 use Brian2694\Toastr\Facades\Toastr;
@@ -77,8 +78,9 @@ class BrandController extends Controller
     //update brand
     public function update(Request $request, Brand $brand)
     {
-        $data['permission'] = $this->checkPermission('product-brand', 'is_edit');
-        if(!$permission){ Toastr::error(env('PERMISSION_MSG')); return back(); }
+       
+         $data['permission'] = $this->checkPermission('product-brand', 'is_edit');
+        if(!$data['permission']){ Toastr::error(env('PERMISSION_MSG')); return back(); }
 
         $request->validate([
             'category_id' => 'required',
@@ -152,6 +154,65 @@ class BrandController extends Controller
         }
         return response()->json($output);
     }
+
+
+
+    public function brandmodel_store(Request $request)
+{
+    // Validate the request data
+    $request->validate([
+        'model_name' => 'required|array', // Ensure model_name is an array
+        'model_name.*' => 'string', // Ensure each item in model_name is a string
+    ]);
+
+    // Initialize $store variable to keep track of the success of the database operation
+    $store = false;
+
+    // Loop through each model_name provided in the request
+    foreach ($request->model_name as $modelName) {
+        // Split the string by comma and trim whitespace from each item
+        $modelNames = array_map('trim', explode(',', $modelName));
+
+        // Loop through each item after splitting by comma
+        foreach ($modelNames as $name) {
+            // Create a new BrandModel instance
+            $data = new BrandModel();
+            $data->name = $name;
+            $data->brand_id = $request->brand_id;
+            $data->status = $request->has('status') ? 1 : 0; // Check if status key is present in request
+            $data->created_by = Auth::guard('admin')->id();
+
+            // Save the BrandModel instance
+            $store = $data->save();
+        }
+    }
+
+    // Check if data was successfully stored in the database
+    if ($store) {
+        Toastr::success('Model(s) created successfully.');
+    } else {
+        Toastr::error('Model(s) could not be created.');
+    }
+
+    // Redirect back to the previous page
+    return back();
+}
+
+
+public function brandmodel($slug)
+{
+    $data['brand'] = Brand::where('slug', $slug)->first();
+    if( $data['brand']) {
+        $data['get_data'] = BrandModel::where('brand_id', $data['brand']->id)->get();
+    }else{
+        Toastr::error('Attribute not found.!');
+        return back();
+    }
+
+    // return $data;
+ return view('admin.brand.brand_model')->with($data);
+}
+
 
 
 }

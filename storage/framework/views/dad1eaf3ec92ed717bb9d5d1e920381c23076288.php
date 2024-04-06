@@ -1,21 +1,21 @@
-@extends('layouts.admin-master')
-@section('title', 'Brand list')
-@section('css-top')
-    <link href="{{asset('assets')}}/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
-@endsection
 
-@section('css')
-    <link rel="stylesheet" type="text/css"
-        href="{{asset('assets')}}/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
-    <link rel="stylesheet" type="text/css"
-        href="{{asset('assets')}}/node_modules/datatables.net-bs4/css/responsive.dataTables.min.css">
-    <link href="{{asset('assets')}}/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets')}}/node_modules/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
-    <link href="{{asset('css')}}/pages/bootstrap-switch.css" rel="stylesheet">
-    <link href="{{ asset('assets/custom/tagify.css') }}" rel="stylesheet" type="text/css" />
+<?php $__env->startSection('title', 'Brand list'); ?>
+<?php $__env->startSection('css-top'); ?>
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
 
-@endsection
-@section('content')
+<?php $__env->startSection('css'); ?>
+    <link rel="stylesheet" type="text/css"
+        href="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css"
+        href="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/css/responsive.dataTables.min.css">
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="<?php echo e(asset('css')); ?>/pages/bootstrap-switch.css" rel="stylesheet">
+    <link href="<?php echo e(asset('assets/custom/tagify.css')); ?>" rel="stylesheet" type="text/css" />
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <!-- Page wrapper  -->
     <!-- ============================================================== -->
     <div class="page-wrapper">
@@ -36,8 +36,8 @@
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Product brand</a></li>
                             <li class="breadcrumb-item active">list</li>
                         </ol>
-                        @if($permission['is_add'])
-                        <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Add brand</button>@endif
+                        <?php if($permission['is_add']): ?>
+                        <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Add brand</button><?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -67,35 +67,35 @@
                                         </tr>
                                     </thead> 
                                     <tbody id="positionSorting" data-table="brands">
-                                        @foreach($get_data as $index => $data)
-                                        <tr id="item{{$data->id}}">
-                                            <td>{{(($get_data->perPage() * $get_data->currentPage() - $get_data->perPage()) + ($index+1) )}}</td>
-                                            <td>{{$data->name}}</td>
-                                            <td><img width="70" src="{{ asset('upload/images/brand/thumb/'.$data->logo)}}"></td>
+                                        <?php $__currentLoopData = $get_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr id="item<?php echo e($data->id); ?>">
+                                            <td><?php echo e((($get_data->perPage() * $get_data->currentPage() - $get_data->perPage()) + ($index+1) )); ?></td>
+                                            <td><?php echo e($data->name); ?></td>
+                                            <td><img width="70" src="<?php echo e(asset('upload/images/brand/thumb/'.$data->logo)); ?>"></td>
                                            
-                                            <td>{{ ($data->get_category) ? $data->get_category->name : 'All Category'}}</td>
+                                            <td><?php echo e(($data->get_category) ? $data->get_category->name : 'All Category'); ?></td>
                                             <td><div class="bt-switch">
-                                                <input  onchange="satusActiveDeactive('brands', '{{$data->id}}', 'top')" type="checkbox" {{($data->top == 1) ? 'checked' : ''}} data-on-color="success" data-off-color="danger" data-on-text="Enabled" data-off-text="Disabled"> 
+                                                <input  onchange="satusActiveDeactive('brands', '<?php echo e($data->id); ?>', 'top')" type="checkbox" <?php echo e(($data->top == 1) ? 'checked' : ''); ?> data-on-color="success" data-off-color="danger" data-on-text="Enabled" data-off-text="Disabled"> 
                                                
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="custom-control custom-switch">
-                                                  <input  name="status" onclick="satusActiveDeactive('brands', {{$data->id}})"  type="checkbox" {{($data->status == 1) ? 'checked' : ''}}  type="checkbox" class="custom-control-input" id="status{{$data->id}}">
-                                                  <label style="padding: 5px 12px" class="custom-control-label" for="status{{$data->id}}"></label>
+                                                  <input  name="status" onclick="satusActiveDeactive('brands', <?php echo e($data->id); ?>)"  type="checkbox" <?php echo e(($data->status == 1) ? 'checked' : ''); ?>  type="checkbox" class="custom-control-input" id="status<?php echo e($data->id); ?>">
+                                                  <label style="padding: 5px 12px" class="custom-control-label" for="status<?php echo e($data->id); ?>"></label>
                                                 </div>
                                             </td>
 
                                             <td>
-                                                @if($permission['is_edit'])
-                                                <a href="{{route('brandmodel', $data->slug)}}"  class="btn btn-success btn-sm"><i class="ti-eye" aria-hidden="true"></i> View</a>
-                                                <button type="button" onclick="setValue('{{$data->id}}')"  data-toggle="modal" data-target="#setValue" class="btn btn-primary btn-sm"><i class="ti-plus" aria-hidden="true"></i> Set Model</button>
-                                                <button type="button" onclick="edit('{{$data->id}}')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button>@endif
-                                                @if($permission['is_delete'])
-                                                <button data-target="#delete" onclick="deleteConfirmPopup('{{route("brand.delete", $data->id)}}')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button>@endif
+                                                <?php if($permission['is_edit']): ?>
+                                                <a href="<?php echo e(route('brandmodel', $data->slug)); ?>"  class="btn btn-success btn-sm"><i class="ti-eye" aria-hidden="true"></i> View</a>
+                                                <button type="button" onclick="setValue('<?php echo e($data->id); ?>')"  data-toggle="modal" data-target="#setValue" class="btn btn-primary btn-sm"><i class="ti-plus" aria-hidden="true"></i> Set Model</button>
+                                                <button type="button" onclick="edit('<?php echo e($data->id); ?>')"  data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="ti-pencil" aria-hidden="true"></i> Edit</button><?php endif; ?>
+                                                <?php if($permission['is_delete']): ?>
+                                                <button data-target="#delete" onclick="deleteConfirmPopup('<?php echo e(route("brand.delete", $data->id)); ?>')" class="btn btn-danger btn-sm" data-toggle="modal"><i class="ti-trash" aria-hidden="true"></i> Delete</button><?php endif; ?>
                                             </td>
                                         </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -125,8 +125,9 @@
                     <h4 class="modal-title">Create Product brand</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{route('brand.store')}}" enctype="multipart/form-data" method="POST" >
-                    {{csrf_field()}}
+                <form action="<?php echo e(route('brand.store')); ?>" enctype="multipart/form-data" method="POST" >
+                    <?php echo e(csrf_field()); ?>
+
                     <div class="modal-body form-row">
 
                         <div class="card-body">
@@ -137,7 +138,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="name">Brand Name</label>
-                                                <input  name="name" id="name" value="{{old('name')}}" required="" type="text" class="form-control">
+                                                <input  name="name" id="name" value="<?php echo e(old('name')); ?>" required="" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -148,23 +149,23 @@
                                                 <label for="name">Select Categroy</label>
                                                 <select  required name="category_id" class="select2 form-control custom-select" style="width: 100%; height:36px;">
                                                     <option value="0">All Category</option>
-                                                    @foreach($get_category as $category)
-                                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                                    <?php $__currentLoopData = $get_category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
                                                         <!-- get subcategory -->
-                                                        @if(count($category->get_subcategory)>0)
-                                                            @foreach($category->get_subcategory as $subcategory)
-                                                                <option value="{{$subcategory->id}}">&nbsp;-{{$subcategory->name}}</option>
+                                                        <?php if(count($category->get_subcategory)>0): ?>
+                                                            <?php $__currentLoopData = $category->get_subcategory; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value="<?php echo e($subcategory->id); ?>">&nbsp;-<?php echo e($subcategory->name); ?></option>
                                                                 <!-- get childcategory -->
-                                                                @if(count($subcategory->get_subchild_category)>0)
-                                                                    @foreach($subcategory->get_subchild_category as $childcategory)
-                                                                        <option value="{{$childcategory->id}}">&nbsp;&nbsp;--{{$childcategory->name}}</option>
-                                                                    @endforeach
-                                                                @endif
+                                                                <?php if(count($subcategory->get_subchild_category)>0): ?>
+                                                                    <?php $__currentLoopData = $subcategory->get_subchild_category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $childcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <option value="<?php echo e($childcategory->id); ?>">&nbsp;&nbsp;--<?php echo e($childcategory->name); ?></option>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php endif; ?>
                                                                 <!-- end subcategory -->
-                                                            @endforeach
-                                                        @endif
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php endif; ?>
                                                         <!-- end subcategory -->
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -186,7 +187,7 @@
                                                
                                                 <div  class="status-btn" >
                                                     <div class="custom-control custom-switch">
-                                                        <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="status">
+                                                        <input name="status" checked  type="checkbox" class="custom-control-input" <?php echo e((old('status') == 'on') ? 'checked' : ''); ?> id="status">
                                                         <label  class="custom-control-label" for="status">Publish/UnPublish</label>
                                                     </div>
                                                 </div>
@@ -210,8 +211,9 @@
     <!-- update Modal -->
     <div class="modal fade" id="edit" style="display: none;">
         <div class="modal-dialog">
-            <form action="{{route('brand.update')}}"  enctype="multipart/form-data" method="post">
-                  {{ csrf_field() }}
+            <form action="<?php echo e(route('brand.update')); ?>"  enctype="multipart/form-data" method="post">
+                  <?php echo e(csrf_field()); ?>
+
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
@@ -239,8 +241,9 @@
                     <h4 class="modal-title">Set Brand Model</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{route('model.store')}}"  method="POST">
-                    {{csrf_field()}}
+                <form action="<?php echo e(route('model.store')); ?>"  method="POST">
+                    <?php echo e(csrf_field()); ?>
+
                     <input type="hidden" value="" id="setBrandId" name="brand_id">
                     <div class="modal-body form-row">
 
@@ -253,7 +256,7 @@
                                             <div class="form-group">
                                                 <label for="valuename">Model Name</label>
                                              
-                                                <input name="model_name[]" type="text" id="model" value="{{old('model_name[]')}}"
+                                                <input name="model_name[]" type="text" id="model" value="<?php echo e(old('model_name[]')); ?>"
                                                                                             
                                                                                                 data-role="tagsinput"
                                                                                                 placeholder="Add model" />
@@ -268,7 +271,7 @@
 
                                                 <div  class="status-btn" >
                                                     <div class="custom-control custom-switch">
-                                                        <input name="status" checked  type="checkbox" class="custom-control-input" {{ (old('status') == 'on') ? 'checked' : '' }} id="status">
+                                                        <input name="status" checked  type="checkbox" class="custom-control-input" <?php echo e((old('status') == 'on') ? 'checked' : ''); ?> id="status">
                                                         <label  class="custom-control-label" for="status">Publish/UnPublish</label>
                                                     </div>
                                                 </div>
@@ -290,16 +293,16 @@
     </div>
 
     <!-- delete Modal -->
-    @include('admin.modal.delete-modal')
-@endsection
-@section('js')
-<script src="{{asset('assets')}}/node_modules/jqueryui/jquery-ui.min.js"></script>
+    <?php echo $__env->make('admin.modal.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<script src="<?php echo e(asset('assets')); ?>/node_modules/jqueryui/jquery-ui.min.js"></script>
     <!-- This is data table -->
-    <script src="{{asset('assets')}}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets')}}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
-    <script src="{{asset('assets')}}/node_modules/dropify/dist/js/dropify.min.js"></script>
-        <script src="{{asset('assets')}}/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
-        <script src="{{ asset('assets/custom/tagify.js') }}"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/dropify/dist/js/dropify.min.js"></script>
+        <script src="<?php echo e(asset('assets')); ?>/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+        <script src="<?php echo e(asset('assets/custom/tagify.js')); ?>"></script>
     <script type="text/javascript">
         $(document).ready(function() {
     $('form').on('keypress', function(e) {
@@ -323,7 +326,7 @@
         }
     </script>
     <!-- bt-switch -->
-    <script src="{{asset('assets')}}/node_modules/bootstrap-switch/bootstrap-switch.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/bootstrap-switch/bootstrap-switch.min.js"></script>
     <script type="text/javascript">
     $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
     var radioswitch = function() {
@@ -356,7 +359,7 @@
 
         function edit(id){
 
-            var  url = '{{route("brand.edit", ":id")}}';
+            var  url = '<?php echo e(route("brand.edit", ":id")); ?>';
             url = url.replace(':id',id);
             $.ajax({
                 url:url,
@@ -373,9 +376,11 @@
         }
 
         // if occur error open model
-        @if($errors->any())
-            $("#{{Session::get('submitType')}}").modal('show');
-        @endif
+        <?php if($errors->any()): ?>
+            $("#<?php echo e(Session::get('submitType')); ?>").modal('show');
+        <?php endif; ?>
     </script>
  
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Minhaz\bonikbazar\resources\views/admin/brand.blade.php ENDPATH**/ ?>

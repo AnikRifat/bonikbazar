@@ -634,7 +634,7 @@ class HomeController extends Controller
         }
 
         // Output the sorted list of ads
-        dd($sortedAds);
+        // dd($sortedAds);
     }
 
 
