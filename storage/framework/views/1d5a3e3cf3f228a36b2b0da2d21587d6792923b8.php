@@ -1,9 +1,9 @@
- @extends('layouts.frontend')
- @section('title', 'Ads Post')
- @section('css')
-     <link href="{{ asset('assets') }}/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
-     <link href="{{ asset('assets') }}/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
-     <link href="{{ asset('assets') }}/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+ 
+ <?php $__env->startSection('title', 'Ads Post'); ?>
+ <?php $__env->startSection('css'); ?>
+     <link href="<?php echo e(asset('assets')); ?>/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+     <link href="<?php echo e(asset('assets')); ?>/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
+     <link href="<?php echo e(asset('assets')); ?>/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
      <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
      <style>
          ol.carousel-indicators.list-inline.position-static.mt-0 {
@@ -64,43 +64,44 @@
              z-index: 0
          }
      </style>
- @endsection
- @section('content')
+ <?php $__env->stopSection(); ?>
+ <?php $__env->startSection('content'); ?>
      <div class="container bg-white mb-2 py-3 px-0">
-         <form action="{{ route('post.store') }}" data-parsley-validate method="post" enctype="multipart/form-data"
+         <form action="<?php echo e(route('post.store')); ?>" data-parsley-validate method="post" enctype="multipart/form-data"
              class="adpost-form">
-             <input type="hidden" name="post_id" value="{{ $post->product_id }}">
-             @csrf
+             <input type="hidden" name="post_id" value="<?php echo e($post->product_id); ?>">
+             <?php echo csrf_field(); ?>
              <div class="row">
                  <div class="col-12 border-b">
                      <div style="display:flex; justify-content: space-between;">
                          <div class="d-flex align-items-center mb-2">
                              <img width="60" height="60" class="rounded-3 mr-2"
-                                 src="{{ asset('upload/users') }}/{{ Auth::user()->photo ? Auth::user()->photo : 'default.png' }}"
+                                 src="<?php echo e(asset('upload/users')); ?>/<?php echo e(Auth::user()->photo ? Auth::user()->photo : 'default.png'); ?>"
                                  alt="user">
                              <div>
-                                 <h4>{{ Auth::user()->name }}</h4>
-                                 @if (Auth::user()->getMembership)
+                                 <h4><?php echo e(Auth::user()->name); ?></h4>
+                                 <?php if(Auth::user()->getMembership): ?>
                                      <div class="d-flex align-items-center">
                                          <img class="lazyload" width="25"
-                                             src="{{ asset('upload/images/membership/' . Auth::user()->getMembership->ribbon) }}">
+                                             src="<?php echo e(asset('upload/images/membership/' . Auth::user()->getMembership->ribbon)); ?>">
 
-                                         <p class="bt">{{ Auth::user()->getMembership->name }}</p>
+                                         <p class="bt"><?php echo e(Auth::user()->getMembership->name); ?></p>
                                      </div>
-                                 @endif
+                                 <?php endif; ?>
                              </div>
                          </div>
                          <div>
                              <div style="margin-bottom: 5px;">
                                  <a href="javascript:void(0)" data-toggle="modal" data-target="#selectcatmodal">
-                                     <img width="20" class=" mr-2" src="{{ asset('upload/images/m-1.png') }}">
-                                     {{ $category->name }} <span class="changeBtn">Change</span></a>
+                                     <img width="20" class=" mr-2" src="<?php echo e(asset('upload/images/m-1.png')); ?>">
+                                     <?php echo e($category->name); ?> <span class="changeBtn">Change</span></a>
                              </div>
                              <a href="javascript:void(0)" data-toggle="modal" data-target="#locationmodal">
-                                 <img width="20" class=" mr-1" src="{{ asset('upload/images/m-2.png') }}">
-                                 {{ $location->name }}@if ($location->state)
-                                     , {{ $location->state->name }}
-                                 @endif <span class="changeBtn">Change</span></a>
+                                 <img width="20" class=" mr-1" src="<?php echo e(asset('upload/images/m-2.png')); ?>">
+                                 <?php echo e($location->name); ?><?php if($location->state): ?>
+                                     , <?php echo e($location->state->name); ?>
+
+                                 <?php endif; ?> <span class="changeBtn">Change</span></a>
                          </div>
                      </div>
                  </div>
@@ -110,25 +111,25 @@
                          <!-- slides -->
                          <div class="carousel-inner">
                              <div class="carousel-item mh-300 active">
-                                 <img src="{{ asset('upload/images/product/' . $post->feature_image) }}" alt="Hills">
+                                 <img src="<?php echo e(asset('upload/images/product/' . $post->feature_image)); ?>" alt="Hills">
                              </div>
-                             @foreach ($post->get_galleryImages as $galleryImage)
+                             <?php $__currentLoopData = $post->get_galleryImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $galleryImage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                  <div class="carousel-item mh-300">
-                                     <img src="{{ asset('upload/images/product/gallery/' . $galleryImage->image_path) }}"
+                                     <img src="<?php echo e(asset('upload/images/product/gallery/' . $galleryImage->image_path)); ?>"
                                          alt="Hills">
                                  </div>
-                             @endforeach
+                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                          </div>
 
                          <!-- Left right -->
                          <a class="h1s position-absolute left-0 bg-white px-2 py-1 mt-3" href="#custCarousel"
                              data-slide="prev">
-                             <img height="15" src="{{ asset('upload/images/a.png') }}">
+                             <img height="15" src="<?php echo e(asset('upload/images/a.png')); ?>">
                          </a>
 
                          <a class="h1s position-absolute right-0 bg-white px-2 py-1 mt-3" href="#custCarousel"
                              data-slide="next">
-                             <img height="15" class="transform-180" src="{{ asset('upload/images/a.png') }}">
+                             <img height="15" class="transform-180" src="<?php echo e(asset('upload/images/a.png')); ?>">
                          </a>
 
                          <!-- Thumbnails -->
@@ -136,27 +137,27 @@
                              <li class="list-inline-item w-100 h-auto active">
                                  <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#custCarousel">
                                      <img style="width: 100px"
-                                         src="{{ asset('upload/images/product/' . $post->feature_image) }}">
+                                         src="<?php echo e(asset('upload/images/product/' . $post->feature_image)); ?>">
                                  </a>
                              </li>
-                             @foreach ($post->get_galleryImages as $galleryImage)
+                             <?php $__currentLoopData = $post->get_galleryImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $galleryImage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                  <li class="list-inline-item w-100 h-auto">
                                      <a id="carousel-selector-1" data-slide-to="1" data-target="#custCarousel">
                                          <img style="width: 100px"
-                                             src="{{ asset('upload/images/product/gallery/' . $galleryImage->image_path) }}">
+                                             src="<?php echo e(asset('upload/images/product/gallery/' . $galleryImage->image_path)); ?>">
                                      </a>
                                  </li>
-                             @endforeach
+                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                          </ol>
                      </div>
                      <!--<div class="d-flex flex-wrap">-->
                      <!--    <div class="d-flex align-items-center mr-2">-->
-                     <!--        <input name="sale_type"  @if (old('sale_type') == 'new') selected @endif value="new" type="radio" id="NEW" checked>-->
+                     <!--        <input name="sale_type"  <?php if(old('sale_type') == 'new'): ?> selected <?php endif; ?> value="new" type="radio" id="NEW" checked>-->
                      <!--        <label class="iy" for="NEW">NEW</label>-->
                      <!--    </div>-->
                      <!--    <div class="d-flex align-items-center mr-2">-->
-                     <!--        <input name="sale_type" @if (old('sale_type') == 'used') selected @endif value="used"  type="radio" id="USED">-->
+                     <!--        <input name="sale_type" <?php if(old('sale_type') == 'used'): ?> selected <?php endif; ?> value="used"  type="radio" id="USED">-->
                      <!--        <label class="iy" for="USED">USED</label>-->
                      <!--    </div>-->
 
@@ -165,14 +166,14 @@
 
                      <div class="row">
 
-                         @if (Auth::user()->getMembership && Auth::user()->getMembership->slug == 'wholesale')
+                         <?php if(Auth::user()->getMembership && Auth::user()->getMembership->slug == 'wholesale'): ?>
                              <div class="col-md-6 col-lg-6 p-1">
                                  <label>Minimum quantity</label>
                                  <input type="text" class="form-control" placeholder="Enter qty"
                                      name="wholesale_qty">
                              </div>
-                         @endif
-                         @if (count($brands) > 0)
+                         <?php endif; ?>
+                         <?php if(count($brands) > 0): ?>
                              <div class="col-md-6 col-lg-6">
                                  <div class="form-group">
                                      <label class="required" for="brand">Brand</label>
@@ -181,10 +182,10 @@
                                          data-parsley-required-message = "Brand is required"
                                          class="select2 form-control custom-select">
                                          <option value="">Select Brand</option>
-                                         @foreach ($brands as $brand)
-                                             <option @if (old('brand') == $brand->id) selected @endif
-                                                 value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                         @endforeach
+                                         <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                             <option <?php if(old('brand') == $brand->id): ?> selected <?php endif; ?>
+                                                 value="<?php echo e($brand->id); ?>"><?php echo e($brand->name); ?></option>
+                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                      </select>
                                  </div>
                              </div>
@@ -203,29 +204,30 @@
                                      </datalist>
                                  </div>
                              </div>
-                         @endif
+                         <?php endif; ?>
 
-                         @include('users.post.attribute')
+                         <?php echo $__env->make('users.post.attribute', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                      </div>
-                     <div @if (count($features) <= 0) style="display:none" @endif>
+                     <div <?php if(count($features) <= 0): ?> style="display:none" <?php endif; ?>>
                          <!-- Allow attribute checkbox button -->
                          <label class="form-label">Product Features</label>
                          <div class="row">
-                             @foreach ($features as $feature)
+                             <?php $__currentLoopData = $features; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                  <div class="col-12 col-md-6 p-1">
-                                     <div class="@if ($feature->is_required) required @endif ">
-                                         {{ $feature->name }}
-                                         <input type="hidden" value="{{ $feature->name }}" class="form-control"
-                                             name="features[{{ $feature->id }}]">
+                                     <div class="<?php if($feature->is_required): ?> required <?php endif; ?> ">
+                                         <?php echo e($feature->name); ?>
+
+                                         <input type="hidden" value="<?php echo e($feature->name); ?>" class="form-control"
+                                             name="features[<?php echo e($feature->id); ?>]">
                                      </div>
                                      <div>
-                                         <input @if ($feature->is_required) required @endif type="text"
-                                             name="featureValue[{{ $feature->id }}]" class="form-control"
+                                         <input <?php if($feature->is_required): ?> required <?php endif; ?> type="text"
+                                             name="featureValue[<?php echo e($feature->id); ?>]" class="form-control"
                                              placeholder="Input value here">
                                      </div>
                                  </div>
-                             @endforeach
+                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                          </div>
 
                          <div id="PredefinedFeatureBycategory"></div>
@@ -236,14 +238,14 @@
 
                      <div class="form-group">
                          <label class="required">Ad Title</label>
-                         <input name="title" value="{{ old('title') }}" required type="text" class="form-control"
+                         <input name="title" value="<?php echo e(old('title')); ?>" required type="text" class="form-control"
                              placeholder="Type your title here">
                      </div>
 
                      <div class="form-group">
                          <label class="required">Description</label>
                          <textarea name="description" required class="summernote form-control" rows="4"
-                             placeholder="Describe your message">{{ old('description') }}</textarea>
+                             placeholder="Describe your message"><?php echo e(old('description')); ?></textarea>
                          <p>Max 5000 character</p>
                      </div>
                  </div>
@@ -252,7 +254,7 @@
                          <div class="input-group-prepend">
                              <span class="input-group-text required" id="basic-addon1">TK </span>
                          </div>
-                         <input type="text" name="price" value="{{ old('price') }}" required
+                         <input type="text" name="price" value="<?php echo e(old('price')); ?>" required
                              class="form-control borders" placeholder="Enter your price" aria-label="Username"
                              aria-describedby="basic-addon1">
                          <div class="input-group-append input-group-text">
@@ -268,7 +270,7 @@
                              <span class="input-group-text required">Name:</span>
                          </div>
                          <input type="text" required name="contact_name"
-                             value="{{ old('contact_name') ? old('contact_name') : Auth::user()->name }}"
+                             value="<?php echo e(old('contact_name') ? old('contact_name') : Auth::user()->name); ?>"
                              class="form-control" placeholder="Your Name">
                      </div>
                      <div class="input-group mb-2">
@@ -276,29 +278,29 @@
                              <span class="input-group-text required">Email:</span>
                          </div>
                          <input type="text" required name="contact_email"
-                             value="{{ old('contact_email') ? old('contact_email') : Auth::user()->email }}"
+                             value="<?php echo e(old('contact_email') ? old('contact_email') : Auth::user()->email); ?>"
                              class="form-control" placeholder="Your Email">
                      </div>
                      <div class="w-100">
                          <div class="form-group mb-2">
                              <label>Mobile Number</label>
                              <div id="mobileNumber">
-                                 @if (Auth::user()->mobile)
-                                     <div id="{{ Auth::user()->mobile }}" class="addNumber">
+                                 <?php if(Auth::user()->mobile): ?>
+                                     <div id="<?php echo e(Auth::user()->mobile); ?>" class="addNumber">
                                          <input type="hidden" class="contact_mobile" name="contact_mobile[]"
-                                             value="{{ Auth::user()->mobile }}">
+                                             value="<?php echo e(Auth::user()->mobile); ?>">
                                          <i class="fa fa-check-square"></i>
-                                         <strong>{{ Auth::user()->mobile }} </strong>
+                                         <strong><?php echo e(Auth::user()->mobile); ?> </strong>
                                          <a class="removeNumber" href="javascript:void(0)"
-                                             onclick="removeNumber('{{ Auth::user()->mobile }}')"
+                                             onclick="removeNumber('<?php echo e(Auth::user()->mobile); ?>')"
                                              title="Remove phone number">✕</a>
                                      </div>
-                                 @endif
+                                 <?php endif; ?>
                              </div>
                              <span id="moreMobile">
-                                 @if (Auth::user()->mobile)
+                                 <?php if(Auth::user()->mobile): ?>
                                      <a onclick="moreMobile()" href="javascript:void(0)">Add another mobile number</a>
-                                 @else
+                                 <?php else: ?>
                                      <div style="display:flex; margin-bottom: 10px;">
                                          <div>
                                              Add mobile number
@@ -309,7 +311,7 @@
                                              </div>
                                          </div>
                                      </div>
-                                 @endif
+                                 <?php endif; ?>
                              </span>
                          </div>
                          <div>
@@ -349,20 +351,21 @@
                  </div>
                  <div class="modal-body" style="padding: 0 20px;">
                      <ul class="product-widget-list">
-                         @foreach ($get_category as $category)
+                         <?php $__currentLoopData = $get_category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                              <li class="product-widget-dropitem"
                                  style="margin: 0;padding: 8px; border-bottom: 1px solid #f1f1f1;">
                                  <button type="button" class="product-widget-link">
-                                     {{ $category->name }}
+                                     <?php echo e($category->name); ?>
+
                                  </button>
                                  <ul class="product-widget-dropdown">
-                                     @foreach ($category->get_subcategory as $subcategory)
-                                         <li><a href="{{ route('post.categoryChange', [$post->id, $subcategory->id]) }}">
-                                                 {{ $subcategory->name }}</a></li>
-                                     @endforeach
+                                     <?php $__currentLoopData = $category->get_subcategory; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <li><a href="<?php echo e(route('post.categoryChange', [$post->id, $subcategory->id])); ?>">
+                                                 <?php echo e($subcategory->name); ?></a></li>
+                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                  </ul>
                              </li>
-                         @endforeach
+                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                      </ul>
                  </div>
              </div>
@@ -380,30 +383,31 @@
                  </div>
                  <div class="modal-body" style="padding: 0 20px;">
                      <ul class="product-widget-list">
-                         @foreach ($states as $state)
+                         <?php $__currentLoopData = $states; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $state): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                              <li class="product-widget-dropitem"
                                  style="margin: 0;padding: 8px; border-bottom: 1px solid #f1f1f1;">
                                  <button type="button" class="product-widget-link">
-                                     {{ $state->name }}
+                                     <?php echo e($state->name); ?>
+
                                  </button>
                                  <ul class="product-widget-dropdown">
-                                     @foreach ($state->get_city as $city)
-                                         <li><a href="{{ route('post.locationChange', [$post->id, $city->id]) }}">
-                                                 {{ $city->name }}</a></li>
-                                     @endforeach
+                                     <?php $__currentLoopData = $state->get_city; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                         <li><a href="<?php echo e(route('post.locationChange', [$post->id, $city->id])); ?>">
+                                                 <?php echo e($city->name); ?></a></li>
+                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                  </ul>
                              </li>
-                         @endforeach
+                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                      </ul>
                  </div>
              </div>
          </div>
      </div>
 
- @endsection
+ <?php $__env->stopSection(); ?>
 
- @section('js')
-     <script src="{{ asset('assets') }}/node_modules/dropify/dist/js/dropify.min.js"></script>
+ <?php $__env->startSection('js'); ?>
+     <script src="<?php echo e(asset('assets')); ?>/node_modules/dropify/dist/js/dropify.min.js"></script>
      <script>
          $(document).ready(function() {
              // Basic
@@ -411,20 +415,20 @@
 
          });
      </script>
-     <script src="{{ asset('js/parsley.min.js') }}"></script>
-     <script src="{{ asset('assets') }}/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-     <script src="{{ asset('assets') }}/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+     <script src="<?php echo e(asset('js/parsley.min.js')); ?>"></script>
+     <script src="<?php echo e(asset('assets')); ?>/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+     <script src="<?php echo e(asset('assets')); ?>/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
      <script type="text/javascript">
          $(".select2").select2();
      </script>
      <script type="text/javascript">
-         @if (old('state_id'))
+         <?php if(old('state_id')): ?>
              get_city(old('state_id'));
-         @endif
+         <?php endif; ?>
 
          function get_city(id) {
 
-             var url = '{{ route('get_city', ':id') }}';
+             var url = '<?php echo e(route('get_city', ':id')); ?>';
              url = url.replace(':id', id);
              $.ajax({
                  url: url,
@@ -466,7 +470,7 @@
              var number = $('#number').val();
              if (number) {
                  $.ajax({
-                     url: "{{ route('addNumber') }}",
+                     url: "<?php echo e(route('addNumber')); ?>",
                      method: 'get',
                      data: {
                          number: number
@@ -483,7 +487,7 @@
              var otp = $('#otp').val();
              if (otp) {
                  $.ajax({
-                     url: "{{ route('verifyNumber') }}",
+                     url: "<?php echo e(route('verifyNumber')); ?>",
                      method: 'get',
                      data: {
                          otp: otp,
@@ -527,7 +531,7 @@
 
              $.ajax({
                  type: "GET",
-                 url: "{{ route('get_model') }}", // URL to your route
+                 url: "<?php echo e(route('get_model')); ?>", // URL to your route
                  data: {
                      brand_id: brand_id
                  }, // Send the selected brand id
@@ -586,4 +590,6 @@
          });
      </script>
 
- @endsection
+ <?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\bonik_bazar_latest\bonikbazar\resources\views/users/post/ad-post.blade.php ENDPATH**/ ?>

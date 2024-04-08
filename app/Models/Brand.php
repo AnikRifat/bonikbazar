@@ -19,4 +19,6 @@ class Brand extends Model
     public function seller(){
         return $this->hasOne(Vendor::class, 'id','vendor_id');
     }
+
+   
 }

@@ -1,10 +1,10 @@
-@extends('layouts.admin-master')
-@section('title', 'Category list')
 
-@section('css-top')
-    <link href="{{ asset('assets') }}/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
-@endsection
-@section('css')
+<?php $__env->startSection('title', 'Category list'); ?>
+
+<?php $__env->startSection('css-top'); ?>
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
 
     <style type="text/css">
         svg {
@@ -65,12 +65,12 @@
 
 
 
-    <link href="{{ asset('assets') }}/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets') }}/node_modules/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
-    <link href="{{ asset('css') }}/pages/bootstrap-switch.css" rel="stylesheet">
-    <link href="{{ asset('assets') }}/node_modules/summernote/dist/summernote-bs4.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="<?php echo e(asset('css')); ?>/pages/bootstrap-switch.css" rel="stylesheet">
+    <link href="<?php echo e(asset('assets')); ?>/node_modules/summernote/dist/summernote-bs4.css" rel="stylesheet" type="text/css" />
 
-    <link href="{{ asset('assets/custom/tagify.css') }}" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('assets/custom/tagify.css')); ?>" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
         .dropify_image {
@@ -86,8 +86,8 @@
             height: 150px !important;
         }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
     <!-- Page wrapper  -->
     <!-- ============================================================== -->
@@ -109,10 +109,10 @@
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Category</a></li>
                             <li class="breadcrumb-item active">list</li>
                         </ol>
-                        @if ($permission['is_add'])
+                        <?php if($permission['is_add']): ?>
                             <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
                                     class="fa fa-plus-circle"></i> Create New</button>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -141,55 +141,56 @@
                                         </tr>
                                     </thead>
                                     <tbody id="categoryPositionSorting">
-                                        @foreach ($get_data as $index => $data)
-                                            <tr id="item{{ $data->id }}">
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $data->name }}</td>
-                                                <td><img src="{{ asset('upload/images/category/thumb/' . $data->image) }}"
+                                        <?php $__currentLoopData = $get_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <tr id="item<?php echo e($data->id); ?>">
+                                                <td><?php echo e($index + 1); ?></td>
+                                                <td><?php echo e($data->name); ?></td>
+                                                <td><img src="<?php echo e(asset('upload/images/category/thumb/' . $data->image)); ?>"
                                                         width="50"></td>
-                                                <td>{{ $data->notes }}</td>
+                                                <td><?php echo e($data->notes); ?></td>
 
                                                 <td>
-                                                    @if ($permission['is_edit'])
+                                                    <?php if($permission['is_edit']): ?>
                                                         <div class="custom-control custom-switch">
                                                             <input name="status"
-                                                                onclick="satusActiveDeactive('categories', {{ $data->id }})"
-                                                                type="checkbox" {{ $data->status == 1 ? 'checked' : '' }}
+                                                                onclick="satusActiveDeactive('categories', <?php echo e($data->id); ?>)"
+                                                                type="checkbox" <?php echo e($data->status == 1 ? 'checked' : ''); ?>
+
                                                                 type="checkbox" class="custom-control-input"
-                                                                id="status{{ $data->id }}">
+                                                                id="status<?php echo e($data->id); ?>">
                                                             <label style="padding: 5px 12px" class="custom-control-label"
-                                                                for="status{{ $data->id }}"></label>
+                                                                for="status<?php echo e($data->id); ?>"></label>
                                                         </div>
-                                                    @else
-                                                        <label>{{ $data->status == 1 ? 'Active' : 'Deactive' }}</label>
-                                                    @endif
+                                                    <?php else: ?>
+                                                        <label><?php echo e($data->status == 1 ? 'Active' : 'Deactive'); ?></label>
+                                                    <?php endif; ?>
                                                 </td>
                                                 <td>
-                                                    @if ($permission['is_edit'])
-                                                        <button type="button" onclick="safetyTip('{{ $data->id }}')"
+                                                    <?php if($permission['is_edit']): ?>
+                                                        <button type="button" onclick="safetyTip('<?php echo e($data->id); ?>')"
                                                             class="btn btn-success btn-sm"><i class="ti-plus"
                                                                 aria-hidden="true"></i> Safety Tip</button>
 
                                                         <button type="button"
-                                                            onclick="getCategoryBanner('{{ $data->slug }}')"
+                                                            onclick="getCategoryBanner('<?php echo e($data->slug); ?>')"
                                                             data-toggle="modal" data-target="#setBanner"
                                                             class="btn btn-success btn-sm"><i class="ti-plus"
                                                                 aria-hidden="true"></i> Banner</button>
 
                                                         <button type="button"
-                                                            onclick="category_edit('{{ $data->id }}')"
+                                                            onclick="category_edit('<?php echo e($data->id); ?>')"
                                                             class="btn btn-info btn-sm"><i class="ti-pencil"
                                                                 aria-hidden="true"></i> Edit</button>
-                                                    @endif
-                                                    @if ($permission['is_delete'])
+                                                    <?php endif; ?>
+                                                    <?php if($permission['is_delete']): ?>
                                                         <button title="delete" data-target="#delete"
-                                                            onclick="deleteConfirmPopup('{{ route('category.delete', $data->id) }}')"
+                                                            onclick="deleteConfirmPopup('<?php echo e(route('category.delete', $data->id)); ?>')"
                                                             class="btn btn-danger btn-sm" data-toggle="modal"><i
                                                                 class="ti-trash" aria-hidden="true"></i></button>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -222,9 +223,10 @@
                 </div>
                 <div class="modal-body form-row">
                     <div class="card-body">
-                        <form id="categoryForm" action="{{ route('category.store') }}" enctype="multipart/form-data"
+                        <form id="categoryForm" action="<?php echo e(route('category.store')); ?>" enctype="multipart/form-data"
                             method="POST" class="floating-labels">
-                            {{ csrf_field() }}
+                            <?php echo e(csrf_field()); ?>
+
                             <div class="form-body">
                                 <!--/row-->
 
@@ -232,7 +234,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="name">Category Name</label>
-                                            <input name="name" id="name" value="{{ old('name') }}"
+                                            <input name="name" id="name" value="<?php echo e(old('name')); ?>"
                                                 required="" type="text" class="form-control">
                                         </div>
                                     </div>
@@ -244,18 +246,19 @@
                                                 data-allowed-file-extensions="jpg jpeg png gif" data-max-file-size="2M"
                                                 name="phato" id="input-file-events">
                                         </div>
-                                        @if ($errors->has('phato'))
+                                        <?php if($errors->has('phato')): ?>
                                             <span class="invalid-feedback" role="alert">
-                                                {{ $errors->first('phato') }}
+                                                <?php echo e($errors->first('phato')); ?>
+
                                             </span>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label style="background: #fff;top:-10px;z-index: 1"
                                                 for="notes">Details</label>
-                                            <textarea name="notes" class="form-control" placeholder="Enter details" id="notes" rows="2">{{ old('notes') }}</textarea>
+                                            <textarea name="notes" class="form-control" placeholder="Enter details" id="notes" rows="2"><?php echo e(old('notes')); ?></textarea>
                                         </div>
                                     </div>
 
@@ -311,12 +314,13 @@
                                                                                                 name="package_id[]"
                                                                                                 class="form-control custom-select select2"
                                                                                                 style="width: 100%; height:36px;">
-                                                                                                @foreach ($package as $data)
+                                                                                                <?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                                     <option
-                                                                                                        value="{{ $data->id }}">
-                                                                                                        {{ $data->name }}
+                                                                                                        value="<?php echo e($data->id); ?>">
+                                                                                                        <?php echo e($data->name); ?>
+
                                                                                                     </option>
-                                                                                                @endforeach
+                                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                                             </select>
                                                                                         </td>
                                                                                         <td>
@@ -324,14 +328,14 @@
                                                                                             <input name="duration[]"
                                                                                                 required
                                                                                                 placeholder="Example: 7 Days"
-                                                                                                value="{{ old('ads') }}"
+                                                                                                value="<?php echo e(old('ads')); ?>"
                                                                                                 class="form-control"
                                                                                                 type="number">
                                                                                         </td>
                                                                                         <td>
                                                                                             <input name="price[]" required
-                                                                                                placeholder="Example: {{ config('siteSetting.currency_symble') }}50 "
-                                                                                                value="{{ old('price') }}"
+                                                                                                placeholder="Example: <?php echo e(config('siteSetting.currency_symble')); ?>50 "
+                                                                                                value="<?php echo e(old('price')); ?>"
                                                                                                 class="form-control"
                                                                                                 type="number">
 
@@ -732,7 +736,7 @@
                                                 <div class="custom-control custom-switch">
                                                     <input name="status" checked type="checkbox"
                                                         class="custom-control-input"
-                                                        {{ old('status') == 'on' ? 'checked' : '' }} id="status">
+                                                        <?php echo e(old('status') == 'on' ? 'checked' : ''); ?> id="status">
                                                     <label class="custom-control-label"
                                                         for="status">Publish/UnPublish</label>
                                                 </div>
@@ -760,8 +764,9 @@
     <!-- update Modal -->
     <div class="modal fade" id="edit" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
-            <form action="{{ route('category.update') }}" enctype="multipart/form-data" method="post">
-                {{ csrf_field() }}
+            <form action="<?php echo e(route('category.update')); ?>" enctype="multipart/form-data" method="post">
+                <?php echo e(csrf_field()); ?>
+
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -783,8 +788,9 @@
     <div class="modal fade" id="safety_tip_modal" role="dialog" tabindex="-1" aria-hidden="true"
         style="display: none;">
         <div class="modal-dialog">
-            <form action="{{ route('cat_safety_tip') }}" method="post">
-                {{ csrf_field() }}
+            <form action="<?php echo e(route('cat_safety_tip')); ?>" method="post">
+                <?php echo e(csrf_field()); ?>
+
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -808,17 +814,17 @@
     </div>
 
     <!-- delete Modal -->
-    @include('admin.modal.delete-modal')
+    <?php echo $__env->make('admin.modal.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <!-- banner modal -->
-    @include('admin.category.category-banner-modal');
+    <?php echo $__env->make('admin.category.category-banner-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>;
 
 
-@endsection
-@section('js')
-    <script src="{{ asset('assets') }}/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <!-- This is data table -->
-    <script src="{{ asset('assets') }}/node_modules/jqueryui/jquery-ui.min.js"></script>
-    <script src="{{ asset('assets') }}/node_modules/dropify/dist/js/dropify.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/jqueryui/jquery-ui.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/dropify/dist/js/dropify.min.js"></script>
     <script>
         $(".select2").select2();
         $(document).ready(function() {
@@ -828,14 +834,14 @@
         });
     </script>
     <!-- This is data table -->
-    <script src="{{ asset('assets') }}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('assets') }}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
 
 
-    <script src="{{ asset('assets/custom/tagify.js') }}"></script>
+    <script src="<?php echo e(asset('assets/custom/tagify.js')); ?>"></script>
 
     <!-- bt-switch -->
-    <script src="{{ asset('assets') }}/node_modules/bootstrap-switch/bootstrap-switch.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/bootstrap-switch/bootstrap-switch.min.js"></script>
     <script type="text/javascript">
         $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
         var radioswitch = function() {
@@ -864,7 +870,7 @@
         function safetyTip(id) {
             $('#safety_tip_modal').modal('show');
             $('#safety_tip').html('<div class="loadingData"></div>');
-            var url = '{{ route('cat_safety_tip') }}';
+            var url = '<?php echo e(route('cat_safety_tip')); ?>';
             $.ajax({
                 url: url,
                 method: "get",
@@ -889,7 +895,7 @@
         function category_edit(id) {
             $('#edit').modal('show');
             $('#edit_form').html('<div class="loadingData"></div>');
-            var url = '{{ route('category.edit', ':id') }}';
+            var url = '<?php echo e(route('category.edit', ':id')); ?>';
             url = url.replace(':id', id);
 
             $.ajax({
@@ -919,7 +925,7 @@
                     });
 
                     $.ajax({
-                        url: "{{ route('categorySorting') }}",
+                        url: "<?php echo e(route('categorySorting')); ?>",
                         method: "get",
                         data: {
                             ids: ids,
@@ -960,16 +966,16 @@
                 '<td>' + (lastRowIndex + 1) + '</td>' +
                 '<td>' +
                 '<select  name="package_id[]" class="form-control custom-select select2" style="width: 100%; height:36px;">' +
-                '@foreach ($package as $data)' +
-                '<option value="{{ $data->id }}">{{ $data->name }}</option>' +
-                '@endforeach' +
+                '<?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>' +
+                '<option value="<?php echo e($data->id); ?>"><?php echo e($data->name); ?></option>' +
+                '<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>' +
                 '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input name="duration[]"  placeholder="Example: 7 Days" value="{{ old('ads') }}" class="form-control" type="number">' +
+                '<input name="duration[]"  placeholder="Example: 7 Days" value="<?php echo e(old('ads')); ?>" class="form-control" type="number">' +
                 '</td>' +
                 '<td>' +
-                '<input name="price[]"  placeholder="Example: {{ config('siteSetting.currency_symble') }}50 " value="{{ old('price') }}" class="form-control" type="number">' +
+                '<input name="price[]"  placeholder="Example: <?php echo e(config('siteSetting.currency_symble')); ?>50 " value="<?php echo e(old('price')); ?>" class="form-control" type="number">' +
                 '</td>' +
                 '<td>' +
                 '<div class="custom-control custom-switch">' +
@@ -1129,7 +1135,7 @@
         });
     </script>
 
-    <script src="{{ asset('assets') }}/node_modules/summernote/dist/summernote-bs4.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/summernote/dist/summernote-bs4.min.js"></script>
     <script>
         $(function() {
 
@@ -1153,4 +1159,6 @@
                 $(".click2edit").summernote('destroy');
             }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\bonik_bazar_latest\bonikbazar\resources\views/admin/category/category.blade.php ENDPATH**/ ?>

@@ -1,13 +1,13 @@
-@extends('layouts.admin-master')
-@section('title', 'Brand Model list')
-@section('css')
+
+<?php $__env->startSection('title', 'Brand Model list'); ?>
+<?php $__env->startSection('css'); ?>
     <link rel="stylesheet" type="text/css"
-        href="{{ asset('assets') }}/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
+        href="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" type="text/css"
-        href="{{ asset('assets') }}/node_modules/datatables.net-bs4/css/responsive.dataTables.min.css">
-    <link href="{{ asset('assets/custom/tagify.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
+        href="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/css/responsive.dataTables.min.css">
+    <link href="<?php echo e(asset('assets/custom/tagify.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <!-- Page wrapper  -->
     <!-- ============================================================== -->
     <div class="page-wrapper">
@@ -20,12 +20,12 @@
             <!-- ============================================================== -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">{{ $brand->name }} Model List</h4>
+                    <h4 class="text-themecolor"><?php echo e($brand->name); ?> Model List</h4>
                 </div>
                 <div class="col-md-7 align-self-center text-right">
                     <div class="d-flex justify-content-end align-items-center">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('brand') }}">Brand</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo e(route('brand')); ?>">Brand</a></li>
                             <li class="breadcrumb-item active">Model</li>
                         </ol>
                         <button data-toggle="modal" data-target="#add" class="btn btn-info d-none d-lg-block m-l-15"><i
@@ -44,7 +44,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ route('brand') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Brand
+                            <a href="<?php echo e(route('brand')); ?>" class="btn btn-info"><i class="fa fa-arrow-left"></i> Brand
                                 list</a>
                             <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered table-striped">
@@ -56,25 +56,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($get_data as $data)
-                                            <tr id="item{{ $data->id }}">
-                                                <td>{{ $data->name }}</td>
-                                                <td>{!! $data->status == 1
+                                        <?php $__currentLoopData = $get_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <tr id="item<?php echo e($data->id); ?>">
+                                                <td><?php echo e($data->name); ?></td>
+                                                <td><?php echo $data->status == 1
                                                     ? "<span class='label label-info'>Active</span>"
-                                                    : '<span class="label label-danger">Deactive</span>' !!}
+                                                    : '<span class="label label-danger">Deactive</span>'; ?>
+
                                                 </td>
                                                 <td>
-                                                    <button type="button" onclick="edit({{ $data }})"
+                                                    <button type="button" onclick="edit(<?php echo e($data); ?>)"
                                                         data-toggle="modal" data-target="#edit"
                                                         class="btn btn-info btn-sm"><i class="ti-pencil"
                                                             aria-hidden="true"></i> Edit</button>
                                                     <button data-target="#delete"
-                                                        onclick="deleteConfirmPopup('{{ route('brandmodel.delete', $data->id) }}')"
+                                                        onclick="deleteConfirmPopup('<?php echo e(route('brandmodel.delete', $data->id)); ?>')"
                                                         class="btn btn-danger btn-sm" data-toggle="modal"><i
                                                             class="ti-trash" aria-hidden="true"></i> Delete</button>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -105,8 +106,9 @@
                     <h4 class="modal-title">Set Brand Model</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{ route('model.store') }}" method="POST">
-                    {{ csrf_field() }}
+                <form action="<?php echo e(route('model.store')); ?>" method="POST">
+                    <?php echo e(csrf_field()); ?>
+
                     <input type="hidden" value="" id="setBrandId" name="brand_id">
                     <div class="modal-body form-row">
 
@@ -117,11 +119,11 @@
                                 <div class="row justify-content-md-center">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="hidden" value="{{ $brand->id }}" name="brand_id">
+                                            <input type="hidden" value="<?php echo e($brand->id); ?>" name="brand_id">
                                             <label for="valuename">Model Name</label>
 
                                             <input name="model_name[]" type="text" id="model"
-                                                value="{{ old('model_name[]') }}" data-role="tagsinput"
+                                                value="<?php echo e(old('model_name[]')); ?>" data-role="tagsinput"
                                                 placeholder="Add model" />
                                         </div>
                                     </div>
@@ -136,7 +138,7 @@
                                                 <div class="custom-control custom-switch">
                                                     <input name="status" checked type="checkbox"
                                                         class="custom-control-input"
-                                                        {{ old('status') == 'on' ? 'checked' : '' }} id="status">
+                                                        <?php echo e(old('status') == 'on' ? 'checked' : ''); ?> id="status">
                                                     <label class="custom-control-label"
                                                         for="status">Publish/UnPublish</label>
                                                 </div>
@@ -162,8 +164,9 @@
     <!-- update Modal -->
     <div class="modal fade" id="edit" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
-            <form action="{{ route('brandmodel.update') }}" enctype="multipart/form-data" method="post">
-                {{ csrf_field() }}
+            <form action="<?php echo e(route('brandmodel.update')); ?>" enctype="multipart/form-data" method="post">
+                <?php echo e(csrf_field()); ?>
+
 
                 <div class="modal-content">
                     <div class="modal-header">
@@ -207,14 +210,14 @@
     </div>
 
     <!-- delete Modal -->
-    @include('admin.modal.delete-modal')
+    <?php echo $__env->make('admin.modal.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     <!-- This is data table -->
-    <script src="{{ asset('assets') }}/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('assets') }}/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
-    <script src="{{ asset('assets/custom/tagify.js') }}"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo e(asset('assets')); ?>/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo e(asset('assets/custom/tagify.js')); ?>"></script>
     
     <script type="text/javascript">
         $(document).ready(function() {
@@ -242,4 +245,6 @@
             }
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\bonik_bazar_latest\bonikbazar\resources\views/admin/brand/brand_model.blade.php ENDPATH**/ ?>

@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('subcategory_id')->nullable();
             $table->integer('childcategory_id')->nullable();
             $table->integer('brand_id')->nullable();
+            $table->integer('model_id')->nullable();
             $table->char('feature_image', 225)->nullable();
             $table->string('post_type', 15)->nullable();
             $table->string('sale_type', 25)->nullable();
@@ -45,7 +46,7 @@ class CreateProductsTable extends Migration
             $table->string('meta_title')->nullable();
             $table->text('meta_keywords')->nullable();
             $table->text('meta_description')->nullable();
-            $table->text('meta_image')->nullable();
+            $table->text('meta_fimage')->nullable();
             $table->integer('position')->nullable();
             $table->dateTime('approved')->nullable();
             $table->text('delete_reason')->nullable();

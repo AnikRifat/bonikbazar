@@ -10,4 +10,6 @@ class BrandModel extends Model
     use HasFactory;
     protected $guarded = [];
 
+   
+
 }

@@ -239,6 +239,11 @@
                                 <p>Brand:</p>
                                 <b>{{ $post_detail->get_brand->name}}</b>
                             </div>
+
+                            <div class="d-flex align-items-start justify-content-between">
+                                <p>Model:</p>
+                                <b>{{ $post_detail->get_model->name}}</b>
+                            </div>
                             @endif
                             @if(count($post_detail->get_features)>0)
                             @foreach($post_detail->get_features as $feature)

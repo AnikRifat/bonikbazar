@@ -126,11 +126,9 @@ Route::group(['middleware' => ['auth:admin', 'admin']], function(){
 
 	// model routes 
 	 Route::get('post/brandmodel/{brand_slug}/list', 'BrandController@brandmodel')->name('brandmodel');
-	Route::post('post/brandmodel/store', 'BrandController@brandmodel_store')->name('model.store');
-	// Route::get('post/attributevalue/list', 'ProductAttributeController@attributevalue_list')->name('productAttributeValue.list');
-	// Route::get('post/attributevalue/edit/{id}', 'ProductAttributeController@attributevalue_edit')->name('productAttributeValue.edit');
-	// Route::post('post/attributevalue/update', 'ProductAttributeController@attributevalue_update')->name('productAttributeValue.update');
-	// Route::get('post/attributevalue/delete/{id}', 'ProductAttributeController@attributevalue_delete')->name('productAttributeValue.delete');
+	 Route::post('post/brandmodel/store', 'BrandController@brandmodel_store')->name('model.store');
+	 Route::post('post/brandmodel/update', 'BrandController@brandmodel_update')->name('brandmodel.update');
+	 Route::get('post/brandmodel/delete/{id}', 'BrandController@brandmodel_delete')->name('brandmodel.delete');
 
 
 	Route::get('affiliate/list', 'AffiliateController@affiliateList')->name('affiliateList');

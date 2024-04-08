@@ -29,6 +29,10 @@ class Product extends Model
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+    public function get_model(){
+        return $this->hasOne(BrandModel::class, 'id','model_id');
+    }
+
     public function get_variations(){
         return $this->hasMany(ProductVariation::class, 'product_id', 'id');
     }

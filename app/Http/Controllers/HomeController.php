@@ -889,8 +889,8 @@ class HomeController extends Controller
     //display product details by product id/slug
     public function post_details(Request $request, $slug)
     {
+       
         $data['post_detail'] = Product::with(["get_state", "get_subcategory", "get_features", "author.getMembership", "get_variations.get_variationDetails.get_attributeValue"])->where('slug', $slug)->first();
-
         if ($data['post_detail']) {
             //recent views set category id
             $recent_catId = ($data['post_detail']->childcategory_id) ? $data['post_detail']->childcategory_id : $data['post_detail']->subcategory_id;
@@ -932,6 +932,7 @@ class HomeController extends Controller
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
+                //  return $data;
                 return view('frontend.ads-details')->with($data);
             }
         } else {

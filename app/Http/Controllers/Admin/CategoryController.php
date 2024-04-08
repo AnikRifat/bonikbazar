@@ -55,7 +55,7 @@ class CategoryController extends Controller
     /** Store a new category.*/
     public function category_store(Request $request)
     {
-        // return $request;
+        //   return $request;
 
 
         // $main = $request->attribute_value;

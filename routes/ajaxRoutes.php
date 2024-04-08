@@ -50,3 +50,6 @@ Route::get('position/sorting', 'AjaxController@positionSorting')->name('position
 Route::get('get/state/{country_id?}', 'AjaxController@get_state')->name('get_state');
 Route::get('get/city/{state_id?}', 'AjaxController@get_city')->name('get_city');
 Route::get('get/area/{city_id?}', 'AjaxController@get_area')->name('get_area');
+
+Route::get('get/model', 'AjaxController@get_model')->name('get_model');
+

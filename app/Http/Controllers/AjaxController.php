@@ -19,6 +19,7 @@ use App\Models\ProductVariation;
 use App\Models\ProductVariationDetails;
 use App\Models\State;
 use App\Models\Addvertisement;
+use App\Models\BrandModel;
 use App\Models\Notification;
 use App\Models\SearchHistory;
 use Illuminate\Http\Request;
@@ -129,6 +130,14 @@ class AjaxController extends Controller
             }
         }
         echo $output;
+    }
+
+
+     // get model by brand
+     public function get_model(Request $request){
+        $brand_id = $request->input('brand_id');
+        $models = BrandModel::where('brand_id', $brand_id)->where('status', 1)->orderBy('name', 'asc')->get();
+        return response()->json($models);
     }
 
 

@@ -19,6 +19,7 @@ use App\Models\State;
 use App\Models\City;
 use App\Models\ReportReason;
 use App\Models\Brand;
+use App\Models\BrandModel;
 use App\Models\Package;
 use App\Models\PackageValue;
 use App\Models\PackagePurchase;
@@ -30,12 +31,14 @@ use App\Traits\CreateSlug;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
     use CreateSlug;
     public function index(Request $request, string $status = null)
     {
+       
         $posts = Product::with('get_promotePackage')->withCount(["messages", "reports", "reacts"])->where('user_id', Auth::id())->whereNotIn('status', ['not posted'])->orderBy('id', 'desc');
 
         if ($status) {
@@ -64,6 +67,8 @@ class PostController extends Controller
 
     public function create(Request $request, string $post_id = null, string $category = null)
     {
+
+       
 
         $guard = $request->is('api/*') ? "api" : "web";
         $user_id = Auth::Guard($guard)->id();
@@ -245,7 +250,19 @@ class PostController extends Controller
     //store new post
     public function store(Request $request)
     {
+
         // return $request;
+       
+        if ($request->model_id == null) {
+            $model = new BrandModel();
+            $model->name = $request->model;
+            $model->brand_id = $request->brand;
+            $model->status = 1;
+            $model->created_by = Auth::guard('admin')->id();
+            // Save the BrandModel instance
+            $model->save();
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'post_id' => 'required',
@@ -261,12 +278,12 @@ class PostController extends Controller
         $user_id = Auth::guard($guard)->id();
         $product_id = $request->post_id;
         $post = Product::where("product_id", $product_id)->where("user_id", $user_id)->first();
-
         $post->title = $request->title;
         $post->slug = $this->createSlug('products', $request->title);
         $post->description = $request->description;
         $post->childcategory_id = ($request->childcategory_id) ? $request->childcategory_id : null;
         $post->brand_id = ($request->brand ? $request->brand : null);
+        $post->model_id = ($request->model_id ? $request->model_id : $model->id );
         $post->price = ($request->price) ? $request->price : 0;
         $post->negotiable = ($request->negotiable ? 1 : 0);
         $post->sale_type = ($request->sale_type ? $request->sale_type : null);
