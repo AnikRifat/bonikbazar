@@ -253,15 +253,20 @@ class PostController extends Controller
 
         // return $request;
        
-        if ($request->model_id == null) {
-            $model = new BrandModel();
-            $model->name = $request->model;
-            $model->brand_id = $request->brand;
-            $model->status = 1;
-            $model->created_by = Auth::guard('admin')->id();
-            // Save the BrandModel instance
-            $model->save();
-        }
+       // Define $model outside the condition to ensure it's available later
+$model = null;
+
+if (isset($request->model_id)) {
+    if ($request->model_id == null) {
+        $model = new BrandModel();
+        $model->name = $request->model;
+        $model->brand_id = $request->brand;
+        $model->status = 1;
+        $model->created_by = Auth::guard('admin')->id();
+        // Save the BrandModel instance
+        $model->save();
+    }
+}
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -283,7 +288,7 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->childcategory_id = ($request->childcategory_id) ? $request->childcategory_id : null;
         $post->brand_id = ($request->brand ? $request->brand : null);
-        $post->model_id = ($request->model_id ? $request->model_id : $model->id );
+        $post->model_id = isset($request->model_id) && $request->model_id !== null ? $request->model_id : ($model ? $model->id : null);
         $post->price = ($request->price) ? $request->price : 0;
         $post->negotiable = ($request->negotiable ? 1 : 0);
         $post->sale_type = ($request->sale_type ? $request->sale_type : null);
