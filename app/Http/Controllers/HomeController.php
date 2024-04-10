@@ -560,7 +560,7 @@ class HomeController extends Controller
         }
         $data['products'] = $products->paginate($perPage);
         $items = $this->generateItemListing($data);
-
+dd($items);
         if ($request->filter) {
             if ($request->is('api/*')) {
                 return response()->json($data);
@@ -598,14 +598,24 @@ class HomeController extends Controller
     }
     private function generateItemListing($data)
     {
+        $data['vbp'] = [];
+        foreach ($data['verified_bonik'] as $item) {
+            $data['vbp'][] = $item->toArray();
+        }
+
+        $data['nvbp'] = [];
+        foreach ($data['non_verified_bonik'] as $item) {
+            $data['nvbp'][] = $item->toArray();
+        }
+
         // Combine ad listings and post listings into one array
         $allListings = [
             "pinAds" => isset($data['pinAds']) ? $data['pinAds']->toArray() : [],
             "urgentAds" => isset($data['urgentAds']) ? $data['urgentAds']->toArray() : [],
             "highlightAds" => isset($data['highlightAds']) ? $data['highlightAds']->toArray() : [],
             "fastAds" => isset($data['fastAds']) ? $data['fastAds']->toArray() : [],
-            "verified_bonik" => isset($data['verified_bonik']) ? $data['verified_bonik'] : collect(),
-            "non_verified_bonik" => isset($data['non_verified_bonik']) ? $data['non_verified_bonik'] : collect(),
+            "vbp" => isset($data['vbp']) ? $data['vbp'] : [],
+            "nvbp" => isset($data['nvbp']) ? $data['nvbp'] : [],
         ];
 
         // Initialize the sorted ads array
@@ -622,9 +632,9 @@ class HomeController extends Controller
             if (isset($allListings[$type]) && count($allListings[$type]) > 0) {
                 $sortedAds = array_merge($sortedAds, array_splice($allListings[$type], 0, 2));
                 // Add two verified boniks
-                $sortedAds = array_merge($sortedAds, array_splice($allListings['verified_bonik'], 0, 2));
+                $sortedAds = array_merge($sortedAds, array_splice($allListings['vbp'], 0, 2));
                 // Add two non-verified boniks
-                $sortedAds = array_merge($sortedAds, array_splice($allListings['non_verified_bonik'], 0, 2));
+                $sortedAds = array_merge($sortedAds, array_splice($allListings['nvbp'], 0, 2));
             }
         }
 
