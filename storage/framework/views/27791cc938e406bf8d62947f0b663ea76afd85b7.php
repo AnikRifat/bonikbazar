@@ -248,7 +248,7 @@
 
                             <div class="d-flex align-items-start justify-content-between">
                                 <p>Model:</p>
-                                <b><?php echo e($post_detail->get_model->name); ?></b>
+                                <b><?php echo e($post_detail->get_model->name ?? ''); ?></b>
                             </div>
                             <?php endif; ?>
                             <?php if(count($post_detail->get_features)>0): ?>

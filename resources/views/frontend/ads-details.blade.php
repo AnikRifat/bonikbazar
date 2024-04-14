@@ -242,7 +242,7 @@
 
                             <div class="d-flex align-items-start justify-content-between">
                                 <p>Model:</p>
-                                <b>{{ $post_detail->get_model->name}}</b>
+                                <b>{{ $post_detail->get_model->name ?? '' }}</b>
                             </div>
                             @endif
                             @if(count($post_detail->get_features)>0)

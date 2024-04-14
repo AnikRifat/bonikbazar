@@ -265,7 +265,7 @@
             </div>
         </div>
         <div style="margin-bottom: 97px;">
-            <?php echo $__env->make("frontend.ads", ["adType" => "linkAd", "position" => "bottom"], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            
         </div>
         
     </div>

@@ -265,7 +265,7 @@
             </div>
         </div>
         <div style="margin-bottom: 97px;">
-            @include("frontend.ads", ["adType" => "linkAd", "position" => "bottom"])
+            {{-- @include("frontend.ads", ["adType" => "linkAd", "position" => "bottom"]) --}}
         </div>
         
     </div>

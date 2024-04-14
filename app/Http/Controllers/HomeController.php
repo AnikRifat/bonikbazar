@@ -230,7 +230,7 @@ class HomeController extends Controller
             if ($price_max) {
                 $pinAds->where('price', '<=', $price_max);
             }
-            $data["pinAds"] = $pinAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+            $data["pinAds"] = $pinAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
 
             //get promote ads by category
             $urgentAds = PromoteAds::join("users", "users.id", "promote_ads.user_id")->leftJoin("memberships", "memberships.slug", "users.membership")->join("products", "products.id", "promote_ads.ads_id")->join("states", "states.id", "products.state_id")->join("categories", "categories.id", "products.subcategory_id")->join("packages", "packages.id", "promote_ads.package_id")->where('package_id', 4)->where('start_date', '<=', now())->where('end_date', '>=', now());
@@ -291,7 +291,7 @@ class HomeController extends Controller
             $promoteAdPosts_id = array_merge($pinAds_id);
             // $urgentAds->whereNotIn('products.id', $promoteAdPosts_id);
 
-            $data["urgentAds"] = $urgentAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+            $data["urgentAds"] = $urgentAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
 
 
             //get highlights promote ads by category
@@ -358,7 +358,7 @@ class HomeController extends Controller
             // $highlightAds->whereNotIn('products.id', $promoteAdPosts_id);
             // dd( $promoteAdPosts_id);
             // dd($highlightAds->get());
-            $data["highlightAds"] = $highlightAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+            $data["highlightAds"] = $highlightAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
 
             //get fast promote ads by category
             $fastAds = PromoteAds::join("users", "users.id", "promote_ads.user_id")->leftJoin("memberships", "memberships.slug", "users.membership")->join("products", "products.id", "promote_ads.ads_id")->join("states", "states.id", "products.state_id")->join("categories", "categories.id", "products.subcategory_id")->join("packages", "packages.id", "promote_ads.package_id")->where('package_id', 1)->where('start_date', '<=', now())->where('end_date', '>=', now());
@@ -420,7 +420,7 @@ class HomeController extends Controller
             $promoteAdPosts_id = array_merge($pinAds_id, $urgentAds_id, $highlightAds_id);
             // $fastAds->whereNotIn('products.id', $promoteAdPosts_id);
 
-            $data["fastAds"] = $fastAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+            $data["fastAds"] = $fastAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
         }
 
         //get free ads
@@ -559,8 +559,8 @@ class HomeController extends Controller
             $perPage = $request->perPage - $promoteAds;
         }
         $data['products'] = $products->paginate($perPage);
-        $items = $this->generateItemListing($data);
-
+        $data['items'] = $this->generateItemListing($data);
+        // dd( $data['items']);
         if ($request->filter) {
             if ($request->is('api/*')) {
                 return response()->json($data);
@@ -592,20 +592,31 @@ class HomeController extends Controller
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
+               
                 return view('frontend.category-details')->with($data);
             }
         }
     }
     private function generateItemListing($data)
     {
+        $data['vbp'] = [];
+        foreach ($data['verified_bonik'] as $item) {
+            $data['vbp'][] = $item->toArray();
+        }
+
+        $data['nvbp'] = [];
+        foreach ($data['non_verified_bonik'] as $item) {
+            $data['nvbp'][] = $item->toArray();
+        }
+
         // Combine ad listings and post listings into one array
         $allListings = [
             "pinAds" => isset($data['pinAds']) ? $data['pinAds']->toArray() : [],
             "urgentAds" => isset($data['urgentAds']) ? $data['urgentAds']->toArray() : [],
             "highlightAds" => isset($data['highlightAds']) ? $data['highlightAds']->toArray() : [],
             "fastAds" => isset($data['fastAds']) ? $data['fastAds']->toArray() : [],
-            "verified_bonik" => isset($data['verified_bonik']) ? $data['verified_bonik'] : collect(),
-            "non_verified_bonik" => isset($data['non_verified_bonik']) ? $data['non_verified_bonik'] : collect(),
+            "vbp" => isset($data['vbp']) ? $data['vbp'] : [],
+            "nvbp" => isset($data['nvbp']) ? $data['nvbp'] : [],
         ];
 
         // Initialize the sorted ads array
@@ -622,9 +633,9 @@ class HomeController extends Controller
             if (isset($allListings[$type]) && count($allListings[$type]) > 0) {
                 $sortedAds = array_merge($sortedAds, array_splice($allListings[$type], 0, 2));
                 // Add two verified boniks
-                $sortedAds = array_merge($sortedAds, array_splice($allListings['verified_bonik'], 0, 2));
+                $sortedAds = array_merge($sortedAds, array_splice($allListings['vbp'], 0, 2));
                 // Add two non-verified boniks
-                $sortedAds = array_merge($sortedAds, array_splice($allListings['non_verified_bonik'], 0, 2));
+                $sortedAds = array_merge($sortedAds, array_splice($allListings['nvbp'], 0, 2));
             }
         }
 
