@@ -432,7 +432,7 @@
                 filter:'filter',perPage:showItem
             },
             success:function(data){
-               
+               console.log('data : ',data);
                 if(data){
                     $('#filter_product').html(data);
                     
@@ -440,9 +440,11 @@
                     $('#filter_product').html('Not Found');
                 }
             },
-            error: function() {
-                $('#filter_product').html('<span class="ajaxError">Internal server error.!</span>');
-            }
+        error: function(xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText;
+            console.error('AJAX Error:', errorMessage);
+            $('#filter_product').html('<span class="ajaxError">' + errorMessage + '</span>');
+        }
         });
     }
 

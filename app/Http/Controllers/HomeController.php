@@ -46,6 +46,8 @@ class HomeController extends Controller
     //product show by category
     public function category(Request $request, string $location = null, string $catslug = '')
     {
+
+        
         $data['products'] = $data['banners'] = $data['product_variations'] = $data['category'] = $data['filterCategories'] = $data['brands'] = $data['pinAds'] = $data['urgentAds'] = $data['highlightAds'] = $data['fastAds'] = [];
 
         $ads_duration = SiteSetting::where('type', 'free_ads_limit')->first();
@@ -550,8 +552,7 @@ class HomeController extends Controller
             $data[$key][] = $product;
         }
 
-
-
+        
 
         //check perPage
         $perPage = 19 - $promoteAds;
@@ -559,16 +560,22 @@ class HomeController extends Controller
             $perPage = $request->perPage - $promoteAds;
         }
         $data['products'] = $products->paginate($perPage);
-        $data['items'] = $this->generateItemListing($data);
+     
+       
         // dd( $data['items']);
+
+
+       
         if ($request->filter) {
+           
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
-                return view('frontend.post-filter')->with($data);
+                // return $data;
+                return view('frontend.post-filter-backup')->with($data);
             }
         } else {
-
+            $data['items'] = $this->generateItemListing($data);
             $data['get_category'] = Category::with(['get_subcategory' => function ($query) use ($product_id) {
                 $query->withCount(['productsBySubcategory' => function ($query) use ($product_id) {
                     $query->whereIn('id', $product_id);
@@ -597,7 +604,7 @@ class HomeController extends Controller
             }
         }
     }
-    private function generateItemListing($data)
+    public function generateItemListing($data)
     {
         $data['vbp'] = [];
         foreach ($data['verified_bonik'] as $item) {
@@ -656,6 +663,7 @@ class HomeController extends Controller
     //product show by category
     public function location(Request $request, $location, string $catslug = null)
     {
+        
         $data['products'] = $data['banners'] = $data['product_variations'] = $data['category'] = $data['filterCategories'] = $data['brands'] = [];
 
         try {

@@ -678,11 +678,11 @@
             @endif
 
         @endfor
-        <div class="col-lg-12">
+        <!-- <div class="col-lg-12">
             <div class="footer-pagection">
                 {{ $products->appends(request()->query())->links() }}
             </div>
-        </div>
+        </div> -->
     @else
         <div style="text-align: center;">
             <h3>Search Result Not Found.</h3>
