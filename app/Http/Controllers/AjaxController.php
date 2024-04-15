@@ -107,13 +107,26 @@ class AjaxController extends Controller
     }
 
     // get city by state
-    public function get_city($id=0){
+    public function get_city($id=0, Request $request){
         $cities = City::where('state_id', $id)->orderBy('name', 'asc')->where('status', 1)->get();
         $output = '';
         if(count($cities)>0){
-            $output .= '<option value="">Select city</option>';
-            foreach($cities as $city){
-                $output .='<option '. (Session::get('city') == $city->id ? "selected" : "" ).' value="'.$city->id.'">'.$city->name.'</option>';
+            if ($request->is('api/*')) {
+                // foreach ($cities as $city) {
+                //     $options = [];
+                //     $selected = (Session::get('city') == $city->id) ? true : false;
+                //     $options[] = [
+                //         'selected' => $selected,
+                //         'value' => $city->id,
+                //         'name' => $city->name
+                //     ];
+                // }
+                return response()->json($cities);
+            } else {
+                $output .= '<option value="">Select city</option>';
+                foreach($cities as $city){
+                    $output .='<option '. (Session::get('city') == $city->id ? "selected" : "" ).' value="'.$city->id.'">'.$city->name.'</option>';
+                }
             }
         }
         echo $output;
