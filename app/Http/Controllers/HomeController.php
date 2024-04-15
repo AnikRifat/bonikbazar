@@ -575,7 +575,6 @@ class HomeController extends Controller
                 return view('frontend.post-filter-backup')->with($data);
             }
         } else {
-            $data['items'] = $this->generateItemListing($data);
             $data['get_category'] = Category::with(['get_subcategory' => function ($query) use ($product_id) {
                 $query->withCount(['productsBySubcategory' => function ($query) use ($product_id) {
                     $query->whereIn('id', $product_id);
@@ -599,7 +598,9 @@ class HomeController extends Controller
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
-               
+                if (!$request->q) {
+                    $data['items'] = $this->generateItemListing($data);
+                } 
                 return view('frontend.category-details')->with($data);
             }
         }
@@ -797,7 +798,7 @@ class HomeController extends Controller
         }
 
         if ($request->filter) {
-            return view('frontend.post-filter')->with($data);
+            return view('frontend.post-filter-backup')->with($data);
         } else {
             if ($data['category']) {
                 $data['banners'] = Banner::where('page_name', $data['category']->slug)->where('status', 1)->get();

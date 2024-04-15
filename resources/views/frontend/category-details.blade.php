@@ -257,7 +257,11 @@
             </div>
             <div class="col-md-7 col-xl-7 mt-2" >
                 <div id="filter_product">
-                @include('frontend.post-filter')
+                @if (Route::currentRouteName() == 'home')
+                    @include('frontend.post-filter')
+                @else
+                @include('frontend.post-filter-backup')
+                @endif
                 </div>
             </div>
             <div class="col-md-2 p-0 hidden-xs">

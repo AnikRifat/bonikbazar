@@ -257,7 +257,11 @@
             </div>
             <div class="col-md-7 col-xl-7 mt-2" >
                 <div id="filter_product">
-                <?php echo $__env->make('frontend.post-filter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                <?php if(Route::currentRouteName() == 'home'): ?>
+                    <?php echo $__env->make('frontend.post-filter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                <?php else: ?>
+                <?php echo $__env->make('frontend.post-filter-backup', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                <?php endif; ?>
                 </div>
             </div>
             <div class="col-md-2 p-0 hidden-xs">
