@@ -257,7 +257,11 @@
             </div>
             <div class="col-md-7 col-xl-7 mt-2" >
                 <div id="filter_product">
-                @include('frontend.post-filter')
+                @if (Route::currentRouteName() == 'home')
+                    @include('frontend.post-filter')
+                @else
+                @include('frontend.post-filter-backup')
+                @endif
                 </div>
             </div>
             <div class="col-md-2 p-0 hidden-xs">
@@ -265,7 +269,7 @@
             </div>
         </div>
         <div style="margin-bottom: 97px;">
-            @include("frontend.ads", ["adType" => "linkAd", "position" => "bottom"])
+            {{-- @include("frontend.ads", ["adType" => "linkAd", "position" => "bottom"]) --}}
         </div>
         
     </div>
@@ -432,7 +436,7 @@
                 filter:'filter',perPage:showItem
             },
             success:function(data){
-               
+               console.log('data : ',data);
                 if(data){
                     $('#filter_product').html(data);
                     
@@ -440,9 +444,11 @@
                     $('#filter_product').html('Not Found');
                 }
             },
-            error: function() {
-                $('#filter_product').html('<span class="ajaxError">Internal server error.!</span>');
-            }
+        error: function(xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText;
+            console.error('AJAX Error:', errorMessage);
+            $('#filter_product').html('<span class="ajaxError">' + errorMessage + '</span>');
+        }
         });
     }
 

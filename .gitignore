@@ -6,11 +6,9 @@
 /public/hot
 /public/storage
 /storage/*.key
-/storage/logs/
+/storage/logs
 /storage/framework/views/
 /storage/framework/sessions/
-/storage/*.key
-/storage/*.key
 /storage/*.key
 /vendor
 .env
