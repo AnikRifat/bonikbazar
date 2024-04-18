@@ -26,8 +26,3 @@ docker-compose down
 docker-compose up -d --build
 ```
 
-```
-
-Save this as `README.md` in your project directory for clear instructions on updating your project.
-
-
