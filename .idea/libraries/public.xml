@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="public">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/public/public.zip!/" />
+      <root url="jar://$PROJECT_DIR$/public/upload.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
