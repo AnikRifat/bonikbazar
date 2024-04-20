@@ -35,7 +35,7 @@ class CreateProductsTable extends Migration
             $table->string('condition', 25)->nullable();
             $table->integer('state_id')->nullable();
             $table->text('reject_reason')->nullable();
-            
+            $table->text('website')->nullable();
             $table->integer('city_id')->nullable();
             $table->string('address', 225)->nullable();
             $table->string('contact_name', 125)->nullable();

@@ -261,9 +261,31 @@
                          </div>
                      </div>
 
+                     @if ( Auth::user()->getMembership->name=="Authentic Bonik")
+                     <div class="input-group mb-3">
+                       
+                        
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Website:</span>
+                        </div>
+                        <input type="text" name="website"
+                            
+                            class="form-control" placeholder="website">
+                    </div>
+                     @endif
+
+
                      <h3 class="font-weight-normal mb-2">CONTACT DETAILS:</h3>
 
+
+                   
+
+                      
+                    
+
+
                      <div class="input-group mb-2">
+                        
                          <div class="input-group-prepend">
                              <span class="input-group-text required">Name:</span>
                          </div>
@@ -525,6 +547,7 @@
          function getModel() {
              var brand_id = $('#brand').val(); // Get the selected brand id
 
+             console.log('brand id',brand_id);
              $.ajax({
                  type: "GET",
                  url: "{{ route('get_model') }}", // URL to your route
