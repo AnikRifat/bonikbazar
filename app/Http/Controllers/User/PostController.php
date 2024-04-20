@@ -291,6 +291,7 @@ if (isset($request->model_id)) {
         $post->model_id = isset($request->model_id) && $request->model_id !== null ? $request->model_id : ($model ? $model->id : null);
         $post->price = ($request->price) ? $request->price : 0;
         $post->negotiable = ($request->negotiable ? 1 : 0);
+        $post->website = ($request->website)? $request->website : null;
         $post->sale_type = ($request->sale_type ? $request->sale_type : null);
         $post->contact_name = ($request->contact_name) ? $request->contact_name : null;
         $post->contact_mobile = ($request->contact_mobile) ? json_encode($request->contact_mobile) : null;
