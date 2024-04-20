@@ -24,7 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('user/login', 'User\UserLoginController@login')->name('userLogin');
 Route::post('user/register', 'User\UserRegController@register')->name('userRegister');
 Route::get('user/logout', 'User\UserLoginController@logout')->name('userLogout');
-
+Route::get('get/city/{state_id?}', 'AjaxController@get_city')->name('get_city');
 
 Route::get('resend/account/verify', 'User\UserRegController@resendVerifyToken')->name('resendVerifyToken');
 Route::get('account/verify', 'User\UserRegController@userAccountVerify')->name('userAccountVerify');
@@ -45,6 +45,8 @@ Route::get('compare/product', 'User\CompareController@compare')->name('productCo
 Route::get('compare/product/remove/{product_id}', 'User\CompareController@remove')->name('productCompareRemove');
 
 route::group(['middleware' => ['api', 'auth:api']], function(){
+
+	Route::post('/categories', 'HomeController@Categories');
 
 	Route::post('/sslcommerz/success', 'SslCommerzPaymentController@success');
 	Route::post('/sslcommerz/fail', 'SslCommerzPaymentController@fail');

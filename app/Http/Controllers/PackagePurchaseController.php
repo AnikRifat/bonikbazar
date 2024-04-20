@@ -282,7 +282,11 @@ class PackagePurchaseController extends Controller
         }
         $data['orders'] = $orders->orderBy('id', 'desc')->paginate(16);
 
-        return view('users.package-purchase-history')->with($data);
+        if ($request->is('api/*')) {
+            return response()->json($data);
+        } else {
+            return view('users.package-purchase-history')->with($data);
+        }
     }
 
 }

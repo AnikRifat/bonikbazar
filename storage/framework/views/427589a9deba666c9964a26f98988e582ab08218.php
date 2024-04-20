@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', $post_detail->title.' | '.Config::get('siteSetting.title')); ?>
 <?php $__env->startSection('metatag'); ?>
     <meta name="keywords" content="<?php echo e($post_detail->meta_keywords); ?>" />
@@ -243,6 +244,11 @@
                             <div class="d-flex align-items-start justify-content-between">
                                 <p>Brand:</p>
                                 <b><?php echo e($post_detail->get_brand->name); ?></b>
+                            </div>
+
+                            <div class="d-flex align-items-start justify-content-between">
+                                <p>Model:</p>
+                                <b><?php echo e($post_detail->get_model->name); ?></b>
                             </div>
                             <?php endif; ?>
                             <?php if(count($post_detail->get_features)>0): ?>

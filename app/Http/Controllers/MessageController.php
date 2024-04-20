@@ -16,7 +16,7 @@ class MessageController extends Controller
     use CreateSlug;
 
     //show all conversation user list
-    public function conversationList($username,$product=null)
+    public function conversationList(Request $request, $username,$product=null)
     {
         $sender_id = Auth::user()->id;
 
@@ -44,9 +44,21 @@ class MessageController extends Controller
             }
             $messageWriteBox = 'show';
         
- 
-
-        return view('users.message.inbox')->with(compact('conversationUsers','conversation','messages','receiver','product', 'messageWriteBox'));
+            if ($request->is('api/*')) {
+                $data = [
+                    'conversationUsers' => $conversationUsers,
+                    'conversation' => $conversation,
+                    'messages' => $messages,
+                    'receiver' => $receiver,
+                    'product' => $product,
+                    'messageWriteBox' => $messageWriteBox
+                ];
+                
+                return response()->json($data);
+                
+            } else {
+                return view('users.message.inbox')->with(compact('conversationUsers','conversation','messages','receiver','product', 'messageWriteBox'));
+            }
     }
 
     //get message by username

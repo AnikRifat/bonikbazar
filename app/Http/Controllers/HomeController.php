@@ -46,6 +46,8 @@ class HomeController extends Controller
     //product show by category
     public function category(Request $request, string $location = null, string $catslug = '')
     {
+
+        
         $data['products'] = $data['banners'] = $data['product_variations'] = $data['category'] = $data['filterCategories'] = $data['brands'] = $data['pinAds'] = $data['urgentAds'] = $data['highlightAds'] = $data['fastAds'] = [];
 
         $ads_duration = SiteSetting::where('type', 'free_ads_limit')->first();
@@ -550,8 +552,7 @@ class HomeController extends Controller
             $data[$key][] = $product;
         }
 
-
-
+        
 
         //check perPage
         $perPage = 19 - $promoteAds;
@@ -559,16 +560,21 @@ class HomeController extends Controller
             $perPage = $request->perPage - $promoteAds;
         }
         $data['products'] = $products->paginate($perPage);
-        $data['items'] = $this->generateItemListing($data);
+     
+       
         // dd( $data['items']);
+
+
+       
         if ($request->filter) {
+           
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
-                return view('frontend.post-filter')->with($data);
+                // return $data;
+                return view('frontend.post-filter-backup')->with($data);
             }
         } else {
-
             $data['get_category'] = Category::with(['get_subcategory' => function ($query) use ($product_id) {
                 $query->withCount(['productsBySubcategory' => function ($query) use ($product_id) {
                     $query->whereIn('id', $product_id);
@@ -592,12 +598,14 @@ class HomeController extends Controller
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
-               
+                if (!$request->q) {
+                    $data['items'] = $this->generateItemListing($data);
+                } 
                 return view('frontend.category-details')->with($data);
             }
         }
     }
-    private function generateItemListing($data)
+    public function generateItemListing($data)
     {
         $data['vbp'] = [];
         foreach ($data['verified_bonik'] as $item) {
@@ -656,6 +664,7 @@ class HomeController extends Controller
     //product show by category
     public function location(Request $request, $location, string $catslug = null)
     {
+        
         $data['products'] = $data['banners'] = $data['product_variations'] = $data['category'] = $data['filterCategories'] = $data['brands'] = [];
 
         try {
@@ -789,7 +798,7 @@ class HomeController extends Controller
         }
 
         if ($request->filter) {
-            return view('frontend.post-filter')->with($data);
+            return view('frontend.post-filter-backup')->with($data);
         } else {
             if ($data['category']) {
                 $data['banners'] = Banner::where('page_name', $data['category']->slug)->where('status', 1)->get();
@@ -979,5 +988,11 @@ class HomeController extends Controller
         } else {
             return 'Product not found.';
         }
+    }
+
+    public function Categories(){
+        $data['regions'] = State::with("get_city")->orderBy('position', 'desc')->where('status', 1)->get();
+        $data['categories'] = Category::with('get_subcategory')->where('parent_id', '=', null)->orderBy('position', 'asc')->where('status', 1)->get();
+        return $data;
     }
 }
