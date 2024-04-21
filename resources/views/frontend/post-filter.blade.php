@@ -142,7 +142,7 @@
             </a>
             <div class="hidden-xs">
                 <div class="btn-group btn-block" role="group" aria-label="Basic example">
-                    @if ( Auth::user()->getMembership)
+                    @if (Auth::check() && Auth::user()->getMembership)
 
                     @if ( Auth::user()->getMembership->name=="Authentic Bonik")
                     <a class='btn  btn-success text-white text-center px-1' href=""><i

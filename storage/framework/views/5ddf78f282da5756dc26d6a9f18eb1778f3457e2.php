@@ -12,7 +12,8 @@
                         <h4 class="text-white title"><?php echo e($bannerAd->title); ?></h4>
                         <p class="text-white" title="<?php echo e($bannerAd->state_name); ?>"><?php echo e($bannerAd->category_name); ?>
 
-                            (<?php echo e($bannerAd->sale_type ? $bannerAd->sale_type : $bannerAd->post_type); ?>),
+                            (<?php echo e($bannerAd->sale_type ? $bannerAd->sale_type : $bannerAd->post_type); ?>)
+                            ,
                             <?php echo e($bannerAd->state_name); ?></p>
                         <div class="d-flex align-items-center pb-1">
                             <div class="d-flex align-items-center">
@@ -108,23 +109,28 @@
                                 <div class="d-flex align-items-center">
                                     <img class="lazyload m<p>Model:</p>
 
-                                    r-1" width="20"
+                                    r-1"
+                                        width="20"
                                         src="<?php echo e(asset('upload/images/membership/' . $item['membership_ribbon'])); ?>">
                                     <p class="bt"><?php echo e($item['membership_name']); ?></p>
                                 </div>
                             <?php endif; ?>
 
-                            
-                            <p class="bt" title="<?php echo e(isset($item['state_name'])? $item['state_name'] : $item['get_state']['name']); ?>"><?php echo e(isset($item['state_name'])? $item['state_name'] : $item['get_state']['name']); ?></p>
+
+                            <p class="bt"
+                                title="<?php echo e(isset($item['state_name']) ? $item['state_name'] : $item['get_state']['name']); ?>">
+                                <?php echo e(isset($item['state_name']) ? $item['state_name'] : $item['get_state']['name']); ?></p>
                             <p class="bt hidden-xs" title="<?php echo e($item['category_name']); ?>"> <?php echo e($item['category_name']); ?>
 
-                                (<?php echo e($item['sale_type'] ? $item['sale_type'] : $item['post_type']); ?>)</p>
+                                (<?php echo e($item['sale_type'] ? $item['sale_type'] : $item['post_type']); ?>)
+                            </p>
                         </div>
                         <?php if(isset($item['ribbon']) && $item['ribbon']): ?>
-                    <div>
-                        <img class="lazyload" width="20" src="<?php echo e(asset('upload/images/package/'.$item['ribbon'])); ?>">
-                    </div>
-                    <?php endif; ?>
+                            <div>
+                                <img class="lazyload" width="20"
+                                    src="<?php echo e(asset('upload/images/package/' . $item['ribbon'])); ?>">
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <h4 class="font-weight-bold bt">
@@ -135,24 +141,31 @@
 
                 </div>
             </div>
-           <a class="position-absolute bottom-1 hidden-md" href="<?php echo e(route('user.message', [$item['username'], $item['slug']])); ?>" title="Message">
-            <img width="20" height="20" src="<?php echo e(asset('upload/images/sendss.svg')); ?>" alt="sms">
-        </a> 
-         <div class="hidden-xs">
-            <div class="d-flex justify-content-between">
-                <a class='btn  btn-success text-white text-center px-1' href=""><i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call Now</a>
-                <a class='btn btn-sm btn-success text-white text-center px-1' href=""><i class="fa fa-paper-plane"></i>Chat Now</a>
-                <a class='btn btn-sm btn-success text-center px-1' href=""><i class="fa fa-cart-plus"></i>Buy Now</a>
+            <a class="position-absolute bottom-1 hidden-md"
+                href="<?php echo e(route('user.message', [$item['username'], $item['slug']])); ?>" title="Message">
+                <img width="20" height="20" src="<?php echo e(asset('upload/images/sendss.svg')); ?>" alt="sms">
+            </a>
+            <div class="hidden-xs">
+                <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                    <?php if(Auth::check() && Auth::user()->getMembership): ?>
+
+                    <?php if( Auth::user()->getMembership->name=="Authentic Bonik"): ?>
+                    <a class='btn  btn-success text-white text-center px-1' href=""><i
+                            class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call</a>
+                    <a href="<?php echo e(route('user.message')); ?>" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
+                            class="fa fa-paper-plane"></i>Chat</a>
+                    <a class='btn btn-sm btn-warning text-center px-1' href=""><i
+                            class="fa fa-cart-plus"></i>Buy</a>
+                    <?php elseif(Auth::user()->getMembership->name=="Verified Bonik"): ?>
+                    <a class='btn  btn-success text-white text-center px-1' href=""><i
+                            class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call</a>
+                    <a href="<?php echo e(route('user.message')); ?>" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
+                            class="fa fa-paper-plane"></i>Chat</a>
+                   
+                    <?php endif; ?>
+                    <?php endif; ?>
+                </div>
             </div>
-            <!-- <div class="d-flex mt-n3 position-relative z-3">
-                <form action="<?php echo e(route('user.sendMessage')); ?>?send=direct" method="post" class="d-flex align-items-center bb2 rounded shadow mx-3">
-                <?php echo csrf_field(); ?>
-                <input type="hidden" name="productOrConId" value="<?php echo e($item['id']); ?>">
-                <input type="text" name="message" id="message<?php echo e($item['id']); ?>" class="px-2 py-1 w-100 rounded" placeholder="Send message">
-                <button <?php if(Auth::check()): ?> onclick="sendMessage(<?php echo e($item['id']); ?>)" <?php else: ?> data-target="#so_sociallogin" data-toggle="modal" <?php endif; ?> type="button"><img height="23" src="<?php echo e(asset('upload/images/sendss.svg')); ?>"></button>
-                </form>
-            </div> -->
-        </div>
         </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
