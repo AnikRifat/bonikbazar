@@ -25,15 +25,15 @@
     </style>
 @endsection
 @section('content')
- 
+
     @php
-        
+
         if($category){
-            if($category->parent_id && $category->subcategory_id){ $maincategory = $category->get_category->get_category->name; $maincategory_slug = $category->get_category->get_category->slug; }  
+            if($category->parent_id && $category->subcategory_id){ $maincategory = $category->get_category->get_category->name; $maincategory_slug = $category->get_category->get_category->slug; }
             elseif($category->parent_id){$maincategory = $category->get_category->name; $maincategory_slug = $category->get_category->slug;} else{ $maincategory =  $category->name ; $maincategory_slug =  $category->slug ; }
 
 
-            if($category->parent_id && $category->subcategory_id){ $subcategory = $category->get_category->name; $subcategory_slug = $category->get_category->slug; } 
+            if($category->parent_id && $category->subcategory_id){ $subcategory = $category->get_category->name; $subcategory_slug = $category->get_category->slug; }
             elseif($category->parent_id){$subcategory = $category->name; $subcategory_slug = $category->slug; } else{ $subcategory = null; }
 
             $childcategory = ($category->parent_id && $category->subcategory_id ? $category->name : null);
@@ -41,7 +41,7 @@
             $category_name = ($subcategory) ? $subcategory : $maincategory;
         }
     @endphp
-  
+
     <div class="container px-0">
         <div class="hera-top">
         @include("frontend.ads", ["adType" => "linkAd", "position" => "top"])
@@ -66,9 +66,9 @@
                                     <img width="15" class="rotate-90" src="{{ asset('upload/images/vector.png')}}" alt="vector">
                                 </div>
                             </div>
-                    
+
                             <div id="collapseOne" class="collapse show p-2" role="tabpanel" aria-labelledby="headingOne">
-                                
+
                                 <div class="d-flex align-items-center">
                                     <input type="checkbox" name="ad" value="premium" @if(in_array("premium", explode(',', Request::get('ad')))) checked @endif class="common_selector package" id="premium">
                                     <label class="iy" for="premium">Premium Ad</label>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
 
-                       
+
                         <div class="bg-white mb-3 shadow-b">
                             <div class="bb p-2 shadow-bb" role="tab" id="headingOne">
                                 <div class="w-100 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#categories">
@@ -108,7 +108,7 @@
                                     <img width="15" class="rotate-90" src="{{ asset('upload/images/vector.png')}}" alt="vector">
                                 </div>
                             </div>
-                    
+
                             <div id="categories" class="collapse show p-2" role="tabpanel" aria-labelledby="headingOne">
                                 <ul class="product-widget-list">
                                     @foreach($get_category as $show_category)
@@ -129,11 +129,11 @@
                                     <li><a href="{{ Request::route('location') ? route('home.category', [ Request::route('location'), $show_category->slug]) : route('home.category', ['all', $show_category->slug])}}{{ (request()->getQueryString()) ? '?'. request()->getQueryString() : null}}"><img alt="" src="{{ asset('upload/images/category/thumb/'.$show_category->image) }}"><span>{{$show_category->name}} <p>{{$show_category->products_by_category_count}} Ads</p></span> </a></li>
                                     @endif
                                     @endforeach
-                                    
+
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <div class="bg-white mb-3 shadow-b">
                             <div class="bb p-2 shadow-bb" role="tab" id="headingOne">
                                 <div class="w-100 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#location">
@@ -144,12 +144,12 @@
                                     <img width="15" class="rotate-90" src="{{ asset('upload/images/vector.png')}}" alt="vector">
                                 </div>
                             </div>
-                    
+
                             <div id="location" class="collapse show p-2" role="tabpanel" aria-labelledby="headingOne">
                                 <ul class="product-widget-list">
-                                        
+
                                     <li><a href="{{ Request::route('location') ? route('home.category', [Request::route('catslug')]) : route('home.category')}}"> All Location</a></li>
-                                  
+
                                     @foreach($states as $show_state)
 
                                     @if($state)
@@ -170,7 +170,7 @@
                                     <li><a href="{{ Request::route('catslug') ? route('home.category', [$show_state->slug, Request::route('catslug')]) : route('home.category', $show_state->slug)}}{{ (request()->getQueryString()) ? '?'. request()->getQueryString() : null}}"><span> {{$show_state->name}}<p>{{$show_state->products_by_state_count}} Ads</p></span> </a></li>
                                     @endif
                                     @endforeach
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                                     <img width="15" class="rotate-90" src="{{ asset('upload/images/vector.png')}}" alt="vector">
                                 </div>
                             </div>
-                    
+
                             <div id="collapseOne" class="collapse show p-2" role="tabpanel" aria-labelledby="headingOne">
                                 @foreach($brands as $brand)
                                 <div class="d-flex align-items-center">
@@ -211,7 +211,7 @@
                                     <img width="15" class="rotate-90" src="{{ asset('upload/images/vector.png')}}" alt="vector">
                                 </div>
                             </div>
-                    
+
                             <div id="collapse3" class="collapse show p-2" role="tabpanel" aria-labelledby="heading3">
                                 @foreach($product_variation->get_attrValues as $variationValue)
                                 <div class="d-flex align-items-center">
@@ -235,7 +235,7 @@
                             <img width="15" class="rotate-90" src="{{ asset('upload/images/vector.png')}}" alt="vector">
                         </div>
                     </div>
-            
+
                     <div id="price" class="collapse show p-2" role="tabpanel" aria-labelledby="headingOne">
                         <form class="product-widget-form">
                             <div class="product-widget-group">
@@ -249,11 +249,11 @@
                         </form>
                     </div>
                 </div>
-               
+
                 <div class="sticky-top">
                     @include("frontend.ads", ["adType" => "linkAd", "position" => "leftSide"])
                 </div>
-                
+
             </div>
             <div class="col-md-7 col-xl-7 mt-2" >
                 <div id="filter_product">
@@ -271,7 +271,7 @@
         <div style="margin-bottom: 97px;">
             {{-- @include("frontend.ads", ["adType" => "linkAd", "position" => "bottom"]) --}}
         </div>
-        
+
     </div>
 
     <div class="modal fade" id="selectcatmodal" role="dialog" style="display: none;">
@@ -338,21 +338,21 @@
 @section('js')
 
 <script type="text/javascript">
-    
+
     function filter_data(page)
     {
         //enable loader
         $('#filter_product').html('<div style="display:block;" id="loadingData"></div>');
-        
+
         window.scrollTo({top: 100, behavior: 'smooth'});
         $('.filter').hide().fadeOut();
-        
+
         var category = "{!! str_replace(' ', '', Request::route('catslug')) !!}" ;
         @if(Request::route('location'))
             category += "{{Request::route('location')}}";
         @endif
         var concatUrl = '?';
-        
+
         var searchKey = $("#searchKey").val();
         if(searchKey != '' ){
             concatUrl += 'q='+searchKey;
@@ -363,31 +363,31 @@
             var filterValue = get_filter('{{str_replace(' ', '', $product_variation->name)}}');
             if(filterValue != ''){
                 concatUrl += '&{{strtolower(str_replace(' ', '', $product_variation->name))}}='+filterValue;
-            }  
+            }
         @endforeach
-       
-        
+
+
 
         var package = get_filter('package');
         if(package != '' ){
             concatUrl += '&ad='+package;
-        }  
+        }
 
         var member = get_filter('member');
         if(member != '' ){
             concatUrl += '&member='+member;
-        }     
+        }
 
         var brand = get_filter('brand');
         if(brand != '' ){
             concatUrl += '&brand='+brand;
-        }    
-       
+        }
+
         var perPage = null;
         var showItem = $("#perPage :selected").val();
         if(typeof showItem != 'undefined' || showItem != null){
            perPage = showItem;
-           //check weather page null or set 
+           //check weather page null or set
             if(page == null){
                 //var active = $('.active .page-link').html();
                 var page = 1;
@@ -397,7 +397,7 @@
         var sortby = $("#sortby :selected").val();
         if(typeof sortby != 'undefined' && sortby != ''){
             concatUrl += '&sortby='+sortby;
-            //check weather page null or set 
+            //check weather page null or set
             if(page == null){
                 //var active = $('.active .page-link').html();
                 var page = 1;
@@ -407,7 +407,7 @@
         var period = $("#period :selected").val();
         if(typeof period != 'undefined' && period != ''){
             concatUrl += '&period='+period;
-            //check weather page null or set 
+            //check weather page null or set
             if(page == null){
                 //var active = $('.active .page-link').html();
                 var page = 1;
@@ -425,7 +425,7 @@
         }
 
         if(page != null){concatUrl += '&page='+page;}
-     
+
         var link = '{{ URL::current() }}/'+concatUrl;
             history.pushState({id: null}, null, link);
 
@@ -439,7 +439,7 @@
                console.log('data : ',data);
                 if(data){
                     $('#filter_product').html(data);
-                    
+
                 }else{
                     $('#filter_product').html('Not Found');
                 }
@@ -458,7 +458,7 @@
         $('.'+class_name+':checked').each(function(){
             filter.push($(this).val());
         });
-       
+
         return filter;
     }
 
@@ -485,17 +485,17 @@
         filter_data(page);
     });
 
-      
-        $(window).on('popstate', function() {  
+
+        $(window).on('popstate', function() {
            var page = $('.pagination a').attr('href').split('page=')[1];
-           
+
             if(page != 'undefined' && page>0){
                 window.scrollTo({top: 100, behavior: 'smooth'});
                 filter_data(page);
             }
        });
 
-    
+
 
     $('#resetAll').click(function(){
         $('input:checkbox').removeAttr('checked');
@@ -513,17 +513,17 @@
             e.preventDefault();
             $(".filter").show().fadeIn();
         });
-       
+
         $('.close-filter').click(function() {
-          
+
             $('.filter').hide().fadeOut();
-            
-        }); 
+
+        });
     });
 
 
     function sendMessage(product_id){
-    
+
         var message = $('#message'+product_id).val();
         if(message == ''){
             toastr.error('Message field required.');

@@ -79,7 +79,7 @@ route::group(['middleware' => ['api', 'auth:api']], function(){
 	Route::get('read/notifications/{id?}', 'NotificationController@readNotify')->name('readNotify');
 
 	//Follower //D
-	Route::get('user/follower', 'ShopController@follower')->name('follower');
+	Route::post('user/follower', 'ShopController@follower')->name('follower');
 
 	Route::get('seller/report', 'ReportController@reportForm')->name('reportForm');
 	Route::post('seller/report', 'ReportController@sellerReport')->name('sellerReport');

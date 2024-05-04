@@ -190,11 +190,24 @@ class SellerVerificationController extends Controller
                     return $membershipPayment->paymentSuccess();
                 }
             }
-            Toastr::success('Account verify request send successful.');
+            if($request->is('api/*')){
+                return response()->json(["message" => "Account verify request send successful."]);
+            } else {
+                Toastr::success('Account verify request send successful.');
+            }
         }else{
-            Toastr::error('Sorry account verify request failed.');
+            if($request->is('api/*')){
+                return response()->json(["message" => "Sorry account verify request failed."]);
+            } else {
+                Toastr::error('Sorry account verify request failed.');
+            }
         }
-        return back()->with("success", "Your account verify request send successful. Your verify request under review.");
+
+        if($request->is('api/*')){
+            return response()->json(["message" => "Your account verify request send successful. Your verify request under review."]);
+        } else {
+            return back()->with("success", "Your account verify request send successful. Your verify request under review.");
+        }
     }
 
     public function affiliateDiscount($refer_by, $amount=null, $membership=null, $month=null){

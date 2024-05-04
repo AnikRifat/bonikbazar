@@ -142,18 +142,31 @@
             </a>
             <div class="hidden-xs">
                 <div class="btn-group btn-block" role="group" aria-label="Basic example">
-                    @if ( Auth::user()->getMembership)
+                    @if (Auth::check() && Auth::user()->getMembership)
 
                     @if ( Auth::user()->getMembership->name=="Authentic Bonik")
-                    <a class='btn  btn-success text-white text-center px-1' href=""><i
-                            class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call</a>
+                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ $item['mobile'] }}">
+                        <i
+                        class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                     </button>
                     <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                             class="fa fa-paper-plane"></i>Chat</a>
-                    <a class='btn btn-sm btn-warning text-center px-1' href=""><i
-                            class="fa fa-cart-plus"></i>Buy</a>
-                    @elseif(Auth::user()->getMembership->name=="Verified Bonik")
-                    <a class='btn  btn-success text-white text-center px-1' href=""><i
-                            class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call</a>
+
+                           
+                            @if( $item['website']!=null)
+                            
+                            <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $item['website'] }}"><i
+                                    class="fa fa-cart-plus"></i>Buy</a>
+                            @endif
+
+                    @else
+
+                    <button type="button" class="btn  btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ $item['mobile'] }}">
+                        <i
+                        class="fa fa-phone fa-flip-horizontal" style="color:white"></i>  Call
+                    </button>
+
+                   
                     <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                             class="fa fa-paper-plane"></i>Chat</a>
                    
@@ -163,4 +176,6 @@
             </div>
         </div>
     @endforeach
+
+    
 </div>

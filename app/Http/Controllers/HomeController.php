@@ -120,7 +120,14 @@ class HomeController extends Controller
         }
 
         //get banner promote ads by category
-        $bannerAds = PromoteAds::join("users", "users.id", "promote_ads.user_id")->leftJoin("memberships", "memberships.slug", "users.membership")->join("products", "products.id", "promote_ads.ads_id")->join("states", "states.id", "products.state_id")->join("categories", "categories.id", "products.subcategory_id")->join("packages", "packages.id", "promote_ads.package_id")->where('package_id', 5)->where('start_date', '<=', now())->where('end_date', '>=', now());
+        $bannerAds = PromoteAds::join("users", "users.id", "promote_ads.user_id")
+        ->leftJoin("memberships", "memberships.slug", "users.membership")
+        ->join("products", "products.id", "promote_ads.ads_id")
+        ->join("states", "states.id", "products.state_id")
+        ->join("categories", "categories.id", "products.subcategory_id")
+        ->join("packages", "packages.id", "promote_ads.package_id")
+        ->where('package_id', 5)->where('start_date', '<=', now())
+        ->where('end_date', '>=', now());
 
         if ($category_id) {
             $bannerAds->where(function ($q) use ($category_id) {
@@ -173,7 +180,11 @@ class HomeController extends Controller
         if ($price_max) {
             $bannerAds->where('price', '<=', $price_max);
         }
-        $data["bannerAds"] = $bannerAds->inRandomOrder()->take(7)->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+        $data["bannerAds"] = $bannerAds->inRandomOrder()->take(7)
+        ->where('products.status', 'active')
+        ->where('promote_ads.status', 1)
+        ->selectRaw("products.title, products.id,products.slug,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")
+        ->get();
 
 
 
@@ -232,7 +243,9 @@ class HomeController extends Controller
             if ($price_max) {
                 $pinAds->where('price', '<=', $price_max);
             }
-            $data["pinAds"] = $pinAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+            $data["pinAds"] = $pinAds->inRandomOrder()->where('products.status', 'active')
+                                     ->where('promote_ads.status', 1)
+                                     ->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
 
             //get promote ads by category
             $urgentAds = PromoteAds::join("users", "users.id", "promote_ads.user_id")->leftJoin("memberships", "memberships.slug", "users.membership")->join("products", "products.id", "promote_ads.ads_id")->join("states", "states.id", "products.state_id")->join("categories", "categories.id", "products.subcategory_id")->join("packages", "packages.id", "promote_ads.package_id")->where('package_id', 4)->where('start_date', '<=', now())->where('end_date', '>=', now());
@@ -293,7 +306,7 @@ class HomeController extends Controller
             $promoteAdPosts_id = array_merge($pinAds_id);
             // $urgentAds->whereNotIn('products.id', $promoteAdPosts_id);
 
-            $data["urgentAds"] = $urgentAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
+              $data["urgentAds"] = $urgentAds->inRandomOrder()->where('products.status', 'active')->where('promote_ads.status', 1)->selectRaw("products.title, products.id,products.slug,packages.slug as promote_slug,packages.id as promote_id,products.feature_image,products.price, sale_type, post_type, ads_id, packages.ribbon, states.name as state_name, categories.name as category_name, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon")->get();
 
 
             //get highlights promote ads by category
@@ -426,8 +439,12 @@ class HomeController extends Controller
         }
 
         //get free ads
-        $products = Product::with(["get_state"])->join("users", "users.id", "products.user_id")->join("categories", "categories.id", "products.subcategory_id")->leftJoin("memberships", "memberships.slug", "users.membership")->where('products.status', 'active');
-
+         $products = Product::with(["get_state"])
+        ->join("users", "users.id", "products.user_id")
+        ->join("categories", "categories.id", "products.subcategory_id")
+        ->leftJoin("memberships", "memberships.slug", "users.membership")
+        ->join('seller_verifications', 'seller_verifications.seller_id', '=', 'users.id')
+        ->where('products.status', 'active');    
         if ($ads_duration) {
             $products->where('approved', '>=', $ads_duration);
         }
@@ -512,9 +529,8 @@ class HomeController extends Controller
         if ($request->ad) {
             $products->join("promote_ads", "promote_ads.ads_id", "products.id")->where('promote_ads.start_date', '<=', now())->where('promote_ads.end_date', '>=', now())->groupBy("products.id");
         }
-
         //get product id for Category states count post
-        $get_products = $products->selectRaw('title,products.id,products.slug,price,brand_id,categories.name as category_name, state_id,views,post_type,sale_type, products.user_id, feature_image,products.created_at,approved, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon')->get()->toArray();
+        $get_products = $products->selectRaw('title,products.id,products.slug,price,brand_id,categories.name as category_name, state_id,views,post_type,sale_type, products.user_id, feature_image,products.created_at,approved, users.name,users.username, memberships.name as membership_name, memberships.ribbon as membership_ribbon,seller_verifications.website,seller_verifications.mobile')->get()->toArray();
         $product_id = array_column($get_products, 'id');
 
         if (!$request->ad) {
@@ -552,7 +568,7 @@ class HomeController extends Controller
             $data[$key][] = $product;
         }
 
-        
+       
 
         //check perPage
         $perPage = 19 - $promoteAds;
@@ -564,7 +580,7 @@ class HomeController extends Controller
        
         // dd( $data['items']);
 
-
+    
        
         if ($request->filter) {
            
@@ -608,14 +624,21 @@ class HomeController extends Controller
     public function generateItemListing($data)
     {
         $data['vbp'] = [];
-        foreach ($data['verified_bonik'] as $item) {
-            $data['vbp'][] = $item->toArray();
+
+        if($data['verified_bonik']){
+            foreach ($data['verified_bonik'] as $item) {
+                $data['vbp'][] = $item->toArray();
+            }
+
         }
 
         $data['nvbp'] = [];
+
+        if(isset($data['non_verified_bonik'])){
         foreach ($data['non_verified_bonik'] as $item) {
             $data['nvbp'][] = $item->toArray();
         }
+    }
 
         // Combine ad listings and post listings into one array
         $allListings = [
@@ -798,6 +821,7 @@ class HomeController extends Controller
         }
 
         if ($request->filter) {
+           
             return view('frontend.post-filter-backup')->with($data);
         } else {
             if ($data['category']) {
