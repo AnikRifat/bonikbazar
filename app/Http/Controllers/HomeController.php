@@ -934,7 +934,7 @@ class HomeController extends Controller
     //display product details by product id/slug
     public function post_details(Request $request, $slug)
     {
-        $data['post_detail'] = Product::with(["get_state", "get_subcategory", "get_features", "author.getMembership", "get_variations.get_variationDetails.get_attributeValue"])->where('slug', $slug)->first();
+         $data['post_detail'] = Product::with(["get_state", "get_subcategory", "get_features", "author.getMembership", "get_variations.get_variationDetails.get_attributeValue","user.sellerVerify"])->where('slug', $slug)->first();
 
         if ($data['post_detail']) {
             //recent views set category id
@@ -972,8 +972,9 @@ class HomeController extends Controller
                 $related_products->where('approved', '>=', $ads_duration);
             }
 
-            $data['related_products'] = $related_products->where('id', '!=', $data['post_detail']->id)->selectRaw('id,title,slug,feature_image,price,sale_type,brand_id,category_id,subcategory_id,state_id,created_at')->inRandomOrder()->take(6)->get();
+            $data['related_products'] = $related_products->where('id', '!=', $data['post_detail']->id)->selectRaw('website,id,title,slug,feature_image,price,sale_type,brand_id,category_id,subcategory_id,state_id,created_at')->inRandomOrder()->take(6)->get();
 
+            // return $data;
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {

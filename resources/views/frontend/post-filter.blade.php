@@ -145,10 +145,12 @@
                     @if (Auth::check() && Auth::user()->getMembership)
 
                     @if ( Auth::user()->getMembership->name=="Authentic Bonik")
-                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ $item['mobile'] }}">
-                        <i
-                        class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
-                     </button>
+
+                    
+                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $item['mobile'] }} for amazing deals!" data-html="true">
+                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                    </button>
+                    
                     <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                             class="fa fa-paper-plane"></i>Chat</a>
 
@@ -161,9 +163,8 @@
 
                     @else
 
-                    <button type="button" class="btn  btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ $item['mobile'] }}">
-                        <i
-                        class="fa fa-phone fa-flip-horizontal" style="color:white"></i>  Call
+                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $item['mobile'] }} for amazing deals!" data-html="true">
+                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                     </button>
 
                    

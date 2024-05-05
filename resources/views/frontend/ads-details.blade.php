@@ -443,12 +443,38 @@
                             <p class="bt py-1  hidden-xs">{{Carbon\Carbon::parse($related_product->created_at)->diffForHumans()}}</p>
                         </div>
                     </div>
-                    <a class="position-absolute bottom-1 hidden-md" href="{{route('user.message', [ $related_product->slug])}}" title="Message">
+                    {{-- <a class="position-absolute bottom-1 hidden-md" href="{{route('user.message', [ $related_product->slug])}}" title="Message">
                         <img width="20" height="20" src="{{ asset('upload/images/sendss.svg')}}" alt="sms">
-                    </a>
+                    </a> --}}
+
+                    <div>
+                        <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                            @if (Auth::check() && Auth::user()->getMembership)
+                                @if (Auth::user()->getMembership->name == 'Authentic Bonik')
+                                <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $post_detail->user->sellerVerify->mobile }} for amazing deals!" data-html="true">
+                                    <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                </button>
+                                    <a href="{{ route('user.message') }}"
+                                        class='btn btn-sm btn-info text-white text-center px-1'
+                                        href=""><i class="fa fa-paper-plane"></i>Chat</a>
+                                        @if ( $post_detail->user->sellerVerify->website!=null)
+                                        <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{$post_detail->user->seller_verify->website }}"><i
+                                                class="fa fa-cart-plus"></i>Buy</a>
+                                        @endif
+                                @else 
+                                <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $post_detail->user->sellerVerify->mobile }} for amazing deals!" data-html="true">
+                                    <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                </button>
+                                    <a href="{{ route('user.message') }}"
+                                        class='btn btn-sm btn-info text-white text-center px-1'
+                                        href=""><i class="fa fa-paper-plane"></i>Chat</a>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="hidden-xs">
+                {{-- <div class="hidden-xs">
                     <div class="d-flex mt-n3 position-relative z-3">
                         <div class="d-flex align-items-center bb2 rounded shadow mx-3 bg-white">
                             <input type="text" name="message" id="message{{$related_product->id}}" class="px-2 py-1 w-100 rounded" placeholder="Send message">
@@ -457,7 +483,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             
             @if($index == 1)

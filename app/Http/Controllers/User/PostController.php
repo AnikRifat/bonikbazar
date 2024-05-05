@@ -38,7 +38,7 @@ class PostController extends Controller
     use CreateSlug;
     public function index(Request $request, string $status = null)
     {
-       
+
         $posts = Product::with('get_promotePackage')->withCount(["messages", "reports", "reacts"])->where('user_id', Auth::id())->whereNotIn('status', ['not posted'])->orderBy('id', 'desc');
 
         if ($status) {
@@ -68,7 +68,7 @@ class PostController extends Controller
     public function create(Request $request, string $post_id = null, string $category = null)
     {
 
-       
+
 
         $guard = $request->is('api/*') ? "api" : "web";
         $user_id = Auth::Guard($guard)->id();
@@ -192,12 +192,11 @@ class PostController extends Controller
                 }
             }
 
-            if($request->is('api/*')){
+            if ($request->is('api/*')) {
                 return response()->json(['product_id' => $product_id, 'category_slug' => $category->slug]);
-            }else{
+            } else {
                 return redirect()->route('post.create', [$product_id, $category->slug]);
             }
-           
         }
 
         //second step show post variation & features
@@ -225,10 +224,10 @@ class PostController extends Controller
 
             $data['get_category'] = Category::with('get_subcategory')->whereNull('parent_id')->where('status', 1)->get();
             $data['states'] =  State::with('get_city')->orderBy('position', 'desc')->get();
-            
-            if($request->is('api/*')){
+
+            if ($request->is('api/*')) {
                 return response()->json(['data' => $data]);
-            }else{
+            } else {
                 return view('users.post.ad-post')->with($data);
             }
         }
@@ -238,11 +237,11 @@ class PostController extends Controller
         $data['categories'] = Category::with('get_subcategory')->where('parent_id', '=', null)->orderBy('position', 'asc')->where('status', 1)->get();
 
         $data['paymentgateways'] = PaymentGateway::orderBy('position', 'asc')->where('method_for', '!=', 'payment')->where('status', 1)->get();
-       
 
-        if($request->is('api/*')){
+
+        if ($request->is('api/*')) {
             return response()->json(['data' => $data]);
-        }else{
+        } else {
             return view('users.post.ads-category')->with($data);
         }
     }
@@ -252,21 +251,21 @@ class PostController extends Controller
     {
 
         // return $request;
-       
-       // Define $model outside the condition to ensure it's available later
-$model = null;
 
-if (isset($request->model_id)) {
-    if ($request->model_id == null) {
-        $model = new BrandModel();
-        $model->name = $request->model;
-        $model->brand_id = $request->brand;
-        $model->status = 1;
-        $model->created_by = Auth::guard('admin')->id();
-        // Save the BrandModel instance
-        $model->save();
-    }
-}
+        // Define $model outside the condition to ensure it's available later
+        $model = null;
+
+        if (isset($request->model_id)) {
+            if ($request->model_id == null) {
+                $model = new BrandModel();
+                $model->name = $request->model;
+                $model->brand_id = $request->brand;
+                $model->status = 1;
+                $model->created_by = Auth::guard('admin')->id();
+                // Save the BrandModel instance
+                $model->save();
+            }
+        }
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -291,7 +290,7 @@ if (isset($request->model_id)) {
         $post->model_id = isset($request->model_id) && $request->model_id !== null ? $request->model_id : ($model ? $model->id : null);
         $post->price = ($request->price) ? $request->price : 0;
         $post->negotiable = ($request->negotiable ? 1 : 0);
-        $post->website = ($request->website)? $request->website : null;
+        $post->website = ($request->website) ? $request->website : null;
         $post->sale_type = ($request->sale_type ? $request->sale_type : null);
         $post->contact_name = ($request->contact_name) ? $request->contact_name : null;
         $post->contact_mobile = ($request->contact_mobile) ? json_encode($request->contact_mobile) : null;
@@ -350,17 +349,15 @@ if (isset($request->model_id)) {
                 }
             }
 
-            if($request->is('api/*')){
+            if ($request->is('api/*')) {
                 return response()->json(['slug' => [$post->slug], "message" => "Post create successfully. Your post under review"]);
-            }
-            else{
+            } else {
                 Toastr::success('Post create successfully. Your post under review');
                 //redirect payment page for payment
                 return redirect()->route('ads.promotePackage', [$post->slug])->with('success', 'Post create successfully. Your post under review');
             }
-          
         } else {
-            return handleResponse('Error',$request,'Post Cannot Create.!');
+            return handleResponse('Error', $request, 'Post Cannot Create.!');
         }
         return back();
     }
@@ -454,7 +451,7 @@ if (isset($request->model_id)) {
             $message = "Post create successfully. Your post under review";
             return  handleResponse('success', $request, $message, ['case' => 3, 'url' => 'post.list', 'message' => $message]);
         } else {
-            return handleResponse('error',$request,'Post Cannot Create.!');
+            return handleResponse('error', $request, 'Post Cannot Create.!');
         }
         return back();
     }
@@ -546,13 +543,13 @@ if (isset($request->model_id)) {
             $message = "Post update successfully.";
             return  handleResponse('success', $request, $message, ['case' => 3, 'url' => 'post.list', 'message' => $$message]);
         } else {
-            return handleResponse('error',$request,'Post Cannot Update.!');
+            return handleResponse('error', $request, 'Post Cannot Update.!');
         }
         return back();
     }
 
     //edit post
-    public function edit(Request $request,$slug)
+    public function edit(Request $request, $slug)
     {
         $data['post'] = Product::with('get_galleryImages')->where('slug', $slug)->where('user_id', Auth::id())->first();
         $product_id = $data['post']->id;
@@ -563,14 +560,11 @@ if (isset($request->model_id)) {
                 $data['regions'] = State::with("get_city")->orderBy('position', 'desc')->where('status', 1)->get();
 
                 $data['categories'] = Category::with('get_subcategory')->where('parent_id', '=', null)->orderBy('position', 'asc')->where('status', 1)->get();
-                if($request->is('api/*')){
-                   return response()->json(["data" => $data]);
-                }
-
-                else{
+                if ($request->is('api/*')) {
+                    return response()->json(["data" => $data]);
+                } else {
                     return view('users.post.wanted-post-edit')->with($data);
                 }
-              
             }
 
 
@@ -612,12 +606,11 @@ if (isset($request->model_id)) {
             ])->where('status', 1)->get();
 
 
-            if($request->is('api/*')){
+            if ($request->is('api/*')) {
                 return response()->json(["data" => $data]);
-             }else{
+            } else {
                 return view('users.post.ad-post-edit')->with($data);
-             }
-           
+            }
         }
 
         return view('404');

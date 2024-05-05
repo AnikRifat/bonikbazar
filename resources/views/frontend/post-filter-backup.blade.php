@@ -1,3 +1,11 @@
+@yield('js')
+<script>
+    $(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
+
+
 @if (count($bannerAds) > 0)
     <div id="carouselExampleControls" class="carousel slide  w-100 rounded" data-ride="carousel" style="max-height: 382px;">
         <div class="carousel-inner">
@@ -153,9 +161,9 @@
                                 <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                     @if (Auth::check() && Auth::user()->getMembership)
                                         @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                            <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                    class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                                Call</a>
+                                        <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $pinAd->mobile }} for amazing deals!" data-html="true">
+                                            <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                        </button>
                                             <a href="{{ route('user.message') }}"
                                                 class='btn btn-sm btn-info text-white text-center px-1'
                                                 href=""><i class="fa fa-paper-plane"></i>Chat</a>
@@ -164,9 +172,9 @@
                                                         class="fa fa-cart-plus"></i>Buy</a>
                                                 @endif
                                         @else 
-                                            <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                    class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                                Call</a>
+                                        <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $pinAd->mobile }} for amazing deals!" data-html="true">
+                                            <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                        </button>
                                             <a href="{{ route('user.message') }}"
                                                 class='btn btn-sm btn-info text-white text-center px-1'
                                                 href=""><i class="fa fa-paper-plane"></i>Chat</a>
@@ -238,9 +246,9 @@
                             <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                 @if (Auth::check() && Auth::user()->getMembership)
                                     @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -249,9 +257,9 @@
                                                         class="fa fa-cart-plus"></i>Buy</a>
                                                 @endif
                                     @else 
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -328,9 +336,9 @@
                             <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                 @if (Auth::check() && Auth::user()->getMembership)
                                     @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $urgentAd->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -339,9 +347,9 @@
                                                         class="fa fa-cart-plus"></i>Buy</a>
                                                 @endif
                                     @else 
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $urgentAd->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -411,9 +419,9 @@
                             <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                 @if (Auth::check() && Auth::user()->getMembership)
                                     @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -422,9 +430,9 @@
                                                         class="fa fa-cart-plus"></i>Buy</a>
                                                 @endif
                                     @else 
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -494,9 +502,9 @@
                             <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                 @if (Auth::check() && Auth::user()->getMembership)
                                     @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $highlightAd->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -505,9 +513,9 @@
                                                         class="fa fa-cart-plus"></i>Buy</a>
                                                 @endif
                                     @else
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $highlightAd->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -576,9 +584,9 @@
                             <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                 @if (Auth::check() && Auth::user()->getMembership)
                                     @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $fastAd->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -590,9 +598,9 @@
 
 
                                     @else 
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $fastAd->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -662,9 +670,9 @@
                             <div class="btn-group btn-block" role="group" aria-label="Basic example">
                                 @if (Auth::check() && Auth::user()->getMembership)
                                     @if (Auth::user()->getMembership->name == 'Authentic Bonik')
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
@@ -673,9 +681,9 @@
                                                         class="fa fa-cart-plus"></i>Buy</a>
                                                 @endif
                                     @else 
-                                        <a class='btn  btn-success text-white text-center px-1' href=""><i
-                                                class="fa fa-phone fa-flip-horizontal" style="color:white"></i>
-                                            Call</a>
+                                    <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
+                                        <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
+                                    </button>
                                         <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
                                                 class="fa fa-paper-plane"></i>Chat</a>
