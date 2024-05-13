@@ -457,7 +457,7 @@
                                     <a href="{{ route('user.message') }}"
                                         class='btn btn-sm btn-info text-white text-center px-1'
                                         href=""><i class="fa fa-paper-plane"></i>Chat</a>
-                                        @if ( $post_detail->user->sellerVerify->website!=null)
+                                        @if ($post_detail->user->sellerVerify != null && $post_detail->user->sellerVerify->website != null && $post_detail->user->sellerVerify->website !== "" && $post_detail->user->sellerVerify->website !== "#")
                                         <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{$post_detail->user->seller_verify->website }}"><i
                                                 class="fa fa-cart-plus"></i>Buy</a>
                                         @endif
