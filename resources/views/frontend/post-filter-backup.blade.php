@@ -164,9 +164,11 @@
                                         <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $pinAd->mobile }} for amazing deals!" data-html="true">
                                             <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                         </button>
-                                            <a href="{{ route('user.message') }}"
+                                            <!-- <a href="{{ route('user.message') }}"
                                                 class='btn btn-sm btn-info text-white text-center px-1'
-                                                href=""><i class="fa fa-paper-plane"></i>Chat</a>
+                                                href=""><i class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                                 @if ( $pinAd->website!=null)
                                                 <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $pinAd->website }}"><i
                                                         class="fa fa-cart-plus"></i>Buy</a>
@@ -175,9 +177,11 @@
                                         <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $pinAd->mobile }} for amazing deals!" data-html="true">
                                             <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                         </button>
-                                            <a href="{{ route('user.message') }}"
+                                            <!-- <a href="{{ route('user.message') }}"
                                                 class='btn btn-sm btn-info text-white text-center px-1'
-                                                href=""><i class="fa fa-paper-plane"></i>Chat</a>
+                                                href=""><i class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                         @endif
                                     @endif
                                 </div>
@@ -249,9 +253,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                                 @if ( $product->website!=null)
                                                 <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $product->website }}"><i
                                                         class="fa fa-cart-plus"></i>Buy</a>
@@ -260,9 +266,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     @endif
                                 @endif
                             </div>
@@ -339,9 +347,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $urgentAd->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                                 @if ( $urgentAd->website!=null)
                                                 <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $urgentAd->website }}"><i
                                                         class="fa fa-cart-plus"></i>Buy</a>
@@ -350,9 +360,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $urgentAd->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     @endif
                                 @endif
                             </div>
@@ -422,9 +434,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                                 @if ( $product->website!=null)
                                                 <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $product->website }}"><i
                                                         class="fa fa-cart-plus"></i>Buy</a>
@@ -433,9 +447,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     @endif
                                 @endif
                             </div>
@@ -505,9 +521,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $highlightAd->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                                 @if ( $highlightAd->website!=null)
                                                 <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $highlightAd->website }}"><i
                                                         class="fa fa-cart-plus"></i>Buy</a>
@@ -516,9 +534,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $highlightAd->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     @endif
                                 @endif
                             </div>
@@ -587,9 +607,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $fastAd->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
 
                                                @if ( $fastAd->website!=null)
                                                <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $fastAd->website }}"><i
@@ -601,9 +623,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $fastAd->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     @endif
                                 @endif
                             </div>
@@ -673,9 +697,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                                 @if ( $product->website!=null)
                                                 <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{ $product->website }}"><i
                                                         class="fa fa-cart-plus"></i>Buy</a>
@@ -684,9 +710,11 @@
                                     <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $product->mobile }} for amazing deals!" data-html="true">
                                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                                     </button>
-                                        <a href="{{ route('user.message') }}"
+                                        <!-- <a href="{{ route('user.message') }}"
                                             class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                                                class="fa fa-paper-plane"></i>Chat</a>
+                                                class="fa fa-paper-plane"></i>Chat</a> -->
+
+                                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     @endif
                                 @endif
                             </div>

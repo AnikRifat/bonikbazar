@@ -208,10 +208,12 @@
                                             @endif
                                         </button>
                                         
-                                        <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
+                                        <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
-                                        </a>
+                                        </a> -->
+                                        
+                                        <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     </div>
                                     @else
                                     <div class="d-flex align-items-center justify-content-center my-2">
@@ -222,9 +224,12 @@
                                             @endif
                                         </button>
                                         
-                                        <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
+                                        <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
+                                        </a> -->
+                                        
+                                        <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                         </a>
                                     </div>
                                     @endif
@@ -326,10 +331,12 @@
                                     @endif
                                 </button>
                                 
-                                <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
-                                    <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
-                                    <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
-                                </a>
+                                <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
+                                            <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
+                                            <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
+                                        </a> -->
+                                
+                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                             </div>
                             @else
                             <div class="d-flex align-items-center justify-content-center my-2">
@@ -340,10 +347,12 @@
                                     @endif
                                 </button>
                                 
-                                <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
-                                    <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
-                                    <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
-                                </a>
+                                <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
+                                            <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
+                                            <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
+                                        </a> -->
+                                
+                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                             </div>
                             @endif
                         </div>
@@ -453,10 +462,13 @@
                                 @if (Auth::user()->getMembership->name == 'Authentic Bonik')
                                 <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $post_detail->user->sellerVerify->mobile }} for amazing deals!" data-html="true">
                                     <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
-                                </button>
-                                    <a href="{{ route('user.message') }}"
-                                        class='btn btn-sm btn-info text-white text-center px-1'
-                                        href=""><i class="fa fa-paper-plane"></i>Chat</a>
+                                
+                                <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
+                                            <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
+                                            <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
+                                        </a> --></button>
+                                
+                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                         @if ($post_detail->user->sellerVerify != null && $post_detail->user->sellerVerify->website != null && $post_detail->user->sellerVerify->website !== "" && $post_detail->user->sellerVerify->website !== "#")
                                         <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{$post_detail->user->seller_verify->website }}"><i
                                                 class="fa fa-cart-plus"></i>Buy</a>
@@ -464,10 +476,13 @@
                                 @else 
                                 <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $post_detail->user->sellerVerify->mobile }} for amazing deals!" data-html="true">
                                     <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
-                                </button>
-                                    <a href="{{ route('user.message') }}"
-                                        class='btn btn-sm btn-info text-white text-center px-1'
-                                        href=""><i class="fa fa-paper-plane"></i>Chat</a>
+                                
+                                <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
+                                            <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
+                                            <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
+                                        </a> --></button>
+                                
+                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                 @endif
                             @endif
                         </div>
@@ -611,7 +626,8 @@
 
     function sendMessage(product_id){
     
-        var message = $('#message'+product_id).val();
+        // var message = $('#message'+product_id).val();
+        var message = " ";
         if(message == ''){
             toastr.error('Message field required.');
             return false;
@@ -623,6 +639,8 @@
         success:function(data){
             if(data){
                 $('#message'+product_id).val('');
+                window.location.href = '/message';
+
                 toastr.success('Message send success.');
             }else{
                 toastr.error('Message send failad.');

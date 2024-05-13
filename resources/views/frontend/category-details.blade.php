@@ -733,7 +733,8 @@
 
         function sendMessage(product_id) {
 
-            var message = $('#message' + product_id).val();
+            // var message = $('#message' + product_id).val();
+            var message = " ";
             if (message == '') {
                 toastr.error('Message field required.');
                 return false;
@@ -749,6 +750,7 @@
                 success: function(data) {
                     if (data) {
                         $('#message' + product_id).val('');
+                        window.location.href = '/message';
                         toastr.success('Message send success.');
                     } else {
                         toastr.error('Message send failad.');

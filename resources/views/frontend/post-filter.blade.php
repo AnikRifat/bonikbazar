@@ -151,8 +151,10 @@
                         <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
                     </button>
                     
-                    <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                            class="fa fa-paper-plane"></i>Chat</a>
+                    <!-- <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
+                            class="fa fa-paper-plane"></i>Chat</a> -->
+
+                            <button class="btn btn-sm btn-info" onclick="sendMessage({{$item['id']}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
 
                            
                             @if( $item['website']!=null)
@@ -168,8 +170,10 @@
                     </button>
 
                    
-                    <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
-                            class="fa fa-paper-plane"></i>Chat</a>
+                    <!-- <a href="{{ route('user.message') }}" class='btn btn-sm btn-info text-white text-center px-1' href=""><i
+                            class="fa fa-paper-plane"></i>Chat</a> -->
+
+                            <button class="btn btn-sm btn-info" onclick="sendMessage({{$item['id']}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                    
                     @endif
                     @endif
