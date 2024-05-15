@@ -261,6 +261,7 @@
                          </div>
                      </div>
 
+                     @if (Auth::check() && Auth::user()->getMembership)
                      @if ( Auth::user()->getMembership->name=="Authentic Bonik")
                      <div class="input-group mb-3">
                        
@@ -272,6 +273,7 @@
                             
                             class="form-control" placeholder="website">
                     </div>
+                     @endif
                      @endif
 
 
