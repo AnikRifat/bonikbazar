@@ -124,7 +124,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-8 col-md-8 col-sm-12 pr-md-0">
                     <div class="p-2" >
                         <div class="ad-details-slider-group">
@@ -134,7 +134,7 @@
                                 <div><img  src="{{asset('upload/images/product/gallery/'. $image->image_path)}}" alt="details"></div>
                                 @endforeach
                             </div>
-                            
+
                         </div>
                         <div class="ad-thumb-slider">
                             <div><img width="100" height="100" src="{{asset('upload/images/product/thumb/'. $post_detail->feature_image)}}" alt="details"></div>
@@ -154,7 +154,7 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="d-md-none">
                             <h3 class="bt w-100">{{$post_detail->title}}</h3>
                             <div class="row px-0">
@@ -180,13 +180,13 @@
                                     <div class="d-flex align-items-center mb-2">
                                         <h5>For Sale By</h5>
                                         <a class="pt ml-1" href="{{route('userProfile', $post_detail->author->username)}}"><h5>{{$post_detail->author->name}}</h5></a>
-                                        
+
                                     </div>
                                     @if($post_detail->author && $post_detail->author->membership)
                                     <div class="d-flex align-items-center">
                                         <img class="lazyload" width="25" src="{{ asset('upload/images/membership/'.$post_detail->author->getMembership->ribbon)}}">
                                         <p class="bt">{{$post_detail->author->getMembership->name}}</p>
-                                    </div> 
+                                    </div>
                                     @endif
                                     <p>Member Since {{Carbon\Carbon::parse($post_detail->author->created_at)->format(Config::get('siteSetting.date_format'))}}</p>
                                 </div>
@@ -194,7 +194,7 @@
                                      @if(Auth::check())
                                     <div class="d-flex align-items-center justify-content-center my-2">
                                         <button type="button" class="boostads d-flex align-items-center mr-2" data-toggle="modal" data-target="#number">
-                                            
+
                                             @if($post_detail->contact_hidden == 1)
                                                 <img width="30" height="30" src="{{ asset('upload/images/phn.svg')}}" alt="banner">
                                                 <p class="yt e6 py-0 px-2 borders rounded-3">+880*****</p>
@@ -207,12 +207,12 @@
                                                 @endif
                                             @endif
                                         </button>
-                                        
+
                                         <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
                                         </a> -->
-                                        
+
                                         <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                     </div>
                                     @else
@@ -223,12 +223,12 @@
                                                 <p class="yt e6 py-0 px-2 borders rounded-3">+880*****</p>
                                             @endif
                                         </button>
-                                        
+
                                         <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
                                         </a> -->
-                                        
+
                                         <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                         </a>
                                     </div>
@@ -236,7 +236,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="hl-2 hl-x position-relative overflow-hidden">
                             <div class="htt"></div>
                             @if($post_detail->get_brand)
@@ -254,7 +254,7 @@
                             @foreach($post_detail->get_features as $feature)
                             @if($feature->value)
                             <div class="d-flex align-items-start justify-content-between">
-                                <p>{{ $feature->name }}: </p> 
+                                <p>{{ $feature->name }}: </p>
                                 <b>{{$feature->value}}</b>
                             </div>
                             @endif
@@ -264,7 +264,7 @@
                             @if(count($post_detail->get_variations)>0)
                             @foreach($post_detail->get_variations as $variation)
                             <div class="d-flex align-items-start justify-content-between">
-                                <p>{{$variation->attribute_name}}: </p> 
+                                <p>{{$variation->attribute_name}}: </p>
                                 @foreach($variation->get_variationDetails as $variationDetail)
 
                                 @if($variationDetail->get_attributeValue)
@@ -275,19 +275,19 @@
                             @endforeach
                             @endif
                         </div>
-                        
+
                         <div class="description my-2 border-bottom border-top pb-2 pt-2 text-break">
                             <h2>More Description</h2>
                             <article>{!! $post_detail->description !!}</article>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-end........................">
                             <a class="boostads d-flex align-items-center justify-content-center" href="{{route('ads.promotePackage', [$post_detail->slug])}}" title="Message">
                                 <img width="30" height="30" src="{{ asset('upload/images/boost-icon.png')}}" alt="sms">
-                                <h4 class="yt yb py-0 px-2 borders rounded-3">Boost This AD</h4>
+                                <h4 class="yt yb py-0 px-2 borders rounded-3">Boost This POST</h4>
                             </a>
                             <button class="float-right py-1 px-4 e6 text-red bb2 rounded shadow-bb font-weight-bold" type="button" @if(Auth::check()) onclick="report({{$post_detail->id}})" data-toggle="tooltip" @else data-toggle="modal" data-target="#so_sociallogin" @endif>Report</button>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
@@ -297,27 +297,31 @@
                                 <a href="{{route('userProfile', $post_detail->author->username)}}" class="mr-3">
                                     <img class="rounded" width="70" height="70" src="{{ asset('upload/users') }}/{{($post_detail->author->photo) ? $post_detail->author->photo : 'default.png'}}" alt="{{$post_detail->author->name}}">
                                 </a>
-                                <div class="mt-4">  
-                                    <h4>{{$post_detail->author->name}}</h4>
+                                <div class="mt-4">
+                                    {{-- <h4>{{$post_detail->author->name}}</h4> --}}
                                     @if($post_detail->author && $post_detail->author->membership)
-                                    <div class="d-flex align-items-center">
-                                        <img class="lazyload" width="25" src="{{ asset('upload/images/membership/'.$post_detail->author->getMembership->ribbon)}}">
-                                        <p class="bt">{{$post_detail->author->getMembership->name}}</p>
-                                    </div> 
+                                    <div class="d-flex align-items-center" style="
+                                    font-size: 11px;
+                                ">
+                                        <p class="bt">
+                                        <img class="lazyload" style="height: 20px;" src="{{ asset('upload/images/membership/'.$post_detail->author->getMembership->ribbon)}}">
+                                        {{$post_detail->author->getMembership->name}}</p>
+                                    <p>joined: {{Carbon\Carbon::parse($post_detail->author->created_at)->format(Config::get('siteSetting.date_format'))}}</p>
+
+                                    </div>
                                     @endif
-                                    <h5>joined: {{Carbon\Carbon::parse($post_detail->author->created_at)->format(Config::get('siteSetting.date_format'))}}</h5>
                                     <a class="c1" href="{{route('userProfile', $post_detail->author->username)}}">Visit Member Shop</a>
                                 </div>
                             </div>
-                             
+
                             <a class="boostads d-flex align-items-center justify-content-center my-2" href="{{route('ads.promotePackage', [$post_detail->slug])}}" title="Message">
                                 <img width="30" height="30" src="{{ asset('upload/images/boost-icon.png')}}" alt="sms">
                                 <h4 class="yt yb py-0 px-2 borders rounded-3">Boost This AD</h4>
                             </a>
                              @if(Auth::check())
                             <div class="d-flex align-items-center justify-content-center my-2">
-                                <button type="button" class="boostads d-flex align-items-center mr-2" data-toggle="modal" data-target="#number">
-                                    
+                                <button type="button" class="boostads d-flex align-items-center m-2" data-toggle="modal" data-target="#number">
+
                                     @if($post_detail->contact_hidden == 1)
                                         <img width="30" height="30" src="{{ asset('upload/images/phn.svg')}}" alt="banner">
                                         <p class="yt e6 py-0 px-2 borders rounded-3">+880*****</p>
@@ -330,34 +334,39 @@
                                         @endif
                                     @endif
                                 </button>
-                                
-                                <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
-                                            <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
-                                            <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
-                                        </a> -->
-                                
-                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
+                                <button type="button" class="boostads d-flex align-items-center m-2 "  onclick="sendMessage({{$post_detail->id}})">
+                                    <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="banner">
+                                    <p class="yt e6 py-0 px-2 borders border-light rounded-3">chat</p>
+                            </button>
+
+
                             </div>
                             @else
-                            <div class="d-flex align-items-center justify-content-center my-2">
-                                <button type="button" class="boostads d-flex align-items-center mr-2" data-toggle="modal" data-target="#so_sociallogin">
+                            <div class=" mx-2">
+                                <button type="button" class="boostads d-flex align-items-center m-2 " data-toggle="modal" data-target="#so_sociallogin">
                                     @if($post_detail->contact_mobile)
                                         <img width="30" height="30" src="{{ asset('upload/images/phn.svg')}}" alt="banner">
                                         <p class="yt e6 py-0 px-2 borders rounded-3">+880*****</p>
                                     @endif
                                 </button>
-                                
+
                                 <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
                                         </a> -->
-                                
-                                <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
+
+                                        <button type="button" class="boostads d-flex align-items-center m-2 "  onclick="sendMessage({{$post_detail->id}})">
+                                                <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="banner">
+                                                <p class="yt e6 py-0 px-2 borders border-light rounded-3">chat</p>
+                                        </button>
+
+
+
                             </div>
                             @endif
                         </div>
                         <?php
-    
+
                         $safety_tip = App\Models\SiteSetting::where('type', 'safety_tip')->first();
                         ?>
                         @if($safety_tip->status == 1)
@@ -379,7 +388,7 @@
             </div>
         </div>
     </div>
-    
+
     @if(count($related_products)>0)
     <div class="container bg-white mb-3 py-4 px-0 rounded">
         @if($post_detail->author && $post_detail->author->membership)
@@ -394,7 +403,7 @@
                     <div class="d-flex align-items-center">
                         <img class="lazyload" width="25" src="{{ asset('upload/images/membership/'.$post_detail->author->getMembership->ribbon)}}">
                         <p class="bt">{{$post_detail->author->getMembership->name}}</p>
-                    </div> 
+                    </div>
                     @endif
                     <a class="c1" href="{{route('userProfile', $post_detail->author->username)}}">Visit Member Shop</a>
                     <h4>More Ads From</h4>
@@ -421,7 +430,7 @@
         @endif
         <hr style="margin: 1em auto;width: 70%;border: 1px solid #000;">
         <div class="row px-md-5">
-            
+
         @foreach($related_products as $index => $related_product)
             <div class="col-6 col-md-4 w-100 bg-white h-100 p-1 mb-2 position-relative">
                 <div class="w-100 bg-white shadow-bb rounded position-relative p-2 h-100">
@@ -446,7 +455,7 @@
                                 <p class="bt hidden-xs">{{$related_product->get_subcategory->name ?? ''}} ({{($related_product->sale_type) ? $related_product->sale_type : $related_product->post_type}})</p>
                             </div>
                         </div>
-                        
+
                         <div class="d-flex align-items-center justify-content-between">
                             <h4 class="font-weight-bold bt py-1">{{Config::get('siteSetting.currency_symble') .' '. number_format($related_product->price) }}</h4>
                             <p class="bt py-1  hidden-xs">{{Carbon\Carbon::parse($related_product->created_at)->diffForHumans()}}</p>
@@ -462,33 +471,33 @@
                                 @if (Auth::user()->getMembership->name == 'Authentic Bonik')
                                 <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $post_detail->user->sellerVerify->mobile }} for amazing deals!" data-html="true">
                                     <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
-                                
+
                                 <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
                                         </a> --></button>
-                                
+
                                 <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                 @if ($post_detail->user->sellerVerify !== null && $post_detail->user->sellerVerify->website !== null && $post_detail->user->sellerVerify->website !== " " && $post_detail->user->sellerVerify->website !== "#")
                                         <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{$post_detail->user->seller_verify->website }}"><i
                                                 class="fa fa-cart-plus"></i>Buy</a>
                                         @endif
-                                @else 
+                                @else
                                 <button type="button" class="btn btn-success text-white text-center px-1" data-container="body" data-toggle="popover" data-placement="top" data-content="Call us now at {{ $post_detail->user->sellerVerify->mobile }} for amazing deals!" data-html="true">
                                     <i class="fa fa-phone fa-flip-horizontal" style="color:white"></i> Call
-                                
+
                                 <!-- <a class="boostads d-flex align-items-center" href="{{route('user.message', [$post_detail->author->username, $post_detail->slug])}}" title="Message">
                                             <img width="30" height="30" src="{{ asset('upload/images/cht.svg')}}" alt="sms">
                                             <h4 class="yt e6 py-0 px-2 borders rounded-3">Chat</h4>
                                         </a> --></button>
-                                
+
                                 <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                 @endif
                             @endif
                         </div>
                     </div>
                 </div>
-                
+
                 {{-- <div class="hidden-xs">
                     <div class="d-flex mt-n3 position-relative z-3">
                         <div class="d-flex align-items-center bb2 rounded shadow mx-3 bg-white">
@@ -500,20 +509,20 @@
                     </div>
                 </div> --}}
             </div>
-            
+
             @if($index == 1)
             <div class="col-6 col-md-4">
             @include("frontend.ads", ["position" => "mobile-ad", "class" => "w-100 p-0 mb-2 position-relative"])
             </div>
             @endif
-            
-            
+
+
             @if($index == 3)
             <div class="col-6 col-md-4">
             @include("frontend.ads", ["position" => "mobile-ad", "class" => "w-100 p-0 mb-2 position-relative"])
             </div>
             @endif
-            
+
         @endforeach
         </div>
     </div>
@@ -522,7 +531,7 @@
     <div class="container p-0" style="margin-bottom: 97px;">
         @include("frontend.ads", ["position" => "bottom"])
     </div>
-    
+
     @if($post_detail->contact_hidden == 1)
     <div class="modal fade" id="number">
         <div class="modal-dialog modal-dialog-centered">
@@ -555,7 +564,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
     <div class="modal fade" id="ad-share">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -625,7 +634,7 @@
 
 
     function sendMessage(product_id){
-    
+
         // var message = $('#message'+product_id).val();
         var message = " ";
         if(message == ''){
@@ -658,5 +667,5 @@
             data:{ ad_id:ad_id }
         });
     });
-</script>   
-@endsection 
+</script>
+@endsection

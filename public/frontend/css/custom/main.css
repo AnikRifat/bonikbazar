@@ -114,13 +114,13 @@ h2 {
 h3 {
   font-size: 24px;
   line-height: 30px;
- 
+
 }
 
 h4 {
   font-size: 16px;
   line-height: 20px;
- 
+
 }
 
 h5 {
@@ -506,7 +506,7 @@ textarea.form-control {
 }
 
 @media (max-width: 767px) {
-  
+
   .inner-section {
     margin-bottom: 60px;
   }
@@ -531,7 +531,7 @@ textarea.form-control {
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-  
+
   .inner-section {
     margin-bottom: 80px;
   }
@@ -1173,7 +1173,7 @@ textarea.form-control {
 
 .product-card {
   border-radius: 5px;
- 
+
   background: var(--white);
   overflow: hidden;
   padding: 5px;
@@ -1400,14 +1400,14 @@ textarea.form-control {
 
 @media (min-width: 380px) and (max-width: 575px) {
   .product-card {
-  
+
     margin: 0px auto 10px;
   }
 }
 
 @media (max-width: 575px) {
-  
-  
+
+
   .product-meta{display: flex; flex-direction: column;}
   #filter_product .product-img{width: 115px;}
   .product-card.standard .product-media,
@@ -1419,11 +1419,11 @@ textarea.form-control {
     width: 100%;
     height: auto;
   }
-  
+
 }
 
 @media (max-width: 767px) {
- 
+
   #filter_product .product-card.standard .product-content{width: calc(100% - 115px);}
 }
 
@@ -1433,7 +1433,7 @@ textarea.form-control {
 }
 
 .feature-card::before {
- 
+
   content: "";
   top: 0px;
   left: 0px;
@@ -2441,7 +2441,7 @@ textarea.form-control {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  
+
 }
 
 .message-img img {
@@ -3012,7 +3012,7 @@ textarea.form-control {
 }
 
 @media (max-width: 1199px) {
-  
+
   .header-content {
     width: 100%;
     flex-direction: column;
@@ -3351,7 +3351,7 @@ textarea.form-control {
   font-weight: 500;
   margin-right: 8px;
   white-space: nowrap;
-  
+
 }
 
 .filter-select {
@@ -3415,7 +3415,7 @@ textarea.form-control {
   border-radius: 6px;
   margin-bottom: 5px;
   background: var(--white);
- 
+
 }
 
 
@@ -4275,7 +4275,7 @@ textarea.form-control {
 }
 
 .dash-header-part {
- 
+
   position: relative;
   z-index: 1;
 }
@@ -4492,7 +4492,7 @@ textarea.form-control {
   }
   .dash-header-left {
     flex-direction: column;
-    
+
   }
   .dash-avatar {
     margin-right: 0px;
@@ -4545,3 +4545,15 @@ textarea.form-control {
 /*========================================
             LAYOUT STYLE END
 =========================================*/
+p.yt.e6.py-0.px-2.borders.rounded-3 {
+    border: 1px solid #f9ef6b !important;
+    background: #fff;
+    border-left: none;
+    border-radius: 0px;
+}
+.boostads img {
+    background: #000;
+    padding: 5px;
+    height: 23px;
+    border-radius: 3px;
+}
