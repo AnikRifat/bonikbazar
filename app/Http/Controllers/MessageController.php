@@ -189,7 +189,7 @@ class MessageController extends Controller
                 if($request->send == "direct"){
                     return redirect()->route("user.message", [Auth::user()->username, $product->slug]);
                 }
-
+                sendNotification($request->message, $receiver_id, '');
                 return view('users.message.message')->with(compact('conversation','messages'));       
         }
 

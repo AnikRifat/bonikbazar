@@ -39,7 +39,7 @@ class UserController extends Controller
         $data['liked'] = Wishlist::join("products", "products.id", "wishlists.product_id")->where('products.user_id', $data['user']->id)->count();
 
         $data['posts'] = Product::withCount(["messages", "reports", "reacts"])->where('user_id', $user_id)->where('status', 'active')->orderBy('views', 'desc')->paginate(12);
-        
+        $data['isLoggedIn'] = true;
 
         if($request->is('api/*')){
             return response()->json($data);

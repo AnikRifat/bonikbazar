@@ -389,8 +389,8 @@ a,
                                 <a href="{{route('post.list')}}" class="dropdown-item">My Ads</a>
                                 <a href="{{route('user.packageHistory')}}" class="dropdown-item"> My Package</a>
                                 <a href="{{route('user.change-password')}}" class="dropdown-item"> Change Password </a>
-                                <a href="{{route('userLogout')}}" class="dropdown-item">Logout </a> 
-                                
+                                <a href="{{route('userLogout')}}" class="dropdown-item" onclick="handleLogout(event)">Logout </a> 
+                                <!-- <button onclick="handleLogout()"><i class="fa fa-power-off"></i> Logout</button> -->
                               </div>
                             </div>
                             @else
@@ -516,4 +516,42 @@ if (isMobileDevice()) {
 document.getElementById('openModalBtn').addEventListener('click', function() {
     $('#myModal').modal('show');
   });
+</script>
+
+<script>
+    function handleLogout(event) {
+        console.log("here");
+        event.preventDefault();
+        sessionStorage.removeItem('fcmStarted');
+        messaging.requestPermission()
+            .then(function () {
+                return messaging.getToken();
+            })
+            .then(function (response) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route("remove.token") }}',
+                    type: 'POST',
+                    data: {
+                        token: response
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        sessionStorage.removeItem('fcmStarted');
+                        console.log("res : ", response);
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.log("Error storing FCM token:", error);
+                    }
+                });
+            })
+            .catch(function (error) {
+                console.log("Error getting permission:", error);
+            });
+    }
 </script>

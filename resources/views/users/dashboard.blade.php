@@ -65,6 +65,51 @@
 @endsection     
 @section('js')
 
+<script>
+    $(document).ready(function () {
+        var setLogin = {{ isset($isLoggedIn) ? $isLoggedIn : false }};
+        if(setLogin){
+            function startFCM() {
+                messaging.requestPermission()
+                    .then(function () {
+                        return messaging.getToken();
+                    })
+                    .then(function (response) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: '{{ route("store.token") }}',
+                            type: 'POST',
+                            data: {
+                                token: response
+                            },
+                            dataType: 'JSON',
+                            success: function (response) {
+                                console.log("res : ", response);
+                                sessionStorage.setItem('fcmStarted', true);
+                            },
+                            error: function (error) {
+                                console.log("Error storing FCM token:", error);
+                            }
+                        });
+                    })
+                    .catch(function (error) {
+                        console.log("Error getting permission:", error);
+                    });
+            }
+
+            // Start FCM when the page loads
+            console.log("is set from dashboard? ", sessionStorage.getItem('fcmStarted'));
+            if (sessionStorage.getItem('fcmStarted') == null) {
+                console.log("is set from dashboard 1 ? ", !sessionStorage.getItem('fcmStarted'));
+                startFCM();
+            }
+        }
+    });
+</script>
 @endsection     
 
 
