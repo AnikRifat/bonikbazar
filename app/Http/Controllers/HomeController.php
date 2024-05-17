@@ -630,7 +630,7 @@ class HomeController extends Controller
     {
         $data['vbp'] = [];
 
-        if($data['verified_bonik']){
+        if(array_key_exists("verified_bonik",$data) &&  $data['verified_bonik']){
             foreach ($data['verified_bonik'] as $item) {
                 $data['vbp'][] = $item->toArray();
             }
