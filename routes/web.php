@@ -27,7 +27,8 @@ Route::get('sitemap.xml/categories','SitemapController@categories');
 
 Route::get('category-sitemap', 'SitemapController@catSitemap')->name('category-sitemap');
 
-Route::get('/', 'HomeController@category')->name('home');
+Route::get('/home', 'HomeController@category')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('ads/{location?}/{catslug?}', 'HomeController@category')->name('home.category');
 //Route::get('location/{location}/{catslug?}', 'HomeController@location')->name('home.location');

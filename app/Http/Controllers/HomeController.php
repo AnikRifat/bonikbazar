@@ -29,6 +29,12 @@ class HomeController extends Controller
     //home page function
     public function index(Request $request)
     {
+
+        return view('frontend.index');
+    }
+
+    public function home(Request $request)
+    {
         $data = [];
         //get all homepage section
         $data['sections'] = HomepageSection::where('page_name', 'homepage')->where('status', 1)->orderBy('position', 'asc')->paginate(48);
@@ -42,12 +48,11 @@ class HomeController extends Controller
 
         return view('frontend.home')->with($data);
     }
-
     //product show by category
     public function category(Request $request, string $location = null, string $catslug = '')
     {
 
-        
+
         $data['products'] = $data['banners'] = $data['product_variations'] = $data['category'] = $data['filterCategories'] = $data['brands'] = $data['pinAds'] = $data['urgentAds'] = $data['highlightAds'] = $data['fastAds'] = [];
 
         $ads_duration = SiteSetting::where('type', 'free_ads_limit')->first();
@@ -444,7 +449,7 @@ class HomeController extends Controller
         ->join("categories", "categories.id", "products.subcategory_id")
         ->leftJoin("memberships", "memberships.slug", "users.membership")
         ->join('seller_verifications', 'seller_verifications.seller_id', '=', 'users.id')
-        ->where('products.status', 'active');    
+        ->where('products.status', 'active');
         if ($ads_duration) {
             $products->where('approved', '>=', $ads_duration);
         }
@@ -568,7 +573,7 @@ class HomeController extends Controller
             $data[$key][] = $product;
         }
 
-       
+
 
         //check perPage
         $perPage = 19 - $promoteAds;
@@ -576,14 +581,14 @@ class HomeController extends Controller
             $perPage = $request->perPage - $promoteAds;
         }
         $data['products'] = $products->paginate($perPage);
-     
-       
+
+
         // dd( $data['items']);
 
-    
-       
+
+
         if ($request->filter) {
-           
+
             if ($request->is('api/*')) {
                 return response()->json($data);
             } else {
@@ -616,7 +621,7 @@ class HomeController extends Controller
             } else {
                 if (!$request->q) {
                     $data['items'] = $this->generateItemListing($data);
-                } 
+                }
                 return view('frontend.category-details')->with($data);
             }
         }
@@ -687,7 +692,7 @@ class HomeController extends Controller
     //product show by category
     public function location(Request $request, $location, string $catslug = null)
     {
-        
+
         $data['products'] = $data['banners'] = $data['product_variations'] = $data['category'] = $data['filterCategories'] = $data['brands'] = [];
 
         try {
@@ -821,7 +826,7 @@ class HomeController extends Controller
         }
 
         if ($request->filter) {
-           
+
             return view('frontend.post-filter-backup')->with($data);
         } else {
             if ($data['category']) {
