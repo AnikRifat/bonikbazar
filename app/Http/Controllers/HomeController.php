@@ -29,8 +29,8 @@ class HomeController extends Controller
     //home page function
     public function index(Request $request)
     {
-
-        return view('frontend.index');
+        $get_category = Category::where('parent_id', '=', null)->orderBy('position', 'asc')->get();
+        return view('frontend.index',compact('get_category'));
     }
 
     public function home(Request $request)
