@@ -479,7 +479,7 @@
 
                                 <button class="btn btn-sm btn-info" onclick="sendMessage({{$post_detail->id}})"><img width="30" height="20" src="{{ asset('upload/images/cht.svg')}}" alt="sms">Chat</button>
                                 @if ($post_detail->user->sellerVerify !== null && $post_detail->user->sellerVerify->website !== null && $post_detail->user->sellerVerify->website !== " " && $post_detail->user->sellerVerify->website !== "#")
-                                        <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{$post_detail->user->seller_verify->website }}"><i
+                                        <a class='btn btn-sm btn-warning text-center px-1' target="_blank" href="{{$post_detail->user->sellerVerify->website }}"><i
                                                 class="fa fa-cart-plus"></i>Buy</a>
                                         @endif
                                 @else

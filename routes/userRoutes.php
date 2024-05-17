@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('login', 'User\UserLoginController@LoginForm')->name('LoginForm');
@@ -131,11 +132,8 @@ route::group(['middleware' => ['auth']], function(){
  		Route::post('blog/update/{id}', 'BlogController@update')->name('blog.update');
  		Route::get('blog/delete/{id}', 'BlogController@delete')->name('blog.delete');
 
- 		
+		Route::post('/store-token', [NotificationController::class, 'updateDeviceToken'])->name('store.token');
+		Route::post('/remove-token', [NotificationController::class, 'removeDeviceToken'])->name('remove.token');
+		Route::post('/send-web-notification', [NotificationController::class, 'sendNotification'])->name('send.web-notification');
 	});
 });
-
-
-
-
-

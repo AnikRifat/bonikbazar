@@ -24,6 +24,44 @@
     @if(Auth::user()->sellerVerify)
     <li ><a href="{{route('membershipPlan')}}"><i class="fa fa-tags"></i> Membership Plan</a></li>@endif
     <li ><a href="{{route('user.change-password')}}"><i class="fa fa-edit"></i> Change Password </a></li>
-    <li><a href="{{route('userLogout')}}"><i class="fa fa-power-off"></i> Logout</a></li>
+    <li><a onclick="handleLogout(event)"><i class="fa fa-power-off"></i> Logout</a></li>
+    <!-- <li><button onclick="handleLogout()"><i class="fa fa-power-off"></i> Logout</button></li> -->
 </ul>
 
+<script>
+function handleLogout(event) {
+    console.log("sidebar");
+    event.preventDefault();
+    sessionStorage.removeItem('fcmStarted');
+    messaging.requestPermission()
+            .then(function () {
+                return messaging.getToken();
+            })
+            .then(function (response) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route("remove.token") }}',
+                    type: 'POST',
+                    data: {
+                        token: response
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        sessionStorage.removeItem('fcmStarted');
+                        console.log("res from here: ", response);
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.log("Error storing FCM token:", error);
+                    }
+                });
+            })
+            .catch(function (error) {
+                console.log("Error getting permission:", error);
+            });
+}
+</script>
