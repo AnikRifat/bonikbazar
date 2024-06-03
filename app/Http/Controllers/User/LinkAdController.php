@@ -128,10 +128,15 @@ class LinkAdController extends Controller
         return back();
     }
 
-    public function edit($id)
+    public function edit($id, Request $request)
     {  
         $data = Addvertisement::find($id);
-        return view('users.linkAds.edit')->with(compact('data'));
+
+        if ($request->is('api/*')) {
+            return response()->json(["data" => $data]);
+        } else {
+            return view('users.linkAds.edit')->with(compact('data'));
+        }
     }
 
     public function update(Request $request)
@@ -192,8 +197,12 @@ class LinkAdController extends Controller
 
         $data->save();
 
-        Toastr::success('Ad Update Successful.');
-        return back();
+        if ($request->is('api/*')) {
+            return response()->json(["message" => "Ad Update Successful"]);
+        } else {
+            Toastr::success('Ad Update Successful.');
+            return back();
+        }
     }
 
     public function delete($id)
