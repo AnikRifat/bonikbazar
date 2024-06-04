@@ -808,15 +808,33 @@ class PostController extends Controller
                         $productImage->save();
                     }
                 }
-                Toastr::success('Post update success.');
-                return redirect()->route('post.list')->with('success', 'Post update successfully. Your post under review.');
+
+                if ($request->is('api/*')) {
+                    return response()->json(["message" => 'Post update success.']);
+                } else {
+                    Toastr::success('Post update success.');
+                    return redirect()->route('post.list')->with('success', 'Post update successfully. Your post under review.');
+                }
+            } else {
+                if ($request->is('api/*')) {
+                    return response()->json(["message" => 'Post update failed.']);
+                } else {
+                    Toastr::error('Post update failed.!');
+                }
+            }
+        } else {
+            if ($request->is('api/*')) {
+                return response()->json(["message" => 'Post update failed.']);
             } else {
                 Toastr::error('Post update failed.!');
             }
-        } else {
-            Toastr::error('Post update failed.!');
         }
-        return back();
+
+        if ($request->is('api/*')) {
+            // return response()->json(["message" => 'Post delete failed.']);
+        } else {
+            return back();
+        }
     }
 
     // delete product
@@ -857,11 +875,24 @@ class PostController extends Controller
                 $product->save();
                 $product->delete();
             }
-            Toastr::success('Post deleted successful.');
+            if ($request->is('api/*')) {
+                return response()->json(["message" => 'Post deleted successful.']);
+            } else {
+                Toastr::success('Post deleted successful.');
+            }
         } else {
-            Toastr::error('Post delete failed.');
+            if ($request->is('api/*')) {
+                return response()->json(["message" => 'Post delete failed.']);
+            } else {
+                Toastr::error('Post delete failed.');
+            }
         }
-        return back();
+
+        if ($request->is('api/*')) {
+            // return response()->json(["message" => 'Post delete failed.']);
+        } else {
+            return back();
+        }
     }
 
 
