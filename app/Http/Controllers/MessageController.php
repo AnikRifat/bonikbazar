@@ -62,7 +62,7 @@ class MessageController extends Controller
     }
 
     //get message by username
-    public function getMessages($conversation_id){
+    public function getMessages($conversation_id, Request $request){
         $sender_id = Auth::user()->id;
        
         if($conversation_id){
@@ -78,7 +78,16 @@ class MessageController extends Controller
                 $messages = $this->helperMessage($conversation, $sender_id);
             }
             $messageWriteBox = 'show';
-            return view('users.message.message')->with(compact('conversation','messages', 'messageWriteBox'));
+
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'conversation' => $conversation,
+                    'messages' => $messages,
+                    'messageWriteBox' => $messageWriteBox
+                ]);
+            } else {
+                return view('users.message.message')->with(compact('conversation','messages', 'messageWriteBox'));
+            }
         }
 
         return false;
@@ -187,10 +196,26 @@ class MessageController extends Controller
                 }
 
                 if($request->send == "direct"){
-                    return redirect()->route("user.message", [Auth::user()->username, $product->slug]);
+                    if ($request->is('api/*')) {
+                        return response()->json([
+                            'username' => Auth::user()->username,
+                            'slug' => $product->slug
+                        ]);
+                    } else {
+                        return redirect()->route("user.message", [Auth::user()->username, $product->slug]);
+                    }
                 }
+
                 sendNotification($request->message, $receiver_id, '');
-                return view('users.message.message')->with(compact('conversation','messages'));       
+
+                if ($request->is('api/*')) {
+                    return response()->json([
+                        'conversation' => $conversation,
+                        'messages' => $messages
+                    ]);
+                } else {
+                    return view('users.message.message')->with(compact('conversation','messages'));     
+                }  
         }
 
         return false;
@@ -235,7 +260,7 @@ class MessageController extends Controller
     }
  
     //delete all conversation message
-    public function deleteAllMessage($id){
+    public function deleteAllMessage($id, Request $request){
 
         $sender_id = Auth::guard()->id();
         $conversation = Conversation::where('id', $id)->where(function ($query) use ($sender_id) {
@@ -265,11 +290,18 @@ class MessageController extends Controller
                 $conversation->save();
             }
         }
-        return redirect()->route('user.message');
+
+        if ($request->is('api/*')) {
+            return response()->json([
+                'message' => "success",
+            ]);
+        } else {
+            return redirect()->route('user.message');
+        }
     }
 
     //block/unlock user
-    public function blockUser($id){
+    public function blockUser($id, Request $request){
 
         $sender_id = Auth::guard()->id();
         $conversation = Conversation::where('id', $id)->where(function ($query) use ($sender_id) {
@@ -284,7 +316,14 @@ class MessageController extends Controller
             }
             $conversation->save();
         }
-        return back();
+
+        if ($request->is('api/*')) {
+            return response()->json([
+                'message' => "success",
+            ]);
+        } else {
+            return back();
+        }
     }
 
 
